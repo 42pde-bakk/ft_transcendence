@@ -1,0 +1,27 @@
+version: "3.5"
+services:
+  redis:
+    image: redis:latest
+  db:
+    image: postgres:12.1
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - "5555:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      PG_PASSWORD: password
+      ENCRYPTION_KEY: 2F413F4428472B4B6150645367566B59
+      REDIS_DB: 0
+      REDIS_URL: redis://redis
+      REDIS_PORT: 6379
