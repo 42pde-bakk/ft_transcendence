@@ -1,6 +1,6 @@
 # 🚀 Guidelines for ft_transcendence
 
-# 🔀 Branche workflow
+## 🔀 Branche workflow
 Please follow these steps:
 1. Create a new branch from the master (never commit directly to the master)
 2. Work on your feature
@@ -9,7 +9,7 @@ Please follow these steps:
 5. Merge your branch back into the master
 
 
-# ⚠️ Issues & ToDo
+## ⚠️ Issues & ToDo
 ### New issue/ToDo
 When you encounter a problem or missing feature in the code that you can't solve right away, follow these steps:
 1. Create an issue in Github
@@ -22,7 +22,7 @@ When you start working on an issue:
 2. Follow the branch workflow
 3. Link the issue to the created pull request so it's closed when the pr is merged
 
-# 🛠 Build & Run
+## 🛠 Build & Run
 The current configuration uses Docker to run the server and db in a container.
 The goal is to make it easier to develop on multiple different systems. If it turns out
 that it's too slow or too much of a hassle we might have to change this.
