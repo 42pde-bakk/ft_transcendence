@@ -2,7 +2,7 @@
 
 ## 🔀 Branche workflow
 Please follow these steps:
-1. Create a new branch from the master (never commit directly to the master)
+1. Create a new branch from the master and name it like: _yourname_branchname_
 2. Work on your feature
 3. Create a pull request in Github when finished
 4. Wait for a review from another team member
