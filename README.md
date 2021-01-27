@@ -31,7 +31,7 @@ Commands:
 - Force build and run: docker-compose up --build
 - Run: docker-compose up
 - Build: docker-compose build
-- Attach to the rails container: docker exec -it container_id bash
+- Attach to the rails container: docker-compose exec web bash
 
 The root directory is mounted to the container so you should be able to develop without restarting the container
 all the time. 
