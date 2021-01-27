@@ -15,7 +15,7 @@ RUN echo "gem: --no-document" > ~/.gemrc
 RUN bundle install
 RUN yarn install
 
-ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
+#ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
 EXPOSE 3000
 
 # Start the main process.
