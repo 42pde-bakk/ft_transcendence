@@ -1,0 +1,33 @@
+
+<div id="login-logout"></div>
+<div id="app"></div>
+<script type="text/javascript">
+	App.toast = siiimpleToast;
+	App.toastStyle = {
+		"fontSize": "20px"
+	};
+
+	function initApp() {
+		App.templates = HandlebarsTemplates;
+		App.routers.main = new AppClasses.Routers.Main();
+		if(!Backbone.History.started)  {
+			console.log("Backbone history started")
+			Backbone.history.start(); // using anchor for routing
+		}
+	};
+	const loginLogout = $("#login-logout");
+  // providing data to instantiate our user model
+  App.data.user = {
+    nickname: 'skrtks',
+    email: 'samkortekaas@pm.me'
+  }
+  test();
+  loginLogout.html(`<a rel="nofollow" data-method="delete" href="/users/sign_out">Sign out</a>`)
+  initApp(); // init backbone only for connected users
+	if ($(".notice").text() !== "") {
+		App.toast.success($(".notice").text(), { duration: 3500, style: App.toastStyle });
+	}
+	if ($(".alert").text() !== "") {
+		App.toast.error($(".alert").text(), { duration: 10000, style: App.toastStyle });
+	}
+</script>
