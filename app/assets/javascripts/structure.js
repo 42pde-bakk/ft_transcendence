@@ -19,7 +19,3 @@ window.App = {
 	templates: {},
 	data: {}
 };
-
-function test() {
-    alert('hoi');
-};
