@@ -1,6 +1,6 @@
 # 🚀 Guidelines for ft_transcendence
 
-## 🔀 Branche workflow
+## 🔀 Branch workflow
 Please follow these steps:
 1. Create a new branch from the master and name it like: _yourname_branchname_
 2. Work on your feature
@@ -31,7 +31,7 @@ Commands:
 - Force build and run: docker-compose up --build
 - Run: docker-compose up
 - Build: docker-compose build
-- Attach to the rails container: docker-compose run web bash
+- Attach to the rails container: docker-compose exec web bash
 
 The root directory is mounted to the container so you should be able to develop without restarting the container
 all the time. 
