@@ -6,19 +6,25 @@ class ProfileController < ApplicationController
   end
 
   def update
-    puts "---------------------"
-    puts params
-    puts "!!!!!!!!!!!!!!!!!!!!!"
     @user = User.find(params[:id])
     @user.name = params[:name]
     @user.level = params[:level]
     if @user.save
-      puts @user.inspect
-      puts "---------------------"
-      render json: @user
+      respond_to do |format|
+        format.html { redirect_to "/#profile", notice: 'Profile was successfully updated.' }
+        format.json { render json: @user, status: :ok }
+      end
     else
-      puts "Did not save !!!!!!!!"
+      error_update
     end
   end
 
+  private
+
+  def error_update
+    respond_to do |format|
+      format.html { redirect_to "/#profile", alert: 'Could not update profile.' }
+      format.json { render json: {alert: "Could not update profile"}, status: :unprocessable_entity }
+    end
+  end
 end
