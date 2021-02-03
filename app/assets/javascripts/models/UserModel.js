@@ -1,7 +1,7 @@
 AppClasses.Models.User = Backbone.Model.extend({
+    url: "api/profile",
 	defaults: {
-		nickname: "",
-		email: "",
-		image: ""
+		name: "",
+		level: 0
 	}
 });

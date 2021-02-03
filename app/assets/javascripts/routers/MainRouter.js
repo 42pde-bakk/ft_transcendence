@@ -5,7 +5,6 @@ AppClasses.Routers.Main = class extends Backbone.Router {
 		this.models = App.models;
 		// routes
 		this.route("", "index");
-		this.route("test", "test");
 
 		this.mainDiv = $("#app");
 	}

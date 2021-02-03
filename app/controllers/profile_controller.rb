@@ -1,9 +1,6 @@
 class ProfileController < ApplicationController
   def index
-    @user = User.all
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @user }
-    end
+    @user = User.find(1)
+    render json: @user
   end
 end
