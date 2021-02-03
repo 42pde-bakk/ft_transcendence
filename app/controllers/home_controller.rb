@@ -12,30 +12,31 @@ def get_auth_tok()
 end 
 
 class HomeController < ApplicationController
-  @new_user_form = false
-  @user = nil
+@new_user_form = false
+@user = nil
   def index
-    token = get_auth_tok()
-    if (token != nil)
+    if (!cookies[:atoken].present?)
+      cookies[:atoken] = get_auth_tok()
+    end 
       new_token = true
       User.all.each do |usr|
-        if (token == usr.token)
+        if (cookies[:atoken] == usr.token)
           new_token = false
           @user = usr
         end
       end
       if (new_token == true)
         @user = User.new
-        @user.token = token
+        @user.token = cookies[:atoken]
         @user.reg_done = false
         @user.save()
         @new_user_form = true
-      elsif (@user.reg_done == true)
-        @new_user_form = false
       end
-    else
-      redirect_to "https://api.intra.42.fr/oauth/authorize?client_id=0ebc0ed6e00f46a108cdcec53920e8bd00de8692aae747beee80e486feb5a6d2&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fhome&response_type=code"
-    end
+      if (@user.reg_done == true)
+        @new_user_form = false
+      else
+        @new_user_form = true
+      end
 end
     def auth
       redirect_to "https://api.intra.42.fr/oauth/authorize?client_id=0ebc0ed6e00f46a108cdcec53920e8bd00de8692aae747beee80e486feb5a6d2&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fhome&response_type=code"
