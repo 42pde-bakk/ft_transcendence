@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
-  # home page
   root "home#index"
+
+  scope "api" do
+    resources :profile
+  end
 end
