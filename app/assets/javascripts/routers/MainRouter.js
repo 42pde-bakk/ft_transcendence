@@ -6,7 +6,6 @@ AppClasses.Routers.Main = class extends Backbone.Router {
 		// routes
 		this.route("", "index");
 		this.route("test", "test");
-		this.route("salut/:name", "salut");
 
 		this.mainDiv = $("#app");
 	}
@@ -18,11 +17,5 @@ AppClasses.Routers.Main = class extends Backbone.Router {
 			this.views.index = new AppClasses.Views.Index();
 		}
 		this.mainDiv.html(this.views.index.render().el);
-	}
-	test() {
-		this.mainDiv.html("test");
-	}
-	salut(name) {
-		this.mainDiv.html(`salut ${name}`);
 	}
 }
