@@ -1,6 +1,6 @@
 /* tailwind */
-@import "tailwindcss/base";
+@import "@tailwindcss/postcss7-compat/base";
 
-@import "tailwindcss/components";
+@import "@tailwindcss/postcss7-compat/components";
 
-@import "tailwindcss/utilities";
+@import "@tailwindcss/postcss7-compat/utilities";
