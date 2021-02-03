@@ -1,0 +1,25 @@
+<br>
+<form class="edit_user" id="edit_user" action="/profile/edit"
+      accept-charset="UTF-8" method="post"><input type="hidden"
+                                                  name="_method" value="put">
+    <input type="hidden"
+           name="authenticity_token"
+           value="{{token}}">
+
+    <input type="hidden" name="id" value="{{user.id}}">
+
+    <div class="field">
+        <label for="user_nickname">Nickname</label><br>
+        <input autocomplete="nickname" type="text" value="{{user.name}}" name="nickname" id="user_nickname">
+    </div>
+
+    <div class="field">
+        <label for="user_level">Level</label><br>
+        <input type="number" value="{{user.level}}" name="level" id="user_level">
+    </div>
+
+    <div class="actions">
+        <input type="submit" name="commit" value="Update" data-disable-with="Update">
+    </div>
+</form>
+<a href="javascript:history.back()">Back</a>
