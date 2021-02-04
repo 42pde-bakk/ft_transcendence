@@ -29,7 +29,7 @@ class HomeController < ApplicationController
         @user = User.new
         @user.token = cookies[:atoken]
         @user.name = "Set name in settings"
-        @user.img_path = "app/assets/images/stormtrooper.jpg"
+        @user.img_path = "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
         @user.reg_done = false
         @user.save()
         @new_user_form = true
