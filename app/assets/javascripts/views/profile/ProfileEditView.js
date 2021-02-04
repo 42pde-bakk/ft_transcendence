@@ -13,7 +13,7 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
 
     submit(e) {
         e.preventDefault();
-        let attr = {name: $('#user_nickname').val(), level: $('#user_level').val()};
+        let attr = {name: $('#user_nickname').val(), level: $('#img_path').val()};
         this.model.save(attr, {patch: true, error: function(){alert("Error in update")}});
     }
     updateRender() {

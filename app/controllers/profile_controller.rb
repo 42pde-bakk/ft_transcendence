@@ -8,7 +8,7 @@ class ProfileController < ApplicationController
   def update
     @user = User.find(params[:id])
     @user.name = params[:name]
-    @user.level = params[:level]
+    @user.img_path = params[:img_path]
     if @user.save
       respond_to do |format|
         format.html { redirect_to "/#profile", notice: 'Profile was successfully updated.' }
