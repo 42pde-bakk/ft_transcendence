@@ -1,7 +1,11 @@
 class ProfileController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
-    @user = User.find(1)
+    User.all.each do |usr|
+      if (cookies[:atoken] == usr.token)
+        @user = usr
+      end
+    end
     render json: @user
   end
 

@@ -28,6 +28,8 @@ class HomeController < ApplicationController
       if (new_token == true)
         @user = User.new
         @user.token = cookies[:atoken]
+        @user.name = "Set name in settings"
+        @user.img_path = "app/assets/images/stormtrooper.jpg"
         @user.reg_done = false
         @user.save()
         @new_user_form = true
