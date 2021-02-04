@@ -9,7 +9,6 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
         this.template = App.templates["profile/edit"];
         this.updateRender(); // render the template only one time, unless model changed
         this.listenTo(this.model, "change", this.updateRender);
-
     }
 
     submit(e) {

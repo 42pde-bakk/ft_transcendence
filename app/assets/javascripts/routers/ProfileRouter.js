@@ -24,11 +24,9 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
     }
 
     edit() {
-        if (!this.views.profileEdit) {
-            this.views.profileEdit = new AppClasses.Views.ProfileEdit({
-                model: this.models.user
-            });
-        }
+        this.views.profileEdit = new AppClasses.Views.ProfileEdit({
+            model: this.models.user
+        });
         this.mainDiv.html(this.views.profileEdit.render().el);
     }
 }
