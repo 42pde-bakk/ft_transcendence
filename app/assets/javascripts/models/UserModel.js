@@ -1,5 +1,5 @@
 AppClasses.Models.User = Backbone.Model.extend({
-    urlRoot: "api/profile",
+    url: "api/profile/0",
 
 	defaults: {
 		name: "",
@@ -10,3 +10,7 @@ AppClasses.Models.User = Backbone.Model.extend({
         reg_done: false,
 	}
 });
+
+AppClasses.Collections.Users = Backbone.Collection.extend({
+    url: "api/profile"
+})

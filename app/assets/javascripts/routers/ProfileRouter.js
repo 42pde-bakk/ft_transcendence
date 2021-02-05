@@ -11,13 +11,18 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
         if (!this.models.user) {
             this.models.user = new AppClasses.Models.User(App.data.user);
         }
-        this.models.user.fetch()
+        this.models.user.fetch();
+        if (!this.users) {
+            this.users = new AppClasses.Collections.Users();
+        }
+        this.users.fetch();
     };
 
     profile() {
         if (!this.views.profile) {
             this.views.profile = new AppClasses.Views.Profile({
-                model: this.models.user
+                model: this.models.user,
+                collection: this.users
             });
         }
         this.mainDiv.html(this.views.profile.render().el);
