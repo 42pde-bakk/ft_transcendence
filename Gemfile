@@ -5,6 +5,8 @@ ruby '2.7.2'
 
 # Custom gems
 gem 'oauth2'
+gem 'rmagick'
+gem 'carrierwave'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.1'
 # Use postgresql as the database for Active Record

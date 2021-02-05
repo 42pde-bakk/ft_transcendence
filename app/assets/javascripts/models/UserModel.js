@@ -8,5 +8,6 @@ AppClasses.Models.User = Backbone.Model.extend({
         guild_id: 0,
         tfa: false,
         reg_done: false,
+	image: ""
 	}
 });
