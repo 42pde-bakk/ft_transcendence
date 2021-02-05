@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2021_02_03_021846) do
     t.integer "guild_id"
     t.boolean "tfa"
     t.boolean "reg_done"
+    t.boolean "current"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

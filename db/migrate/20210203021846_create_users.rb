@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.integer :guild_id
       t.boolean :tfa
       t.boolean :reg_done
+      t.boolean :current
 
       t.timestamps
     end

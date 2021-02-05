@@ -12,5 +12,15 @@ User.create([{
                token: "12345",
                guild_id: 3,
                tfa: true,
-               reg_done: false
-               }])
+               reg_done: false,
+               current: false
+               },
+             {
+               name: "R2D2",
+               img_path: "No_Path",
+               token: "123",
+               guild_id: 2,
+               tfa: true,
+               reg_done: false,
+               current: false
+             }])
