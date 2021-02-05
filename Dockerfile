@@ -13,10 +13,12 @@ WORKDIR /app
 COPY . /app
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN bundle install
+RUN apt-get update
+RUN apt-get -y install npm && npm install -g -y n && n stable
 RUN yarn install
 
 #ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
 EXPOSE 3000
 
 # Start the main process.
-CMD ["rails", "server", "-b", "0.0.0.0"]
+#CMD ["rails", "server", "-b", "0.0.0.0"]
