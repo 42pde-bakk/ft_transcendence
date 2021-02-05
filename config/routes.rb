@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/game/:id' => 'game#play'
 	get '/rooms/:id' => 'rooms#show'
 	root 'pages#index'
 	get 'pages/index'
