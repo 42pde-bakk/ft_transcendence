@@ -14,8 +14,15 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
         e.preventDefault();
         let attr = {name: $('#user_nickname').val(), img_path: $('#img_path').val()};
 
-        this.model.save(attr, {patch: true, error: function(){alert("Error in update")},
-            success: function(){App.routers.profile.navigate("/profile", {trigger: true})}});
+        this.model.save(attr, {patch: true,
+            error: function(model, response){
+                alert(response.responseJSON.alert);
+                model.fetch(); // To reset the model to the db state
+            },
+            success: function(){
+                App.routers.profile.navigate("/profile", {trigger: true})
+            }
+        });
     }
 
     updateRender() {
