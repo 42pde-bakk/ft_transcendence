@@ -14,6 +14,11 @@ class ProfileController < ApplicationController
     @user.name = params[:name]
     @user.img_path = params[:img_path]
     if @user.save
+      if @user.image.attached?
+        print("ATTACHED")
+      else 
+        print("NOT ATTACHED")
+      end
       respond_to do |format|
         format.html { redirect_to "/#profile", notice: 'Profile was successfully updated.' }
         format.json { render json: @user, status: :ok }
@@ -24,7 +29,9 @@ class ProfileController < ApplicationController
   end
 
   private
-
+def user_params
+  params.require(:users).permit(:name, :img_path, :image)
+end
   def error_update
     respond_to do |format|
       format.html { redirect_to "/#profile", alert: 'Could not update profile.' }
