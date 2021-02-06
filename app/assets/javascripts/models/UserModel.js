@@ -12,5 +12,6 @@ AppClasses.Models.User = Backbone.Model.extend({
 });
 
 AppClasses.Collections.Users = Backbone.Collection.extend({
-    url: "api/profile"
+    url: "api/profile",
+    model: AppClasses.Models.User
 })

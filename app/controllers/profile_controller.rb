@@ -29,10 +29,11 @@ class ProfileController < ApplicationController
     if @already_in_use
       render json: {alert: "Username is already taken"}, status: :unprocessable_entity
     elsif @user.save
-      respond_to do |format|
-        format.html { redirect_to "/#profile", notice: 'Profile was successfully updated.' }
-        format.json { render json: @user, status: :ok }
-      end
+      # respond_to do |format|
+      #   format.html { redirect_to "/#profile", notice: 'Profile was successfully updated.' }
+      #   format.json { render json: @user, status: :ok }
+      # end
+      render json: @user, status: :ok
     else
       render json: {alert: "There was an error saving your changes"}, status: :unprocessable_entity
     end

@@ -6,6 +6,7 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
         // routes
         this.route("profile", "profile");
         this.route("profile/edit", "edit");
+        this.route("profile/editFriends", "editFriends");
         this.mainDiv = $("#app");
 
         if (!this.models.user) {
@@ -15,6 +16,7 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
         if (!this.users) {
             this.users = new AppClasses.Collections.Users();
         }
+        this.users.fetch();
     };
 
     profile() {
@@ -32,5 +34,18 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
             model: this.models.user
         });
         this.mainDiv.html(this.views.profileEdit.render().el);
+    }
+
+    editFriends() {
+
+        this.users.each(function(model, index, list)
+        {
+            console.log(model.name);
+        });
+
+        this.views.profileEditFriends = new AppClasses.Views.ProfileEditFriends({
+            collection: this.users
+        });
+        this.mainDiv.html(this.views.profileEditFriends.render().el);
     }
 }

@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   scope "api" do
     resources :profile
   end
+  # map.resources :friendships
 end
