@@ -6,6 +6,7 @@ class GameChannel < ApplicationCable::Channel
 	def subscribed
 		stream_from "game_channel_#{params[:game_id]}"
 		STDERR.puts "I just subscribed!"
+
 	end
 
 	def receive(data)
@@ -15,6 +16,6 @@ class GameChannel < ApplicationCable::Channel
 	def unsubscribed
 		# Any cleanup needed when channel is unsubscribed
 		STDERR.puts "I just unsubbed"
-		stop_stream_from "game_channel_#{params[:game_id]}"
+		# stop_stream_from "game_channel_#{params[:game_id]}"
 	end
 end

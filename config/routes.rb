@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   get '/game/:id' => 'game#play'
-	get '/rooms/:id' => 'rooms#show'
-	root 'pages#index'
-	get 'pages/index'
+	root 'game#index'
 	# For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
 	mount ActionCable.server => '/cable'

@@ -20,11 +20,6 @@ ActiveRecord::Schema.define(version: 2021_02_05_162547) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "games", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "paddles", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

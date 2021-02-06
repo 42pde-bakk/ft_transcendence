@@ -1,15 +1,19 @@
 class Ball #< ApplicationRecord
-	def initialize(player, paddle, radius)
+	attr_accessor :radius
+	attr_accessor :startingspeed
+	attr_accessor :posx
+	attr_accessor :posy
+
+	def initialize(x, y, player, radius)
 		@startingspeed = 4
 		@radius = radius
+		@posx = x
+		@posy = y
 		if player == 1
-			@x = paddle.x + (paddle.width + 10 + @radius)
-		elsif player == 2
-			@x = paddle.x - (10 + @radius)
+			@xvelocity = 10
+		else
+			@xvelocity = -10
 		end
-		@y = paddle.y + paddle.height / 2
-		@Xvelocity = 0.0
-		@Yvelocity = 0.0
-
+		@yvelocity = 5
 	end
 end
