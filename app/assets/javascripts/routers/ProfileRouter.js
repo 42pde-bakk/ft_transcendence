@@ -37,15 +37,12 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
     }
 
     editFriends() {
-
-        this.users.each(function(model, index, list)
-        {
-            console.log(model.name);
-        });
-
-        this.views.profileEditFriends = new AppClasses.Views.ProfileEditFriends({
-            collection: this.users
-        });
-        this.mainDiv.html(this.views.profileEditFriends.render().el);
+        if (!this.views.friends) {
+            this.views.friends = new AppClasses.Views.Friends({
+                model: this.models.user,
+                collection: this.users
+            });
+        }
+        this.mainDiv.html(this.views.friends.render().el);
     }
 }
