@@ -5,8 +5,8 @@ class FriendshipsController < ApplicationController
   before_action :check_in_friendlist, only: [:add, :accept]
 
   def index
-    @fs = Friendship.all
-    render json: @fs
+    @friendships = @current_user.friends
+    render json: @friendships
   end
 
   def get_all

@@ -1,7 +1,6 @@
 AppClasses.Views.Friends = class extends Backbone.View {
 	constructor(opts) {
 		opts.events = {
-			"keyup #addFriend": "inputChanged",
 			"click .clickToAddFriend": "addFriend",
 			"click .clickToAcceptFriend": "acceptFriend",
 			"click .clickToRejectFriend": "rejectFriend",
@@ -25,7 +24,7 @@ AppClasses.Views.Friends = class extends Backbone.View {
                 this.updateRender();
             })
             .fail(e => {
-                console.error("Error in friendship");
+                console.log("Error in friendship");
             })
 	}
 	deleteFriend(e) {
@@ -40,16 +39,9 @@ AppClasses.Views.Friends = class extends Backbone.View {
 	addFriend(e) {
 		this.friendAction(e, "/api/friendships/add.json", "Request sent");
 	}
-	inputChanged(e) {
-		let regexp = new RegExp(_.escape($("#addFriend")[0].value, "gi"));
-		const elem = $("#userInputFriends");
-		let search = _.filter(this.collection.toJSON(), obj => {
-			return (regexp.test(obj.name.toLowerCase()));
-		});
-		search.length = 4; // only display the 4 first matches
-		elem.html(App.templates["friends/inputFriends"]({friends: search}));
-	}
 	updateRender() {
+        this.model.fetch();
+        this.collection.fetch();
 		this.$el.html(this.template({
 			user: this.model.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
@@ -58,8 +50,6 @@ AppClasses.Views.Friends = class extends Backbone.View {
 		return (this);
 	}
 	render() {
-		this.model.fetch();
-		this.collection.fetch();
 		this.delegateEvents();
 		return (this);
 	}

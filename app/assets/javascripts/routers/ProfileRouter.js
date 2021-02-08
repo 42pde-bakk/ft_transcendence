@@ -6,24 +6,18 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
         // routes
         this.route("profile", "profile");
         this.route("profile/edit", "edit");
-        this.route("profile/editFriends", "editFriends");
         this.mainDiv = $("#app");
 
         if (!this.models.user) {
             this.models.user = new AppClasses.Models.User(App.data.user);
         }
         this.models.user.fetch(); // To reset the model to the db state
-        if (!this.users) {
-            this.users = new AppClasses.Collections.Users();
-        }
-        this.users.fetch();
     };
 
     profile() {
         if (!this.views.profile) {
             this.views.profile = new AppClasses.Views.Profile({
-                model: this.models.user,
-                collection: this.users
+                model: this.models.user
             });
         }
         this.mainDiv.html(this.views.profile.render().el);
@@ -34,15 +28,5 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
             model: this.models.user
         });
         this.mainDiv.html(this.views.profileEdit.render().el);
-    }
-
-    editFriends() {
-        if (!this.views.friends) {
-            this.views.friends = new AppClasses.Views.Friends({
-                model: this.models.user,
-                collection: this.users
-            });
-        }
-        this.mainDiv.html(this.views.friends.render().el);
     }
 }

@@ -18,7 +18,7 @@ class ProfileController < ApplicationController
         @user = usr
       end
     end
-    render json: @user
+    render json: User.clean(@user)
   end
 
   def update
@@ -33,7 +33,7 @@ class ProfileController < ApplicationController
       #   format.html { redirect_to "/#profile", notice: 'Profile was successfully updated.' }
       #   format.json { render json: @user, status: :ok }
       # end
-      render json: @user, status: :ok
+      render json: User.clean(@user), status: :ok
     else
       render json: {alert: "There was an error saving your changes"}, status: :unprocessable_entity
     end
