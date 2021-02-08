@@ -74,14 +74,13 @@
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <span class="clickToDeleteFriend pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    <span class="clickToDeleteFriend cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                     Delete
                                                     <span hidden class="nodisplay">{{id}}</span>
                                                 </span>
                                                 </td>
                                             </tr>
                                         {{/each}}
-                                        <!-- More items... -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -114,7 +113,7 @@
                                                 Name
                                             </th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Status
+                                                Accept/Reject
                                             </th>
                                         </tr>
                                         </thead>
@@ -134,14 +133,14 @@
                                                     </div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <span class="clickToAcceptFriend pointer">
-                                                        accept
+                                                    <p class="clickToAcceptFriend cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-hover:bg-green-500-600 hover:bg-green-500-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                        Accept
                                                         <span hidden class="nodisplay">{{id}}</span>
-                                                    </span>
-                                                    <span class="clickToRejectFriend pointer">
-                                                        reject
+                                                    </p>
+                                                    <p class="clickToRejectFriend cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                        Reject
                                                         <span hidden class="nodisplay">{{id}}</span>
-                                                    </span>
+                                                    </p>
                                                 </td>
                                             </tr>
                                         {{/each}}
@@ -197,7 +196,7 @@
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <p class="clickToAddFriend pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                <p class="clickToAddFriend cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                     Add
                                                     <span hidden class="nodisplay">{{id}}</span>
                                                 </p>
