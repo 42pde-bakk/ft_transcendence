@@ -24,6 +24,7 @@ AppClasses.Views.Friends = class extends Backbone.View {
             })
             .fail(e => {
                 console.log("Error in friendship");
+                alert("Could not add friend...");
             })
 	}
 	deleteFriend(e) {
