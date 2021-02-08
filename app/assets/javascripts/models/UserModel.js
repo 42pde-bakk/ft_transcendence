@@ -29,7 +29,7 @@ AppClasses.Collections.AllUsers = class extends Backbone.Collection {
     }
     myFetch() {
         let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
-        jQuery.post("/api/friends/get_all.json", data)
+        jQuery.post("/api/friendships/get_all.json", data)
             .done(usersData => {
                 this.set(usersData);
             })

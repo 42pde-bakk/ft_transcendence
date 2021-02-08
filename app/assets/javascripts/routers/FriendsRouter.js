@@ -11,9 +11,9 @@ AppClasses.Routers.FriendsRouter = class extends Backbone.Router {
         }
         this.models.user.fetch(); // To reset the model to the db state
         if (!this.users) {
-            this.users = new AppClasses.Collections.Users();
+            this.users = new AppClasses.Collections.AllUsers();
         }
-        this.users.fetch();
+        // this.users.fetch();
 	}
 	index() {
         if (!this.views.friends) {

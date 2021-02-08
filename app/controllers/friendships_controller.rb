@@ -10,9 +10,11 @@ class FriendshipsController < ApplicationController
   end
 
   def get_all
+    @users = User.all.where.not(:id => @current_user.id)
+    @users = @users.all.where.not(:id => @current_user.friends.pluck(:friend_id).reject {|x| x.nil?})
     respond_to do |format|
       format.html { redirect_to "/", notice: '^^' }
-      format.json { render json: User.all.to_json( only: [:id, :name] ), status: :ok }
+      format.json { render json: @users, status: :ok }
     end
   end
 
