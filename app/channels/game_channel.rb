@@ -3,19 +3,50 @@
 # And he actually also has some errors that he solves on the fly which is nice
 
 class GameChannel < ApplicationCable::Channel
-	def subscribed
-		stream_from "game_channel_#{params[:game_id]}"
-		STDERR.puts "I just subscribed!"
+	@@subscribers = Hash.new
 
+	def find_game(game_id)
+		# @game = Game.find_by(room_nb: game_id)
+		# unless @game
+			@game = Game.create(room_nb: game_id)
+			STDERR.puts "game = #{@game}, game.room_nb is #{@game.room_nb}"
+			@game.mysetup
+			STDERR.puts "after mySetup"
+			@game.save
+			STDERR.puts "after saving, game = #{@game}, game.room_nb is #{@game.room_nb}"
+		# end
+	end
+
+	def subscribed
+		game_id = params[:game_id]
+		stream_from "game_channel_#{game_id}"
+		@@subscribers[game_id] ||= 0 # if it's nil, it'll be set to be 0, poggers
+		@@subscribers[game_id] += 1
+		STDERR.puts "GAME_CHANNEL_#{game_id} now has #{@@subscribers[game_id]} subscribers"
+
+		find_game(game_id)
+		@game.send_config
+		STDERR.puts "sent config"
+		if @@subscribers[game_id] == 1
+			GameJob.perform_later(game_id)
+			STDERR.puts "Queued job"
+		end
 	end
 
 	def receive(data)
 		STDERR.puts("Data is #{data}")
 	end
 
+	def input(data)
+		STDERR.puts("inputting #{data}")
+		if @game
+			@game.add_input(data["type"], data["id"])
+		end
+	end
+
 	def unsubscribed
 		# Any cleanup needed when channel is unsubscribed
-		STDERR.puts "I just unsubbed"
+		@@subscribers[params[:game_id]] -= 1
 		# stop_stream_from "game_channel_#{params[:game_id]}"
 	end
 end

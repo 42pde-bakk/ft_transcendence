@@ -13,4 +13,17 @@ class Paddle #< ApplicationRecord
 		@width = 15.0
 		@velocity = 10
 	end
+
+	def move(input)
+		# STDERR.puts "in paddle::move, input is #{input}"
+		unless input
+			return
+		end
+		STDERR.puts "input.type is #{input[:type]}"
+		if input[:type] == "paddle_up"
+			@posy -= @velocity
+		elsif input[:type] == "paddle_down"
+			@posy += @velocity
+		end
+	end
 end
