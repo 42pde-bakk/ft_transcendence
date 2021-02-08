@@ -12,7 +12,7 @@ class FriendshipsController < ApplicationController
   def get_all
     respond_to do |format|
       format.html { redirect_to "/", notice: '^^' }
-      format.json { render json: User.all.to_json( only: [:id, :nickname] ), status: :ok }
+      format.json { render json: User.all.to_json( only: [:id, :name] ), status: :ok }
     end
   end
 
@@ -78,13 +78,9 @@ class FriendshipsController < ApplicationController
   private
 
   def set_id
-    puts "params id " + params[:id].to_s
     @friend_id = params[:id]
     if @friend_id == @current_user.id.to_s
       res_with_error("You can't be friend with yourself", :bad_request)
-      puts "error in set id"
-      puts @friend_id
-      puts @current_user.id
       return (false)
     end
   end

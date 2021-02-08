@@ -7,6 +7,9 @@ class User < ApplicationRecord
   # get the users that sent me a friend request
   has_many :invites, :through => :invitations, class_name: 'User', :source => :user
 
+  validates :name, uniqueness: true
+  validates :token, uniqueness: true
+
   def self.clean(usr)
     new_user = {
       id: usr.id,
