@@ -34,7 +34,7 @@ class Render {
 	drawPaddle(paddle) {
 		console.log("paddle: x=" + paddle.x + ", y=" + paddle.y, ", width=" + paddle.width + ", height=" + paddle.height);
 		this.context.fillStyle = this.paddle_colour;
-		this.context.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+		this.context.fillRect(paddle.x - (paddle.width / 2), paddle.y - (paddle.height / 2), paddle.width, paddle.height);
 	}
 
 	drawWorld() {

@@ -6,13 +6,13 @@ class GameChannel < ApplicationCable::Channel
 	@@subscribers = Hash.new
 
 	def find_game(game_id)
-		# @game = Game.find_by(room_nb: game_id)
-		# unless @game
+		@game = Game.find_by(room_nb: game_id)
+		unless @game
 			@game = Game.create(room_nb: game_id)
 			STDERR.puts "game = #{@game}, game.room_nb is #{@game.room_nb}"
 			@game.mysetup
 			@game.save
-		# end
+		end
 	end
 
 	def subscribed
@@ -24,7 +24,6 @@ class GameChannel < ApplicationCable::Channel
 
 		find_game(game_id)
 		@game.send_config
-		STDERR.puts "sent config"
 		if @@subscribers[game_id] == 1
 			GameJob.perform_later(game_id)
 			STDERR.puts "Queued job"
@@ -36,7 +35,7 @@ class GameChannel < ApplicationCable::Channel
 	end
 
 	def input(data)
-		# STDERR.puts("inputting #{data}")
+		STDERR.puts("inputting #{data}, game is #{@game}")
 		if @game
 			@game.add_input(data["type"], data["id"])
 		end

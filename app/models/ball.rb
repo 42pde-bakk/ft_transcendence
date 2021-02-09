@@ -3,12 +3,13 @@ class Ball #< ApplicationRecord
 	attr_accessor :posx
 	attr_accessor :posy
 
-	def initialize(x, y, radius, xmax, ymax)
-		@radius = radius
-		@posx = x
-		@posy = y
-		@xmax = xmax
-		@ymax = ymax
+	def initialize(canvas_width, canvas_height)
+		@radius = 5
+		@posx = canvas_width / 2
+		@posy = canvas_height / 2
+		@canvas_width = canvas_width
+		@canvas_height = canvas_height
+		@turncounter = 0
 
 		randint = rand(1..2)
 		if randint == 1
@@ -19,16 +20,32 @@ class Ball #< ApplicationRecord
 		@yvelocity = 2
 	end
 
-	def updatepos
+	def updatepos(players)
 		@posx += @xvelocity
 		@posy += @yvelocity
-		if @posx < 0 or @posx > @xmax
+		if players[0].paddle.include?(@posx - @radius, @posy) or players[1].paddle.include?(@posx - @radius, @posy) \
+    or players[0].paddle.include?(@posx, @posy) or players[1].paddle.include?(@posx, @posy) \
+    or players[0].paddle.include?(@posx + @radius, @posy) or players[1].paddle.include?(@posx + @radius, @posy)
 			@xvelocity *= -1
+			@turncounter += 1
 		end
-		if @posy < 0 or @posy > @ymax
+		if @posy < @radius or @posy > @canvas_height - @radius
 			@yvelocity *= -1
 		end
-		# if @posx < 0 then @posx *= -1 elsif @posx > @xmax then @posx = @xmax - (@posx - @xmax) end
-		# if @posy < 0 then @posy *= -1 elsif @posy > @ymax then @posy = @ymax - (@posy - @ymax) end
+	end
+
+	def reset
+		@posx = @canvas_width / 2
+		@posy = @canvas_height / 2
+	end
+
+	def posx
+		@posx
+	end
+	def posy
+		@posy
+	end
+	def radius
+		@radius
 	end
 end

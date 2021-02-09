@@ -17,6 +17,12 @@ class Game < ApplicationRecord
 	end
 
 	def add_input(type, id)
-		@@gamestates[room_nb].inputs.unshift({type: type, id: id})
+		if @@gamestates[room_nb]
+			@@gamestates[room_nb].add_input(type, id)
+		end
+	end
+
+	def mydestructor
+		@@gamestates[room_nb] = nil
 	end
 end
