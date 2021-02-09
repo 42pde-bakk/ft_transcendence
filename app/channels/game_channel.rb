@@ -11,9 +11,7 @@ class GameChannel < ApplicationCable::Channel
 			@game = Game.create(room_nb: game_id)
 			STDERR.puts "game = #{@game}, game.room_nb is #{@game.room_nb}"
 			@game.mysetup
-			STDERR.puts "after mySetup"
 			@game.save
-			STDERR.puts "after saving, game = #{@game}, game.room_nb is #{@game.room_nb}"
 		# end
 	end
 
@@ -34,11 +32,11 @@ class GameChannel < ApplicationCable::Channel
 	end
 
 	def receive(data)
-		STDERR.puts("Data is #{data}")
+		# STDERR.puts("Data is #{data}")
 	end
 
 	def input(data)
-		STDERR.puts("inputting #{data}")
+		# STDERR.puts("inputting #{data}")
 		if @game
 			@game.add_input(data["type"], data["id"])
 		end

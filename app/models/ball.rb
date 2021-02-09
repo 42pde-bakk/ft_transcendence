@@ -16,7 +16,7 @@ class Ball #< ApplicationRecord
 		else
 			@xvelocity = -10
 		end
-		@yvelocity = 5
+		@yvelocity = 2
 	end
 
 	def updatepos

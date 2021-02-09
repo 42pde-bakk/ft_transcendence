@@ -28,8 +28,6 @@ class Gamestate
 	end
 
 	def send_config
-		STDERR.puts "Before broadcasting config to game_channel_#{@gameid}"
-		# STDERR.puts "canvas is #{@game.canvas_width}, #{@game.canvas_height}"
 		obj = {
 			config: {
 				canvas: {
@@ -57,7 +55,6 @@ class Gamestate
 				}
 			}
 		}
-		ret = ActionCable.server.broadcast("game_channel_#{@gameid}", obj)
-		STDERR.puts "After broadcasting config to game_channel_#{@gameid}, returned #{ret}"
+		ActionCable.server.broadcast("game_channel_#{@gameid}", obj)
 	end
 end

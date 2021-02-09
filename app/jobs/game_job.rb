@@ -23,9 +23,9 @@ class GameJob < ApplicationJob
 
 	def play_game
 		i = 0
-		while @game and @gamestate and i < 100
+		while @game and @gamestate and i < 200
 			@gamestate.sim_turn
-			sleep(0.1)
+			sleep(0.05)
 			i += 1
 		end
 		STDERR.puts "End of play_game"
