@@ -19,7 +19,6 @@ AppClasses.Views.Friends = class extends Backbone.View {
                 data: { "authenticity_token": $('meta[name="csrf-token"]').attr('content') },
                 type: 'POST'
             });
-            this.updateRender();
         }, 1000 * seconds);
 	}
 	friendAction(event, url, msgSuccess) {
