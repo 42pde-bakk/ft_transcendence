@@ -109,10 +109,8 @@ class FriendshipsController < ApplicationController
 
   def connect_user
     User.all.each do |usr|
-      puts "User" + usr.id.to_s
       if cookies[:atoken] == usr.token
         @current_user = usr
-        puts "Current set to: " + usr.id.to_s
       end
     end
   end
