@@ -7,6 +7,7 @@ class Ball {
 			// this.velocity = 0;
 		}
 		else {
+			console.log("Bitch better have my motherfucking money\n");
 			this.x = data.x;
 			this.y = data.y;
 			this.radius = data.radius;

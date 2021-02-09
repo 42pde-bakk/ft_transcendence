@@ -10,12 +10,10 @@ class Ball #< ApplicationRecord
 		@canvas_width = canvas_width
 		@canvas_height = canvas_height
 		@turncounter = 0
+		@xvelocity = 5
 
-		randint = rand(1..2)
-		if randint == 1
-			@xvelocity = 10
-		else
-			@xvelocity = -10
+		if rand(1..2) == 1
+			@xvelocity *= -1
 		end
 		@yvelocity = 2
 	end
@@ -32,11 +30,18 @@ class Ball #< ApplicationRecord
 		if @posy < @radius or @posy > @canvas_height - @radius
 			@yvelocity *= -1
 		end
+		@turncounter
 	end
 
 	def reset
 		@posx = @canvas_width / 2
 		@posy = @canvas_height / 2
+		if rand(1..2) == 1
+			@xvelocity *= -1
+		end
+		if rand(1..2) == 1
+			@yvelocity *= -1
+		end
 	end
 
 	def posx

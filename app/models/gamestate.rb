@@ -54,6 +54,9 @@ class Gamestate
 			Player.new(0, 5, @canvas_width, @canvas_height),
 			Player.new(1, @canvas_width - 20, @canvas_width, @canvas_height)
 		]
+		@winner = "TBD"
+		@msg = nil
+		@turn = 0
 		@ball = Ball.new(@canvas_width, @canvas_height)
 	end
 
@@ -70,25 +73,45 @@ class Gamestate
 		@players.each do |p|
 			p.move
 		end
-		@ball.updatepos(@players)
+		@turn = @ball.updatepos(@players)
 
 		if @ball.posx <= 0 or @ball.posx >= @canvas_width
 			score
 		end
 
-		if @players.any? {|p| p.score == 5}
+		if @players.any? {|p| p.score == 5} or @turn == 10
 			@status == "finished"
+			if @players[0].score.to_i == @players[1].score.to_i
+				@winner = "DRAW"
+				@msg = "The game has ended in a draw, PepeHands"
+			else
+				if @players[0].score.to_i > @players[1].score.to_i then @winner = @players[0].name else @winner = @players[1].name end
+				@msg = @winner + " wins!"
+			end
 		end
-		# send_config
+		send_config
 	end
 
 	def send_config
 		obj = {
 			config: {
+				# status: @status,
+				# winner: @winner,
+				# message: @msg,
 				canvas: {
 					width: @canvas_width,
 					height: @canvas_height
 				},
+				players: [
+					{
+						name: @players[0].name,
+						score: @players[0].score
+					},
+					{
+						name: @players[1].name,
+						score: @players[1].score
+					}
+				],
 				paddles: [
 					{
 						width: @players[0].paddle.width,

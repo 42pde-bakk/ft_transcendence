@@ -2,9 +2,11 @@ class GameController < ApplicationController
 	before_action :set_params
 
 	def index
+		STDERR.puts "index baby"
 	end
 
 	def play
+		STDERR.puts "yoyo"
 		# @game_id = params[:room_number]
 		# mygame = Gamestate.new(room_nb: @game_id)
 		# saveret = mygame.save

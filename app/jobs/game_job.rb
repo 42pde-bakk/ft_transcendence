@@ -3,7 +3,7 @@ class GameJob < ApplicationJob
 
 	def check
 		unless @game
-			STDERR.puts("GameJob(#{gameid}) is null")
+			STDERR.puts("GameJob(#{@game_channel}) is null")
 			@game.destroy
 			return false
 		end
@@ -30,10 +30,12 @@ class GameJob < ApplicationJob
 	end
 
 	def play_game
+		i = 0
 		@gamestate.status = "running"
-		while @game and @gamestate and @gamestate.status == "running"
+		while @game and @gamestate and @gamestate.status == "running" and i.to_i < 150
 			@gamestate.sim_turn
 			sleep(0.05)
+			i += 1
 		end
 		STDERR.puts "End of play_game"
 	end

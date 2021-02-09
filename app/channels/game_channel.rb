@@ -17,6 +17,7 @@ class GameChannel < ApplicationCable::Channel
 
 	def subscribed
 		game_id = params[:game_id]
+		STDERR.puts("in GameChannel::subscribed")
 		stream_from "game_channel_#{game_id}"
 		@@subscribers[game_id] ||= 0 # if it's nil, it'll be set to be 0, poggers
 		@@subscribers[game_id] += 1
@@ -44,6 +45,6 @@ class GameChannel < ApplicationCable::Channel
 	def unsubscribed
 		# Any cleanup needed when channel is unsubscribed
 		@@subscribers[params[:game_id]] -= 1
-		# stop_stream_from "game_channel_#{params[:game_id]}"
+		stop_stream_from "game_channel_#{params[:game_id]}"
 	end
 end
