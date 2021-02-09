@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     post '/friendships/reject'
     post '/friendships/destroy'
     post '/friendships/get_all'
+    post '/friendships/active'
   end
   # map.resources :friendships
 end

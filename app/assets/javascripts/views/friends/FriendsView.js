@@ -12,6 +12,15 @@ AppClasses.Views.Friends = class extends Backbone.View {
 		this.updateRender(); // render the template only one time, unless model changed
 		this.listenTo(this.model, "change", this.updateRender);
 		this.listenTo(this.collection, "change reset add remove", this.updateRender);
+        const seconds = 10; // update every N seconds
+        setInterval(() => {
+            $.ajax({
+                url:  '/api/friendships/active',
+                data: { "authenticity_token": $('meta[name="csrf-token"]').attr('content') },
+                type: 'POST'
+            });
+            this.updateRender();
+        }, 1000 * seconds);
 	}
 	friendAction(event, url, msgSuccess) {
 		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;

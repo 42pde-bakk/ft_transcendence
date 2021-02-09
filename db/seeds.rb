@@ -13,7 +13,8 @@ User.create([{
                guild_id: 3,
                tfa: true,
                reg_done: false,
-               current: false
+               current: false,
+               last_seen: DateTime.now
                },
              {
                name: "R2D2",
@@ -22,5 +23,6 @@ User.create([{
                guild_id: 2,
                tfa: true,
                reg_done: false,
-               current: false
+               current: false,
+               last_seen: DateTime.now
              }])

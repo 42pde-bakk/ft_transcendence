@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.boolean :tfa
       t.boolean :reg_done
       t.boolean :current
+      t.datetime :last_seen
 
       t.timestamps
     end

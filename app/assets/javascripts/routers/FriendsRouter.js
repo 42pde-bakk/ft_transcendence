@@ -13,7 +13,6 @@ AppClasses.Routers.FriendsRouter = class extends Backbone.Router {
         if (!this.users) {
             this.users = new AppClasses.Collections.AllUsers();
         }
-        // this.users.fetch();
 	}
 	index() {
         if (!this.views.friends) {

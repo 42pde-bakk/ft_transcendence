@@ -4,6 +4,11 @@ class FriendshipsController < ApplicationController
   before_action :set_id, only: [:destroy, :add, :accept, :reject]
   before_action :check_in_friendlist, only: [:add, :accept]
 
+  def active
+    @current_user.last_seen = DateTime.now
+    @current_user.save
+  end
+
   def index
     @friendships = Friendship.all
     render json: @friendships

@@ -21,7 +21,8 @@ class User < ApplicationRecord
       reg_done: usr.reg_done,
       current: usr.current,
       friends: usr.friends,
-      invites: usr.invites
+      invites: usr.invites,
+      last_seen: usr.last_seen
     }
   end
 
