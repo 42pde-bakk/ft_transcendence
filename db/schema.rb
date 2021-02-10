@@ -15,10 +15,7 @@ ActiveRecord::Schema.define(version: 2021_02_08_015125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "games", force: :cascade do |t|
-    t.integer "room_nb"
-    t.string "user1"
-    t.string "user2"
+  create_table "balls", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -31,6 +28,19 @@ ActiveRecord::Schema.define(version: 2021_02_08_015125) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["friend_id"], name: "index_friendships_on_friend_id"
     t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.integer "room_nb"
+    t.string "user1"
+    t.string "user2"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "paddles", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

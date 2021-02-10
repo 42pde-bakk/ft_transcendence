@@ -16,6 +16,7 @@ class GameChannel < ApplicationCable::Channel
 	end
 
 	def subscribed
+		STDERR.puts("Game_channel_#{params[:game_id]} :: subscribed")
 		game_id = params[:game_id]
 		stream_from "game_channel_#{game_id}"
 		@@subscribers[game_id] ||= 0 # if it's nil, it'll be set to be 0, poggers
