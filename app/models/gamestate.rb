@@ -16,6 +16,14 @@ class Player
 		@inputs = Array.new
 	end
 
+	def ai_sim(ball)
+		if ball.nextpos[1].to_i > @paddle.posy.to_i + (@paddle.height.to_i / 3).to_i
+			@paddle.move({type: "paddle_down", id: @id})
+		elsif ball.nextpos[1].to_i < @paddle.posy.to_i - (@paddle.height.to_i / 3).to_i
+			@paddle.move({type: "paddle_up", id: @id})
+		end
+	end
+
 	def name
 		@name
 	end
@@ -36,7 +44,10 @@ class Player
 		@inputs.unshift(new_move)
 	end
 
-	def move
+	def move(ball)
+		if @inputs.empty? and @id == 1
+			ai_sim(ball)
+		end
 		if @inputs.length > 0
 			@paddle.move(@inputs.pop)
 		end
@@ -60,7 +71,6 @@ class Gamestate
 		@ball = Ball.new(@canvas_width, @canvas_height)
 	end
 
-
 	def score
 		if @ball.posx <= 0 then @players[1].inc_score else @players[0].inc_score end
 		@players.each do |p|
@@ -71,7 +81,7 @@ class Gamestate
 
 	def sim_turn
 		@players.each do |p|
-			p.move
+			p.move(@ball)
 		end
 		@turn = @ball.updatepos(@players)
 

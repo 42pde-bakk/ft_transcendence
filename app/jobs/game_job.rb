@@ -35,7 +35,7 @@ class GameJob < ApplicationJob
 		while @game and @gamestate and @gamestate.status != "finished"
 			@gamestate.sim_turn
 			@gamestate.send_config
-			sleep(0.08)
+			sleep(0.05)
 		end
 	end
 end
