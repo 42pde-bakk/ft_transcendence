@@ -45,7 +45,7 @@ class Player
 	end
 
 	def move(ball)
-		if @inputs.empty? and @id == 1
+		if @inputs.empty? and @id == 1 and rand(1..5) == 1
 			ai_sim(ball)
 		end
 		if @inputs.length > 0
