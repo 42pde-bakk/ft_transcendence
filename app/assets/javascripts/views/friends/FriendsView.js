@@ -23,7 +23,6 @@ AppClasses.Views.Friends = class extends Backbone.View {
 	}
 	friendAction(event, url, msgSuccess) {
 		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
-        const friendship = new AppClasses.Models.Friendship();
         let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: userID};
         jQuery.post(url, data)
             .done(usersData => {

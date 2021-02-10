@@ -7,15 +7,16 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         this.listenTo(this.model, "change reset add remove", this.updateRender);
     }
     updateRender() {
-        this.$el.html(this.template({current_user: this.model.attributes,
-                                    users: this.collection.users,
-                                    guilds: this.guilds,
-                                    token: $('meta[name="csrf-token"]').attr('content')}));
+        this.$el.html(this.template());
         const elem = $("#Guild");
         if (!this.model.guild_id) {
+            console.log("In add");
             elem.html(App.templates["guilds/NoGuild"]());
         } else {
-            elem.html(App.templates["guilds/HasGuild"]());
+            elem.html(App.templates["guilds/HasGuild"]({current_user: this.model.attributes,
+                users: this.collection.users,
+                guilds: this.guilds,
+                token: $('meta[name="csrf-token"]').attr('content')}));
         }
         return (this);
     }

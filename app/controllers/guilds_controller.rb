@@ -11,12 +11,9 @@ class GuildsController < ApplicationController
     @current_user.guild_owner = true
     @current_user.guild_validated = true
     if @current_user.save and @guild
-      respond_to do |format|
-        format.html { redirect_to @guild, notice: 'Guild was successfully created.' }
-        format.json { render json: {alert: "Added guild"}, status: :ok }
-      end
+      render json: {alert: "Added guild"}, status: :ok
     else
-      res_with_error("error creating guild", :unprocessable_entity)
+      render json: {alert: "There was an error saving your changes"}, status: :unprocessable_entity
     end
   end
 
@@ -33,6 +30,13 @@ class GuildsController < ApplicationController
       return false
     end
     (guild_params)
+  end
+
+  def check_len(str, minlen, maxlen)
+    if str && str.length >= minlen && str.length <= maxlen
+      return false # no errors
+    end
+    true # error
   end
 
   def res_with_error(msg, error)

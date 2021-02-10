@@ -1,5 +1,7 @@
 AppClasses.Models.Guild = Backbone.Model.extend({
+    urlRoot: "/api/guilds",
     defaults: {
+        authenticity_token: "",
         name: "",
         anagram: ""
     }
