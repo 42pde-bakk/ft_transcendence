@@ -11,31 +11,23 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
     }
     submit(e) {
         e.preventDefault();
-       // let attr = {name: $('#user_nickname').val(), img_path: $('#img_path').val(), image: $('#image').val()};
-    //imugr
-        /* Lets build a FormData object*/
-        var fd = new FormData(); // I wrote about it: https://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
-        fd.append("image", $('#image')[0].files[0]); // Append the file
-        var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
-        xhr.open("POST", "https://api.imgur.com/3/image.json", false); // Boooom!
+    	//imugr
+        var url = $('#img_path').val();
+	if ($('#image').val() != "")
+	{
+	var fd = new FormData();
+	fd.append("image", $('#image')[0].files[0]);
+        var xhr = new XMLHttpRequest();
+	xhr.open("POST", "https://api.imgur.com/3/image.json", false);
         xhr.extraInfo = ""
 	   xhr.onload = function() {
-            // Big win!
-	
-		//   document.querySelector("#link").href = JSON.parse(xhr.responseText).data.link;
-       		//url = (JSON.parse(chr.responseText).data.link) 
 		 this.extraInfo = (JSON.parse(xhr.responseText)).data.link;
 	}
-        
-        xhr.setRequestHeader('Authorization', 'Client-ID a504f6539d73d5b'); // Get your own key http://api.imgur.com/
-        
-        // Ok, I don't handle the errors. An exercise for the reader.
-
-        /* And now, we send the formdata */
+        xhr.setRequestHeader('Authorization', 'Client-ID a504f6539d73d5b'); 
         xhr.send(fd);
-//imugr	
-        let attr = {name: $('#user_nickname').val(), img_path: xhr.extraInfo, image: $('#image').val()};
-       // let attr = {name: $('#user_nickname').val(), img_path: $('#img_path').val(), image: $('#image').val()};
+	url = xhr.extraInfo;
+	}
+        let attr = {name: $('#user_nickname').val(), img_path: url, image: $('#image').val()};
 	    this.model.save(attr, {patch: true, error: function(){alert("Error in update")},
             success: function(){App.routers.profile.navigate("/profile", {trigger: true})}});
     }
