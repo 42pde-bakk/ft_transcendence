@@ -1,4 +1,4 @@
-class Ball #< ApplicationRecord
+class Ball
 
 	def initialize(canvas_width, canvas_height)
 		@radius = 5
@@ -13,17 +13,15 @@ class Ball #< ApplicationRecord
 			@xvelocity *= -1
 		end
 		@yvelocity = 0.5
+		@startvelocity = [@xvelocity, @yvelocity]
 	end
 
 	def updatepos(players)
 		@posx += @xvelocity
 		@posy += @yvelocity
-		if players[0].paddle.include?(@posx - @radius, @posy) or players[1].paddle.include?(@posx - @radius, @posy) \
-    or players[0].paddle.include?(@posx, @posy) or players[1].paddle.include?(@posx, @posy) \
-    or players[0].paddle.include?(@posx + @radius, @posy) or players[1].paddle.include?(@posx + @radius, @posy)
-			@xvelocity *= -1
+		if players[0].paddle.include?(self) or players[1].paddle.include?(self)
+			@xvelocity *= -1.1
 			@turncounter += 1
-			@xvelocity *= 1.1
 			@yvelocity *= 1.1
 		end
 		if @posy < @radius or @posy > @canvas_height - @radius
@@ -35,8 +33,8 @@ class Ball #< ApplicationRecord
 	def reset
 		@posx = @canvas_width / 2
 		@posy = @canvas_height / 2
-		@xvelocity = 2
-		@yvelocity = 0.5
+		@xvelocity = @startvelocity[0]
+		@yvelocity = @startvelocity[1]
 		if rand(1..2) == 1
 			@xvelocity *= -1
 		end

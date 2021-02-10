@@ -24,8 +24,34 @@ class Paddle
 		end
 	end
 
-	def include?(ballx, bally)
-		ballx.between?(@posx.to_i - (@width / 2), @posx.to_i + (@width / 2)) and bally.between?(@posy.to_i - (@height / 2), @posy.to_i + (@height / 2))
+	def get_distance(a, b, ball)
+		a_to_p = [ ball.posx - a[0], ball.posy - a[1] ] # Storing vector A->P
+
+		a_to_b = [ b[0] - a[0], b[1] - a[1] ] # Storing vector A->B
+
+		atb2 = a_to_b[0] ** 2 + a_to_b[1] ** 2 # Finding the squared magnitured of a_to_b
+
+		atp_dot_atb = a_to_p[0] * a_to_p[0] + a_to_p[1] * a_to_b[1] # Dot product of a2p and a2b
+		t = atp_dot_atb / atb2 # Normalized distance from a to the closest point
+		closest_point = [a[0] + a_to_b[0] * t, a[1] + a_to_b[1] * t]
+		unless closest_point[0].between?(a[0], b[0]) and closest_point[1].between?(a[1], b[1])
+			return 100
+		end
+		Math.sqrt(((closest_point[0] - ball.posx) ** 2) + ((closest_point[1] - ball.posy) ** 2))
+	end
+
+	def include?(ball)
+		topleft = [@posx - @width / 2, @posy - @height / 2]
+		topright = [@posx + @width / 2, @posy - @height / 2]
+		botleft = [@posx - @width / 2, @posy + @height / 2]
+		botright = [@posx + @width / 2, @posy + @height / 2]
+		if @posx > @canvas_width / 2
+			if ball.xvelocity < 0 then return false end
+			return get_distance(topleft, botleft, ball) < ball.radius
+		else
+			if ball.xvelocity > 0 then return false end
+			return get_distance(topright, botright, ball) < ball.radius
+		end
 	end
 
 	def reset
