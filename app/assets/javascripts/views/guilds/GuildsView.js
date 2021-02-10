@@ -11,6 +11,12 @@ AppClasses.Views.Guilds = class extends Backbone.View {
                                     users: this.collection.users,
                                     guilds: this.guilds,
                                     token: $('meta[name="csrf-token"]').attr('content')}));
+        const elem = $("#Guild");
+        if (!this.model.guild_id) {
+            elem.html(App.templates["guilds/NoGuild"]());
+        } else {
+            elem.html(App.templates["guilds/HasGuild"]());
+        }
         return (this);
     }
     render() {
