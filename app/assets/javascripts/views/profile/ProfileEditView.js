@@ -9,6 +9,7 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
         this.updateRender(); // render the template only one time, unless model changed
         this.listenTo(this.model, "change", this.updateRender);
     }
+
     submit(e) {
         e.preventDefault();
     	//imugr
@@ -23,7 +24,7 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
 	   xhr.onload = function() {
 		 this.extraInfo = (JSON.parse(xhr.responseText)).data.link;
 	}
-        xhr.setRequestHeader('Authorization', 'Client-ID a504f6539d73d5b'); 
+        xhr.setRequestHeader('Authorization', 'Client-ID a504f6539d73d5b');
         xhr.send(fd);
 	url = xhr.extraInfo;
 	}

@@ -11,7 +11,7 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
         if (!this.models.user) {
             this.models.user = new AppClasses.Models.User(App.data.user);
         }
-        this.models.user.fetch()
+        this.models.user.fetch(); // To reset the model to the db state
     };
 
     profile() {
