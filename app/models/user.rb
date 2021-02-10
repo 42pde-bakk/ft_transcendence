@@ -26,6 +26,7 @@ class User < ApplicationRecord
       reg_done: usr.reg_done,
       current: usr.current,
       friends: usr.friends,
+      guild: usr.guild,
       invites: usr.invites,
       last_seen: usr.last_seen
     }

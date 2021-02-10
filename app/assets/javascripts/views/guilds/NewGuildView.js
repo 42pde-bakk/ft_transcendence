@@ -22,21 +22,6 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
                 App.routers.profile.navigate("/guilds", {trigger: true})
             }
         });
-        // $.ajax({
-        //     type: "POST",
-        //     url: "/api/guilds" + "?&authenticity_token=" + $('meta[name="csrf-token"]').attr('content'),
-        //     data: new FormData($("#createGuildForm")[0]),
-        //     cache: false,
-        //     contentType: false,
-        //     processData: false
-        // })
-        //     .done(usersData => {
-        //         console.log(msgSuccess);
-        //         App.routers.profile.navigate("/guilds", {trigger: true})
-        //     })
-        //     .fail(function (jqXHR, textStatus, error) {
-        //         alert("Post error: " + error);
-        //     });
     }
 
     updateRender() {
