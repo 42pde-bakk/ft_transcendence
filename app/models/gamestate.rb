@@ -80,6 +80,7 @@ class Gamestate
 		end
 
 		if @players.any? {|p| p.score == 5} or @turn == 10
+			STDERR.puts "we reached 5 points"
 			@status == "finished"
 			if @players[0].score.to_i == @players[1].score.to_i
 				@winner = "DRAW"
@@ -95,9 +96,9 @@ class Gamestate
 	def send_config
 		obj = {
 			config: {
-				# status: @status,
-				# winner: @winner,
-				# message: @msg,
+				status: @status,
+				winner: @winner,
+				message: @msg,
 				canvas: {
 					width: @canvas_width,
 					height: @canvas_height
@@ -105,25 +106,23 @@ class Gamestate
 				players: [
 					{
 						name: @players[0].name,
-						score: @players[0].score
+						score: @players[0].score,
+						paddle: {
+							width: @players[0].paddle.width,
+							height: @players[0].paddle.height,
+							x: @players[0].paddle.posx,
+							y: @players[0].paddle.posy
+						}
 					},
 					{
 						name: @players[1].name,
-						score: @players[1].score
-					}
-				],
-				paddles: [
-					{
-						width: @players[0].paddle.width,
-						height: @players[0].paddle.height,
-						x: @players[0].paddle.posx,
-						y: @players[0].paddle.posy
-					},
-					{
-						width: @players[1].paddle.width,
-						height: @players[1].paddle.height,
-						x: @players[1].paddle.posx,
-						y: @players[1].paddle.posy
+						score: @players[1].score,
+						paddle: {
+							width: @players[1].paddle.width,
+							height: @players[1].paddle.height,
+							x: @players[1].paddle.posx,
+							y: @players[1].paddle.posy
+						}
 					}
 				],
 				ball: {

@@ -32,7 +32,7 @@ class GameJob < ApplicationJob
 	def play_game
 		i = 0
 		@gamestate.status = "running"
-		while @game and @gamestate and @gamestate.status == "running" and i.to_i < 150
+		while @game and @gamestate and @gamestate.status != "finished" #and i.to_i < 150
 			@gamestate.sim_turn
 			sleep(0.05)
 			i += 1
