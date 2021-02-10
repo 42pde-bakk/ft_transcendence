@@ -4,12 +4,12 @@ class Game < ApplicationRecord
 
 	def mysetup
 		@@gamestates[room_nb] = Gamestate.new(room_nb)
-		# @gamestate = @@gamestates[room_nb]
-		STDERR.puts "Game::setup, room_number is #{room_nb}"
 	end
 
 	def send_config
-		@@gamestates[room_nb].send_config
+		if @@gamestates[room_nb]
+			@@gamestates[room_nb].send_config
+		end
 	end
 
 	def get_gamestate

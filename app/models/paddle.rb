@@ -11,11 +11,9 @@ class Paddle
 	end
 
 	def move(input)
-		# STDERR.puts "in paddle::move, input is #{input}"
 		unless input
 			return
 		end
-		STDERR.puts "input.type is #{input[:type]}"
 		if input[:type] == "paddle_up"
 			@posy -= @velocity.to_i
 			@posy = [@posy.to_i, @height / 2].max
@@ -24,8 +22,6 @@ class Paddle
 			@posy += @velocity.to_i
 			@posy = [@posy.to_i, @canvas_height.to_i - (@height / 2)].min
 		end
-		STDERR.puts "xrange is #{@posx.to_i - (@width / 2)} - #{@posx.to_i + (@width / 2)}"
-		STDERR.puts "yrange is #{@posy.to_i - (@height / 2)} - #{@posy.to_i + (@height / 2)}"
 	end
 
 	def include?(ballx, bally)
@@ -33,10 +29,8 @@ class Paddle
 	end
 
 	def reset
-		STDERR.puts "called paddle.reset"
 		@posx = @startingx.to_i
 		@posy = @canvas_height / 2
-		STDERR.puts "pos is {#{@posx}, #{@posy}}"
 	end
 
 	def posx

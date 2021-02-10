@@ -61,6 +61,7 @@ class Render {
 		this.context.fillStyle = "white";
 		// this.context.textBaseline = "middle";
 		this.context.textAlign = "center";
+		console.log("message is ", msg);
 		this.context.fillText(msg, this.canvas.width / 2, this.canvas.height / 2);
 	}
 
@@ -71,7 +72,7 @@ class Render {
 		this.players[1].set_config(config.players[1], config.canvas, this.canvas);
 		this.drawWorld();
 		if (config.status && config.status === "finished")
-			this.Finish(config.winner, config.msg);
+			this.Finish(config.winner, config.message);
 		console.log("after printing to screen");
 	}
 }

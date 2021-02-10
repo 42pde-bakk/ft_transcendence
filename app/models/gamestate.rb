@@ -9,7 +9,7 @@ class Player
 	def initialize(id, x, canvas_width, canvas_height)
 		@id = id
 		@score = 0
-		@name = "Bot"
+		@name = "Player #{id.to_i + 1}"
 		@canvas_width = canvas_width
 		@canvas_height = canvas_height
 		@paddle = Paddle.new(x, @canvas_width, @canvas_height)
@@ -79,9 +79,8 @@ class Gamestate
 			score
 		end
 
-		if @players.any? {|p| p.score == 5} or @turn == 10
-			STDERR.puts "we reached 5 points"
-			@status == "finished"
+		if @players.any? {|p| p.score.to_i == 5} or @turn.to_i >= 100
+			@status = "finished"
 			if @players[0].score.to_i == @players[1].score.to_i
 				@winner = "DRAW"
 				@msg = "The game has ended in a draw, PepeHands"
@@ -90,7 +89,6 @@ class Gamestate
 				@msg = @winner + " wins!"
 			end
 		end
-		send_config
 	end
 
 	def send_config

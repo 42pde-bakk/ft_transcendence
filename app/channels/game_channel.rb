@@ -17,17 +17,14 @@ class GameChannel < ApplicationCable::Channel
 
 	def subscribed
 		game_id = params[:game_id]
-		STDERR.puts("in GameChannel::subscribed")
 		stream_from "game_channel_#{game_id}"
 		@@subscribers[game_id] ||= 0 # if it's nil, it'll be set to be 0, poggers
 		@@subscribers[game_id] += 1
-		STDERR.puts "GAME_CHANNEL_#{game_id} now has #{@@subscribers[game_id]} subscribers"
 
 		find_game(game_id)
 		@game.send_config
 		if @@subscribers[game_id] == 1
 			GameJob.perform_later(game_id)
-			STDERR.puts "Queued job"
 		end
 	end
 
@@ -45,6 +42,6 @@ class GameChannel < ApplicationCable::Channel
 	def unsubscribed
 		# Any cleanup needed when channel is unsubscribed
 		@@subscribers[params[:game_id]] -= 1
-		stop_stream_from "game_channel_#{params[:game_id]}"
+		# stop_stream_from "game_channel_#{params[:game_id]}"
 	end
 end
