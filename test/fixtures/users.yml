@@ -2,6 +2,16 @@
 
 one:
   name: MyString
+  img_path: MyString
+  token: MyString
+  guild_id: 1
+  tfa: false
+  reg_done: false
 
 two:
   name: MyString
+  img_path: MyString
+  token: MyString
+  guild_id: 1
+  tfa: false
+  reg_done: false
