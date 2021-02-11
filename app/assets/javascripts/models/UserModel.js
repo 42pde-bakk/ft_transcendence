@@ -1,5 +1,5 @@
 AppClasses.Models.User = Backbone.Model.extend({
-    url: "api/profile/0",
+    url: "api/profile/1",
 
 	defaults: {
 		name: "",

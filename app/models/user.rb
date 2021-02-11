@@ -26,10 +26,13 @@ class User < ApplicationRecord
       reg_done: usr.reg_done,
       current: usr.current,
       friends: usr.friends,
-      guild: Guild.clean(usr.guild),
       invites: usr.invites,
       last_seen: usr.last_seen
     }
+    if usr.guild_id
+      new_user[:guild] = usr.guild;
+    end
+    new_user
   end
 
   def self.reset_guild(usr)
