@@ -27,7 +27,7 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
     updateRender() {
         this.$el.html(this.template({
             current_user: App.models.user.toJSON(),
-            users: App.collections.users.toJSON(),
+            users: App.collections.users_no_self.toJSON(),
             guilds: App.collections.guilds.toJSON(),
             token: $('meta[name="csrf-token"]').attr('content')}));
         return (this);

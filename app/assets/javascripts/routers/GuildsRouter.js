@@ -13,7 +13,7 @@ AppClasses.Routers.GuildsRouter = class extends Backbone.Router {
 
     index() {
         if (!this.views.guilds) {
-            this.views.guilds = new AppClasses.Views.Guilds();
+            this.views.guilds = new AppClasses.Views.Guilds({});
         }
         this.mainDiv.html(this.views.guilds.render().el);
     }

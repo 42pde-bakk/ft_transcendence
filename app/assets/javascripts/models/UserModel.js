@@ -22,7 +22,7 @@ AppClasses.Models.Friendship = Backbone.Model.extend({
     }
 });
 
-AppClasses.Collections.AllUsers = class extends Backbone.Collection {
+AppClasses.Collections.UsersNoSelf = class extends Backbone.Collection {
     constructor(opts) {
         super(opts);
         this.myFetch();

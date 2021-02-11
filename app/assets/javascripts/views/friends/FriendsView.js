@@ -10,8 +10,8 @@ AppClasses.Views.Friends = class extends Backbone.View {
 		this.tagName = "div";
 		this.template = App.templates["friends/index"];
 		this.updateRender(); // render the template only one time, unless model changed
-		this.listenTo(this.model, "change", this.updateRender);
-		this.listenTo(this.collection, "change reset add remove", this.updateRender);
+		this.listenTo(App.models.user, "change", this.updateRender);
+		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
         const seconds = 10; // update every N seconds
         setInterval(() => {
             $.ajax({
@@ -47,12 +47,12 @@ AppClasses.Views.Friends = class extends Backbone.View {
 		this.friendAction(e, "/api/friendships/add.json", "Request sent");
 	}
 	updateRender() {
-        this.model.fetch();
-        this.collection.myFetch();
+        App.models.user.fetch();
+        App.collections.users_no_self.myFetch();
 		this.$el.html(this.template({
-			user: this.model.toJSON(),
+			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
-			allUsers: this.collection.toJSON()
+			allUsers: App.collections.users_no_self.toJSON()
 		}));
 		return (this);
 	}

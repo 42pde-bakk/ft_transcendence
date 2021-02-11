@@ -12,14 +12,17 @@
         App.models.user = new AppClasses.Models.User(App.data.user);
     }
     App.models.user.fetch(); // To reset the model to the db state
-    if (!App.collections.users) {
-        App.collections.users = new AppClasses.Collections.AllUsers();
+
+    if (!App.collections.users_no_self) {
+        App.collections.users_no_self = new AppClasses.Collections.UsersNoSelf();
     }
-    App.collections.users.myFetch(); // To reset the model to the db state
+    App.collections.users_no_self.myFetch(); // To reset the model to the db state
+
     if (!App.collections.guilds) {
         App.collections.guilds = new AppClasses.Collections.Guilds();
     }
     App.collections.guilds.fetch(); // To reset the model to the db state
+
 		if(!Backbone.History.started)  {
 			console.log("Backbone history started")
 			Backbone.history.start(); // using anchor for routing
