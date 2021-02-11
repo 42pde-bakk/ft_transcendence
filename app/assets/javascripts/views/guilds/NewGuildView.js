@@ -7,7 +7,7 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
         this.tagName = "div";
         this.template = App.templates["guilds/NewGuild"];
         this.updateRender(); // render the template only one time, unless model changed
-        this.listenTo(this.model, "change reset add remove", this.updateRender);
+        this.listenTo(App.models.user, "change reset add remove", this.updateRender);
     }
 
     submit(e) {
@@ -25,9 +25,10 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
     }
 
     updateRender() {
-        this.$el.html(this.template({current_user: this.model.attributes,
-            users: this.collection.users,
-            guilds: this.guilds,
+        this.$el.html(this.template({
+            current_user: App.models.user.toJSON(),
+            users: App.collections.users.toJSON(),
+            guilds: App.collections.guilds.toJSON(),
             token: $('meta[name="csrf-token"]').attr('content')}));
         return (this);
     }
