@@ -14,14 +14,13 @@ AppClasses.Views.Guilds = class extends Backbone.View {
             this.$("#Guild").append(App.templates["guilds/HasGuild"]({
                 current_user: App.models.user.toJSON(),
                 users: App.collections.users_no_self.toJSON(),
-                guilds: App.collections.guilds.toJSON(),
+                guild: App.models.user.toJSON().guild,
                 token: $('meta[name="csrf-token"]').attr('content')}));
         }
         return (this);
     }
 
     render() {
-        App.models.user.fetch();
         return (this);
     }
 }

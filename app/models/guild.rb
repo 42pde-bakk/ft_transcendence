@@ -6,4 +6,19 @@ class Guild < ApplicationRecord
 
   validates :name, uniqueness: true
   validates :anagram, uniqueness: true
+
+  def self.clean(gld)
+    new_user = {
+      id: gld.id,
+      name: gld.name,
+      anagram: gld.anagram,
+      points: gld.points,
+      users: gld.users,
+      requests: gld.requests,
+      owner: gld.owner,
+      officers: gld.officers
+    }
+  end
+
+
 end
