@@ -8,11 +8,10 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     }
     updateRender() {
         this.$el.html(this.template());
-        const elem = $("#Guild");
         if (!App.models.user.toJSON().guild) {
-            elem.html(App.templates["guilds/NoGuild"]());
+            this.$("#Guild").append(App.templates["guilds/NoGuild"]());
         } else {
-            elem.html(App.templates["guilds/HasGuild"]({
+            this.$("#Guild").append(App.templates["guilds/HasGuild"]({
                 current_user: App.models.user.toJSON(),
                 users: App.collections.users_no_self.toJSON(),
                 guilds: App.collections.guilds.toJSON(),
