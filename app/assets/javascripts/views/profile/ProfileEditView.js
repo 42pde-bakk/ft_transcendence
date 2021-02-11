@@ -12,7 +12,23 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
 
     submit(e) {
         e.preventDefault();
-        let attr = {name: $('#user_nickname').val(), img_path: $('#img_path').val()};
+	var url_img = $('#img_path').val();
+	if ($('#image').val() != "")
+	{
+	var fd = new FormData();
+	fd.append("image", $('#image')[0].files[0]);
+        var xhr = new XMLHttpRequest();
+	xhr.open("POST", "https://api.imgur.com/3/image.json", false);
+        xhr.extraInfo = ""
+	   xhr.onload = function() {
+		 this.extraInfo = (JSON.parse(xhr.responseText)).data.link;
+	}
+        xhr.setRequestHeader('Authorization', 'Client-ID a504f6539d73d5b');
+        xhr.send(fd);
+	url_img = xhr.extraInfo;
+	}
+
+        let attr = {name: $('#user_nickname').val(), img_path: url_img};
 
         this.model.save(attr, {patch: true,
             error: function(model, response){

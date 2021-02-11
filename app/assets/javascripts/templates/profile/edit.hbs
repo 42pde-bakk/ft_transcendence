@@ -53,7 +53,11 @@
 
                                     <div class="col-span-6 sm:col-span-4">
                                         <label for="img_path" class="block text-lg w-full text-gray-700 pb-2">Avatar URL</label>
-                                        <input type="text" value="{{user.img_path}}" name="Avatar" id="img_path" class="border py-2 px-3 w-1/2 focus:ring-indigo-500 focus:border-indigo-500 shadow-inner rounded-md" required>
+                                        <input type="text" value="{{user.img_path}}" name="Avatar" id="img_path" class="border py-2 px-3 w-1/2 focus:ring-indigo-500 focus:border-indigo-500 shadow-inner rounded-md">
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label for="image" class="block text-lg w-full text-gray-700 pb-2">Avatar upload</label>
+                                        <input type="file" value="{{user.image}}" name="Avatar_upload" id="image" class="border py-2 px-3 w-1/2 focus:ring-indigo-500 focus:border-indigo-500 shadow-inner rounded-md">
+                                    </div>
                                     </div>
                                 </div>
                             </div>
