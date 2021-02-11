@@ -30,7 +30,7 @@ class User < ApplicationRecord
       last_seen: usr.last_seen
     }
     if usr.guild_id
-      new_user[:guild] = usr.guild;
+      new_user[:guild] = Guild.clean(usr.guild);
     end
     new_user
   end

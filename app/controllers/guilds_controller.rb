@@ -1,5 +1,7 @@
 class GuildsController < ApplicationController
   before_action :connect_user
+  before_action :set_guild, only: [:show, :edit, :update, :destroy, :join]
+  before_action :has_guild, only: [:create, :join]
 
   def index
     @guilds = Guild.all
@@ -19,6 +21,30 @@ class GuildsController < ApplicationController
       render json: {alert: "Added guild"}, status: :ok
     else
       render json: {alert: "There was an error saving your changes"}, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /guilds/1
+  # PATCH/PUT /guilds/1.json
+  def update
+    unless @current_user.guild.owner == @current_user
+      res_with_error("You need to own the guild to edit it", :unauthorized)
+      return false
+    end
+
+    g_params = guild_params
+    if !g_params
+      return false
+    end
+
+    respond_to do |format|
+      if @guild.update(g_params)
+        format.html { redirect_to @guild, notice: 'Guild was successfully updated.' }
+        format.json { render :show, status: :ok, location: @guild }
+      else
+        format.html { render :edit }
+        format.json { render json: @guild.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -53,6 +79,36 @@ class GuildsController < ApplicationController
     end
   end
 
+  def join
+    @current_user.guild_id = @guild.id
+    @current_user.guild_officer = false
+    @current_user.guild_owner = false
+    @current_user.guild_validated = false
+    @current_user.save
+    respond_to do |format|
+      format.html { redirect_to guilds_url, notice: 'Joining request sent.' }
+      format.json { render json: User.clean(current_user), status: :ok }
+    end
+  end
+
+  def accept_request
+    new_usr = User.find(params[:id])
+    unless new_usr.guild_id == @current_user.guild_id
+      res_with_error("Bad request", :bad_request)
+      return false
+    end
+    unless User.has_officer_rights(current_user)
+      res_with_error("Action unauthorized", :unauthorized)
+      return false
+    end
+    new_usr.guild_validated = true
+    new_usr.save
+    respond_to do |format|
+      format.html { redirect_to guilds_url, notice: 'Joining request accepted.' }
+      format.json { render json: {msg: "Joining request accepted"}, status: :ok }
+    end
+  end
+
 
   private
 
@@ -67,6 +123,10 @@ class GuildsController < ApplicationController
       return false
     end
     (guild_params)
+  end
+
+  def set_guild
+    @guild = Guild.find(params[:id])
   end
 
   def check_len(str, minlen, maxlen)
@@ -88,6 +148,13 @@ class GuildsController < ApplicationController
       if cookies[:atoken] == usr.token
         @current_user = usr
       end
+    end
+  end
+
+  def has_guild
+    if @current_user.guild
+      res_with_error("You already are in a guild", :bad_request)
+      return false
     end
   end
 

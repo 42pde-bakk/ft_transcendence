@@ -18,8 +18,8 @@ AppClasses.Views.Guilds = class extends Backbone.View {
                 App.models.user.fetch();
             })
             .fail(e => {
-                console.log("Error in friendship");
-                alert("Could not add friend...");
+                console.log("Error in guild");
+                alert("Could not quit guild...");
             })
     }
 
