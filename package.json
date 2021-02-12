@@ -1,5 +1,5 @@
 {
-  "name": "ft-transcendence",
+  "name": "ft_transcendence",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
