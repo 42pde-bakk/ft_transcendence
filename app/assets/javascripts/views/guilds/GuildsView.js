@@ -20,10 +20,12 @@ AppClasses.Views.Guilds = class extends Backbone.View {
                 console.log(msgSuccess);
                 App.models.user.fetch();
             })
-            .fail(e => {
-                console.log("Error in guild");
-                alert("Error in processing request on server...");
-            })
+            .fail(
+                function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                    alert(jqXHR.responseJSON.alert);
+                }
+            );
     }
 
     quit(e) {
@@ -41,7 +43,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
 
     updateRender() {
         this.$el.html(this.template());
-        if (App.models.user.toJSON().guild_validated === false) {
+        if (App.models.user.toJSON().guild_validated === false || !App.models.user.toJSON().guild_id) {
             this.$("#Guild").append(App.templates["guilds/NoGuild"]());
         } else {
             this.$("#Guild").append(App.templates["guilds/HasGuild"]({

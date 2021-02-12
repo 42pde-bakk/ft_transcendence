@@ -20,7 +20,7 @@ class GuildsController < ApplicationController
     if @current_user.save and @guild
       render json: {alert: "Added guild"}, status: :ok
     else
-      render json: {alert: "There was an error saving your changes"}, status: :unprocessable_entity
+      res_with_error("Failed to create new guild", :unauthorized)
     end
   end
 
