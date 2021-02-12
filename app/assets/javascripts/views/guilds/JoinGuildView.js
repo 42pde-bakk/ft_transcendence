@@ -21,10 +21,12 @@ AppClasses.Views.JoinGuild = class extends Backbone.View {
                 console.log("Requested to join guild");
                 this.updateRender();
             })
-            .fail(e => {
-                console.log("Error in guild join");
-                alert("Could not join guild...");
-            })
+            .fail(
+                function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                    alert(jqXHR.responseJSON.alert);
+                }
+            );
     }
 
     updateRender() {
