@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     post '/guilds/join'
     post '/guilds/quit'
     post '/guilds/accept_request'
+    post '/guilds/reject_request'
   end
   # map.resources :friendships
 end

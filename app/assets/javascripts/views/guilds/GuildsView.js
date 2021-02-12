@@ -1,7 +1,9 @@
 AppClasses.Views.Guilds = class extends Backbone.View {
     constructor(opts) {
         opts.events = {
-            "click .clickToQuitGuild": "quit"
+            "click .clickToQuitGuild": "quit",
+            "click .clickToAcceptMember": "accept",
+            "click .clickToRejectMember": "reject"
         };
         super(opts);
         this.tagName = "div";
@@ -11,7 +13,8 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     }
 
     guildAction(event, url, msgSuccess) {
-        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+        const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: userID};
         jQuery.post(url, data)
             .done(usersData => {
                 console.log(msgSuccess);
@@ -19,7 +22,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
             })
             .fail(e => {
                 console.log("Error in guild");
-                alert("Could not quit guild...");
+                alert("Error in processing request on server...");
             })
     }
 
@@ -27,10 +30,18 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         this.guildAction(e, "/api/guilds/quit.json", "Quit guild");
     }
 
+    accept(e) {
+        this.guildAction(e, "/api/guilds/accept_request.json", "Accepted request");
+    }
+
+    reject(e) {
+        this.guildAction(e, "/api/guilds/reject_request.json", "Rejected request");
+    }
+
 
     updateRender() {
         this.$el.html(this.template());
-        if (!App.models.user.toJSON().guild_id) {
+        if (App.models.user.toJSON().guild_validated === false) {
             this.$("#Guild").append(App.templates["guilds/NoGuild"]());
         } else {
             this.$("#Guild").append(App.templates["guilds/HasGuild"]({

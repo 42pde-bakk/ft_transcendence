@@ -8,6 +8,7 @@ AppClasses.Views.JoinGuild = class extends Backbone.View {
         this.template = App.templates["guilds/JoinGuild"];
         this.updateRender(); // render the template only one time, unless model changed
         this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
+        this.listenTo(App.collections.guilds, "sync change reset add remove", this.updateRender);
     }
 
     join(event) {
@@ -17,7 +18,7 @@ AppClasses.Views.JoinGuild = class extends Backbone.View {
 
         jQuery.post(url, data)
             .done(usersData => {
-                console.log(msgSuccess);
+                console.log("Requested to join guild");
                 this.updateRender();
             })
             .fail(e => {
