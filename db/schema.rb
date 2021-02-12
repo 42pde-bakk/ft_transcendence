@@ -15,6 +15,16 @@ ActiveRecord::Schema.define(version: 2021_02_08_015125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "friend_id", null: false
+    t.boolean "confirmed", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
   create_table "games", force: :cascade do |t|
     t.integer "room_nb"
     t.string "user1"
@@ -23,4 +33,19 @@ ActiveRecord::Schema.define(version: 2021_02_08_015125) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "img_path", default: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
+    t.string "token"
+    t.integer "guild_id"
+    t.boolean "tfa"
+    t.boolean "reg_done"
+    t.boolean "current"
+    t.datetime "last_seen"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
 end

@@ -13,6 +13,8 @@ WORKDIR /app
 COPY . /app
 RUN echo "gem: --no-document" > ~/.gemrc
 RUN bundle install
+RUN apt-get update
+RUN apt-get -y install npm && npm install -g -y n && n stable
 RUN yarn install
 
 ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
