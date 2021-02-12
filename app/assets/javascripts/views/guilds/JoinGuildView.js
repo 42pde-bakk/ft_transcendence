@@ -19,7 +19,8 @@ AppClasses.Views.JoinGuild = class extends Backbone.View {
         jQuery.post(url, data)
             .done(usersData => {
                 console.log("Requested to join guild");
-                this.updateRender();
+                App.models.user.fetch();
+                App.routers.profile.navigate("/guilds", {trigger: true})
             })
             .fail(
                 function(jqXHR, textStatus, errorThrown) {
@@ -31,6 +32,7 @@ AppClasses.Views.JoinGuild = class extends Backbone.View {
 
     updateRender() {
         this.$el.html(this.template({
+            current_user: App.models.user.toJSON(),
             guilds: App.collections.guilds.toJSON(),
             token: $('meta[name="csrf-token"]').attr('content')}));
         return (this);

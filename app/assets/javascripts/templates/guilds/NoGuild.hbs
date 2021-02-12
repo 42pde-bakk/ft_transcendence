@@ -1,16 +1,17 @@
 <div class="bg-white p-12 h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 rounded-lg">
-        <div class="lg:text-center pt-4">
-            <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Guilds</h2>
+        {{#unless current_user.guild_id}}
+            <div class="lg:text-center pt-4">
+                <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Guilds</h2>
 
-            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                You're not part of a guild yet
-            </p>
-            <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                You can choose to create a new guild, or join one!
-            </p>
-        </div>
-        <div class="mt-5 sm:mt-8 sm:flex justify-center">
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    You're not part of a guild yet
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                    You can choose to create a new guild, or join one!
+                </p>
+            </div>
+            <div class="mt-5 sm:mt-8 sm:flex justify-center">
             <div class="rounded-md shadow">
                 <a href="#guilds/new" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -28,5 +29,17 @@
                 </a>
             </div>
         </div>
+        {{else}}
+            <div class="lg:text-center pt-4">
+                <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Guilds</h2>
+
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    You're waiting for your request to be accepted!
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                    Go do something else in the meantime.
+                </p>
+            </div>
+        {{/unless}}
     </div>
 </div>
