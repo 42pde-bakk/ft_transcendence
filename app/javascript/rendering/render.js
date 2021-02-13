@@ -10,6 +10,7 @@ class Render {
 			this.context = canvas.getContext('2d');
 		this.background_colour = "black";
 		this.ball = new Ball;
+		this.msg = null;
 		this.players = [
 			new Player,
 			new Player
@@ -21,7 +22,7 @@ class Render {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.context.fillStyle = this.background_colour;
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-		// console.log(`resetCanvas: width=${this.canvas.width}, height=${this.canvas.height}, fillStyle = ${this.context.fillStyle}`);
+		console.log(`resetCanvas: width=${this.canvas.width}, height=${this.canvas.height}, fillStyle = ${this.context.fillStyle}`);
 	}
 
 	drawBall() {
@@ -58,6 +59,8 @@ class Render {
 	}
 
 	Finish(winner, msg) {
+		this.resetCanvas();
+		this.drawScores();
 		this.context.font = "30px Comic Sans MS";
 		this.context.fillStyle = "white";
 		// this.context.textBaseline = "middle";
@@ -71,9 +74,10 @@ class Render {
 		this.ball.set_config(config.ball, config.canvas, this.canvas);
 		this.players[0].set_config(config.players[0], config.canvas, this.canvas);
 		this.players[1].set_config(config.players[1], config.canvas, this.canvas);
-		this.drawWorld();
 		if (config.status && config.status === "finished")
 			this.Finish(config.winner, config.message);
+		else
+			this.drawWorld();
 		// console.log("after printing to screen");
 	}
 }
