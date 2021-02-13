@@ -20,7 +20,7 @@ class HomeController < ApplicationController
     end 
     new_token = true
     User.all.each do |usr|
-      if (cookies[:log_token].present? && cookies[:log_token] == usr.log_token.to_s)
+      if (cookies[:log_token].present? && cookies[:log_token] == usr.log_token)
         new_token = false
         @user = usr
       end
@@ -55,31 +55,12 @@ class HomeController < ApplicationController
     end
   end
 
-def logout
- @user = User.new
-      @user.token = cookies[:atoken]
-      @user.name = "New_User_" + ((rand() * 1000000).to_i).to_s
-      @user.img_path = "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
-      @user.reg_done = false
-      log_token_used = false
-      loop do 
-        @n = ((rand() * 10000000).to_i).to_s
-        User.all.each do |usr|
-          if (usr.log_token == @n)
-            log_token_used = true
-          end
-        end
-        if (log_token_used == false)
-          break
-        end
-      end
-      @user.log_token = @n
-      cookies[:log_token] = @n
-      @user.save()
-      redirect_to "http://127.0.0.1:3000/"
-end
+  def logout
+  cookies.delete :log_token
+  redirect_to "http://127.0.0.1:3000/home"
+  end
 
-def auth
-  redirect_to "https://api.intra.42.fr/oauth/authorize?client_id=0ebc0ed6e00f46a108cdcec53920e8bd00de8692aae747beee80e486feb5a6d2&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fhome&response_type=code"
-end
+  def auth
+    redirect_to "https://api.intra.42.fr/oauth/authorize?client_id=0ebc0ed6e00f46a108cdcec53920e8bd00de8692aae747beee80e486feb5a6d2&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fhome&response_type=code"
+  end
 end
