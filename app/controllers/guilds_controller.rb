@@ -23,6 +23,7 @@ class GuildsController < ApplicationController
 
     @guild = @current_user.create_guild(guild_params)
     @current_user.guild_owner = true
+    @current_user.guild_officer = true
     @current_user.guild_validated = true
     if @current_user.save and @guild
       respond_to do |format|
@@ -100,6 +101,20 @@ class GuildsController < ApplicationController
     end
   end
 
+  def invite
+    @guild = Guild.find(@current_user.guild_id)
+    @user = User.find(params[:id])
+    @user.guild_id = @guild.id
+    @user.guild_officer = false
+    @user.guild_owner = false
+    @user.guild_validated = false
+    @user.save
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'Joining request sent.' }
+      format.json { render json: User.clean(@current_user), status: :ok }
+    end
+  end
+
   def accept_request
     new_usr = User.find(params[:id])
     unless new_usr.guild_id == @current_user.guild_id
@@ -129,6 +144,23 @@ class GuildsController < ApplicationController
       return false
     end
     User.reset_guild(new_usr)
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'Joining request rejected.' }
+      format.json { render json: {msg: "Joining request rejected"}, status: :ok }
+    end
+  end
+
+  def accept_invite
+    @current_user.guild_validated = true
+    @current_user.save
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'Joining request accepted.' }
+      format.json { render json: {msg: "Joining request accepted"}, status: :ok }
+    end
+  end
+
+  def reject_invite
+    User.reset_guild(@current_user)
     respond_to do |format|
       format.html { redirect_to "/#guilds", notice: 'Joining request rejected.' }
       format.json { render json: {msg: "Joining request rejected"}, status: :ok }
