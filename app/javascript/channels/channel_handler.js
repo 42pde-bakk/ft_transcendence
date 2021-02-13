@@ -1,14 +1,22 @@
 import {GameChannel} from "./game_channel"
 
-document.addEventListener('turbolinks:load', () => {
-
-	const element = document.getElementById('game-id');
-	if (element != null) {
-		const game_id = element.getAttribute('data-game-id');
-		if (game_id) {
+function selectchannel() {
+	console.log("in selectchannel");
+	// GameChannel
+	const element = document.getElementById("game-id");
+	if (element) {
+		const game_id = element.getAttribute("data-game-id");
+		if (game_id)
 			GameChannel(game_id);
-		} else console.log("game_id is", game_id);
-	} else
-		console.log("element is", element);
+	}
+}
 
-})
+function runshit() {
+	console.log("in runshit");
+	window.addEventListener('hashchange', e => {
+		console.log("in hashchange eventlistener");
+		setTimeout(selectchannel, 1000);
+	});
+}
+
+export default runshit();

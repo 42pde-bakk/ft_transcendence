@@ -21,6 +21,7 @@ class Render {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.context.fillStyle = this.background_colour;
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		// console.log(`resetCanvas: width=${this.canvas.width}, height=${this.canvas.height}, fillStyle = ${this.context.fillStyle}`);
 	}
 
 	drawBall() {
@@ -48,7 +49,7 @@ class Render {
 	}
 
 	drawWorld() {
-		console.log("canvas is", this.canvas.width, "x", this.canvas.height);
+		// console.log("canvas is", this.canvas.width, "x", this.canvas.height);
 		this.resetCanvas();
 		this.drawScores();
 		this.drawPaddle(0);
@@ -61,7 +62,7 @@ class Render {
 		this.context.fillStyle = "white";
 		// this.context.textBaseline = "middle";
 		this.context.textAlign = "center";
-		console.log("message is ", msg);
+		// console.log(`message is '${msg}'`);
 		this.context.fillText(msg, this.canvas.width / 2, this.canvas.height / 2);
 	}
 
@@ -73,7 +74,7 @@ class Render {
 		this.drawWorld();
 		if (config.status && config.status === "finished")
 			this.Finish(config.winner, config.message);
-		console.log("after printing to screen");
+		// console.log("after printing to screen");
 	}
 }
 

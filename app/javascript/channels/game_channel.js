@@ -8,7 +8,7 @@ let ARROW_UP = 38,
 
 export function GameChannel(game_id) {
 
-  console.log("game_id = " + game_id);
+  console.log("GameChannel: game_id = " + game_id);
   let render = new Render(document.getElementById("PongCanvas"));
   let sub;
 
@@ -19,23 +19,20 @@ export function GameChannel(game_id) {
 
   logKey = function(e) {
 	e.preventDefault();
-	let input = null,
-		keyType = "paddle_up";
+	let input = null, keyType = "paddle_up";
 	if (e.keyCode === ARROW_UP || e.keyCode === ARROW_DOWN || e.keyCode === KEY_S || e.keyCode === KEY_W) {
 	  if (e.keyCode === ARROW_DOWN || e.keyCode === KEY_S)
 		keyType = "paddle_down";
-	  console.log(`keyCode is ${e.keyCode}, keyType is ${keyType}`);
 	  input = {type: keyType, id: inputs_id};
-	  console.log(`input is ${input}`)
 	  let ret = sub.perform('input', input);
-	  // console.log('perform ret is ', ret);
-	  // unverified_inputs.push(input);
 	}
   }
 
   sub = consumer.subscriptions.create({ channel: "GameChannel", game_id: game_id}, {
 	connected() {
 	  console.log("Connected to game channel " + game_id);
+	  console.log("sub = " + sub.toString());
+	  console.log("sub.channel is " + sub.channel);
 	  document.addEventListener('keydown', logKey);
 	  // Called when the subscription is ready for use on the server
 	},
@@ -46,7 +43,7 @@ export function GameChannel(game_id) {
 	},
 
 	received(data) {
-	  console.log("Game channel " + game_id + " broadcasted: " + data);
+	  // console.log("Game channel " + game_id + " broadcasted: " + data);
 	  if (data.config) {
 		render.config(data.config);
 		// render.canvas.width = data.config.canvas.width;

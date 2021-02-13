@@ -7,6 +7,7 @@
 		App.routers.profile = new AppClasses.Routers.Profile();
 		App.routers.friends = new AppClasses.Routers.FriendsRouter();
 		App.routers.guilds = new AppClasses.Routers.GuildsRouter();
+		App.routers.games = new AppClasses.Routers.GameRouter();
 
     if (!App.models.user) {
         App.models.user = new AppClasses.Models.User(App.data.user);
@@ -24,7 +25,7 @@
     App.collections.guilds.fetch(); // To reset the model to the db state
 
 		if(!Backbone.History.started)  {
-			console.log("Backbone history started")
+			console.log("Backbone history started");
 			Backbone.history.start(); // using anchor for routing
 		}
 	};

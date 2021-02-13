@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
   get 'guilds/index'
-  get '/game/:room_number' => 'game#play'
   # root "home#index"
   root "home#auth"
   get "/home", to: "home#index"

@@ -7,8 +7,10 @@ import Rails from "@rails/ujs"
 // import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import  "../layouts/application.css";
-import "channels"
+import runshit from "../channels/channel_handler.js"
 
 Rails.start()
 // Turbolinks.start()
 ActiveStorage.start()
+
+console.log("started app/javascript/application.js");
