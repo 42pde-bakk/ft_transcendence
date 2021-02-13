@@ -4,10 +4,10 @@ AppClasses.Views.Profile = class extends Backbone.View {
         this.tagName = "div";
         this.template = App.templates["profile/index"];
         this.updateRender(); // render the template only one time, unless model changed
-        this.listenTo(this.model, "change reset add remove", this.updateRender);
+        this.listenTo(App.models.user, "change reset add remove", this.updateRender);
     }
     updateRender() {
-        this.$el.html(this.template({current_user: this.model.attributes}));
+        this.$el.html(this.template({current_user: App.models.user.toJSON()}));
         return (this);
     }
     render() {

@@ -7,7 +7,7 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
         this.tagName = "div";
         this.template = App.templates["profile/edit"];
         this.updateRender(); // render the template only one time, unless model changed
-        this.listenTo(this.model, "change", this.updateRender);
+        this.listenTo(App.models.user, "change", this.updateRender);
     }
 
     submit(e) {
@@ -30,7 +30,7 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
 
         let attr = {name: $('#user_nickname').val(), img_path: url_img};
 
-        this.model.save(attr, {patch: true,
+        App.models.user.save(attr, {patch: true,
             error: function(model, response){
                 alert(response.responseJSON.alert);
                 model.fetch(); // To reset the model to the db state
@@ -43,7 +43,7 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
 
     updateRender() {
         this.$el.html(this.template({
-            user: this.model.attributes,
+            user: App.models.user.toJSON(),
             token: $('meta[name="csrf-token"]').attr('content')
         }));
         return (this);

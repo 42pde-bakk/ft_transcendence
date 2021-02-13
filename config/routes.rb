@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'guilds/index'
   # root "home#index"
   root "home#auth"
   get "/home", to: "home#index"
@@ -12,6 +13,12 @@ Rails.application.routes.draw do
     post '/friendships/destroy'
     post '/friendships/get_all'
     post '/friendships/active'
+    # guild actions
+    resources :guilds
+    post '/guilds/join'
+    post '/guilds/quit'
+    post '/guilds/accept_request'
+    post '/guilds/reject_request'
   end
   # map.resources :friendships
 end

@@ -9,9 +9,6 @@ AppClasses.Routers.Main = class extends Backbone.Router {
 		this.mainDiv = $("#app");
 	}
 	index() {
-		if (!this.models.user) {
-			this.models.user = new AppClasses.Models.User(App.data.user);
-		}
 		if (!this.views.index) {
 			this.views.index = new AppClasses.Views.Index();
 		}
