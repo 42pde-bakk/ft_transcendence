@@ -2,8 +2,6 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     constructor(opts) {
         opts.events = {
             "click .clickToQuitGuild": "quit",
-            "click .clickToAcceptMember": "accept",
-            "click .clickToRejectMember": "reject",
             "click .clickToInviteMember": "invite",
             "click .clickToAcceptInvite": "accept_invite",
             "click .clickToRejectInvite": "reject_invite"
@@ -36,24 +34,16 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         this.guildAction(e, "/api/guilds/quit.json", "Leave", "Quit guild");
     }
 
-    accept(e) {
-        this.guildAction(e, "/api/guilds/accept_request.json", "Accept_req", "Accepted request");
-    }
-
-    reject(e) {
-        this.guildAction(e, "/api/guilds/reject_request.json", "Reject_req", "Rejected request");
-    }
-
     invite(e) {
         this.guildAction(e, "/api/guilds/invite.json", "Invite", "Invited member");
     }
 
     accept_invite(e) {
-        this.guildAction(e, "/api/guilds/accept_invite.json", "Accepted invite");
+        this.guildAction(e, "/api/guilds/accept_invite.json", "Invite", "Accepted invite");
     }
 
     reject_invite(e) {
-        this.guildAction(e, "/api/guilds/reject_invite.json", "Rejected invite");
+        this.guildAction(e, "/api/guilds/reject_invite.json", "Invite", "Rejected invite");
     }
 
 
@@ -61,7 +51,8 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         this.$el.html(this.template());
         if (App.models.user.toJSON().guild_validated === false || !App.models.user.toJSON().guild_id) {
             this.$("#Guild").append(App.templates["guilds/NoGuild"]({
-                current_user: App.models.user.toJSON()
+                current_user: App.models.user.toJSON(),
+                guild: App.models.user.toJSON().guild
             }));
         } else {
             this.$("#Guild").append(App.templates["guilds/HasGuild"]({

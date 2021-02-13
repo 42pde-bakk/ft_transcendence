@@ -89,18 +89,6 @@ class GuildsController < ApplicationController
     end
   end
 
-  def join
-    @current_user.guild_id = @guild.id
-    @current_user.guild_officer = false
-    @current_user.guild_owner = false
-    @current_user.guild_validated = false
-    @current_user.save
-    respond_to do |format|
-      format.html { redirect_to "/#guilds", notice: 'Joining request sent.' }
-      format.json { render json: User.clean(@current_user), status: :ok }
-    end
-  end
-
   def invite
     @guild = Guild.find(@current_user.guild_id)
     @user = User.find(params[:id])
@@ -112,41 +100,6 @@ class GuildsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to "/#guilds", notice: 'Joining request sent.' }
       format.json { render json: User.clean(@current_user), status: :ok }
-    end
-  end
-
-  def accept_request
-    new_usr = User.find(params[:id])
-    unless new_usr.guild_id == @current_user.guild_id
-      res_with_error("Bad request", :bad_request)
-      return false
-    end
-    unless User.has_officer_rights(@current_user)
-      res_with_error("Action unauthorized", :unauthorized)
-      return false
-    end
-    new_usr.guild_validated = true
-    new_usr.save
-    respond_to do |format|
-      format.html { redirect_to "/#guilds", notice: 'Joining request accepted.' }
-      format.json { render json: {msg: "Joining request accepted"}, status: :ok }
-    end
-  end
-
-  def reject_request
-    new_usr = User.find(params[:id])
-    unless new_usr.guild_id == @current_user.guild_id
-      res_with_error("Bad request", :bad_request)
-      return false
-    end
-    unless User.has_officer_rights(@current_user)
-      res_with_error("Action unauthorized", :unauthorized)
-      return false
-    end
-    User.reset_guild(new_usr)
-    respond_to do |format|
-      format.html { redirect_to "/#guilds", notice: 'Joining request rejected.' }
-      format.json { render json: {msg: "Joining request rejected"}, status: :ok }
     end
   end
 

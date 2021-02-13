@@ -26,3 +26,9 @@ User.create([{
                current: false,
                last_seen: DateTime.now
              }])
+
+Guild.create([{
+               name: "Ants",
+               anagram: "ant",
+               points: 55
+             }])

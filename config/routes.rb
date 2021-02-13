@@ -15,11 +15,8 @@ Rails.application.routes.draw do
     post '/friendships/active'
     # guild actions
     resources :guilds
-    post '/guilds/join'
     post '/guilds/invite'
     post '/guilds/quit'
-    post '/guilds/accept_request'
-    post '/guilds/reject_request'
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
   end
