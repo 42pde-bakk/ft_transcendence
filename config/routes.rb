@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   # root "home#index"
   root "home#auth"
   get "/home", to: "home#index"
+  get "/logout", to: "home#logout"
+
   scope "api" do
     resources :profile
     # friends actions

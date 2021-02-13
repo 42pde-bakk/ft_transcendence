@@ -22,6 +22,7 @@ class User < ApplicationRecord
       guild_owner: usr.guild_owner,
       guild_officer: usr.guild_officer,
       guild_validated: usr.guild_validated,
+      log_token: usr.log_token,
       tfa: usr.tfa,
       reg_done: usr.reg_done,
       current: usr.current,
