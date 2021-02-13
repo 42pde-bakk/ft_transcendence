@@ -4,6 +4,7 @@ set -e
 # Remove a potentially pre-existing server.pid for Rails.
 rm -f /app/tmp/pids/server.pid
 
+bundle install
 #rails assets:clobber
 #rails db:reset
 #rails db:drop
