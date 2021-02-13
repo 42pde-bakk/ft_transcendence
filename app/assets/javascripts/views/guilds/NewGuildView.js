@@ -16,7 +16,7 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
         let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), name: $('#guild_name').val(), anagram: $('#anagram').val()};
         guild.save(attr, {patch: true,
             error: function(guild, response){
-                alert(response.responseJSON.alert);
+                alert("Could not create guild");
             },
             success: function(){
                 App.models.user.fetch();

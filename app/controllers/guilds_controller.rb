@@ -14,6 +14,12 @@ class GuildsController < ApplicationController
   end
 
   def create
+
+    g_params = guild_params()
+    if (!g_params)
+      return false
+    end
+
     @guild = @current_user.create_guild(guild_params)
     @current_user.guild_owner = true
     @current_user.guild_validated = true
