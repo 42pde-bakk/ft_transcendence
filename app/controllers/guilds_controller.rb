@@ -25,7 +25,10 @@ class GuildsController < ApplicationController
     @current_user.guild_owner = true
     @current_user.guild_validated = true
     if @current_user.save and @guild
-      render json: {alert: "Added guild"}, status: :ok
+      respond_to do |format|
+        format.html { redirect_to "/#guilds", notice: 'Guild was successfully added.' }
+        format.json { render json: {alert: "Added guild"}, status: :ok }
+      end
     else
       res_with_error("Failed to create new guild", :unauthorized)
     end
@@ -46,11 +49,10 @@ class GuildsController < ApplicationController
 
     respond_to do |format|
       if @guild.update(g_params)
-        format.html { redirect_to @guild, notice: 'Guild was successfully updated.' }
+        format.html { redirect_to "/#guilds", notice: 'Guild was successfully updated.' }
         format.json { render :show, status: :ok, location: @guild }
       else
-        format.html { render :edit }
-        format.json { render json: @guild.errors, status: :unprocessable_entity }
+        res_with_error("Guild was not updated.", :bad_request)
       end
     end
   end
@@ -68,7 +70,7 @@ class GuildsController < ApplicationController
     end
     @guild.destroy
     respond_to do |format|
-      format.html { redirect_to guilds_url, notice: 'Guild was successfully destroyed.' }
+      format.html { redirect_to "/#guilds", notice: 'Guild was successfully quit.' }
       format.json { head :no_content }
     end
   end
@@ -81,7 +83,7 @@ class GuildsController < ApplicationController
     end
     User.reset_guild(@current_user)
     respond_to do |format|
-      format.html { redirect_to guilds_url, notice: 'You quitted your guild' }
+      format.html { redirect_to "/#guilds", notice: 'You quitted your guild' }
       format.json { render json: User.clean(@current_user), status: :ok }
     end
   end
@@ -93,7 +95,7 @@ class GuildsController < ApplicationController
     @current_user.guild_validated = false
     @current_user.save
     respond_to do |format|
-      format.html { redirect_to guilds_url, notice: 'Joining request sent.' }
+      format.html { redirect_to "/#guilds", notice: 'Joining request sent.' }
       format.json { render json: User.clean(@current_user), status: :ok }
     end
   end
@@ -111,7 +113,7 @@ class GuildsController < ApplicationController
     new_usr.guild_validated = true
     new_usr.save
     respond_to do |format|
-      format.html { redirect_to guilds_url, notice: 'Joining request accepted.' }
+      format.html { redirect_to "/#guilds", notice: 'Joining request accepted.' }
       format.json { render json: {msg: "Joining request accepted"}, status: :ok }
     end
   end
@@ -128,7 +130,7 @@ class GuildsController < ApplicationController
     end
     User.reset_guild(new_usr)
     respond_to do |format|
-      format.html { redirect_to guilds_url, notice: 'Joining request rejected.' }
+      format.html { redirect_to "/#guilds", notice: 'Joining request rejected.' }
       format.json { render json: {msg: "Joining request rejected"}, status: :ok }
     end
   end
@@ -162,7 +164,7 @@ class GuildsController < ApplicationController
 
   def res_with_error(msg, error)
     respond_to do |format|
-      format.html { redirect_to "/", alert: "#{msg}" }
+      format.html { redirect_to "/#guilds", alert: "#{msg}" }
       format.json { render json: {alert: "#{msg}"}, status: error }
     end
   end

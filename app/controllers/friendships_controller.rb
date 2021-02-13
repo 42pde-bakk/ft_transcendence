@@ -33,7 +33,7 @@ class FriendshipsController < ApplicationController
       user_friendship.destroy
     end
     respond_to do |format|
-      format.html { redirect_to guilds_url, notice: 'Friendship successfully destroyed.' }
+      format.html { redirect_to "/#friends", notice: 'Friendship successfully destroyed.' }
       format.json { render json: {msg: "Friendship successfully destroyed"}, status: :ok }
     end
   end
@@ -48,7 +48,7 @@ class FriendshipsController < ApplicationController
       @current_user.friendships.create({friend_id: @friend_id})
     end
     respond_to do |format|
-      format.html { redirect_to guilds_url, notice: 'Friend request sent.' }
+      format.html { redirect_to "/#friends", notice: 'Friend request sent.' }
       format.json { render json: {msg: "Friend request sent"}, status: :ok }
     end
   end
@@ -64,7 +64,7 @@ class FriendshipsController < ApplicationController
     user_friendship.save
     @current_user.friendships.create({friend_id: @friend_id, confirmed: true})
     respond_to do |format|
-      format.html { redirect_to guilds_url, notice: 'Friend request accepted.' }
+      format.html { redirect_to "/#friends", notice: 'Friend request accepted.' }
       format.json { render json: {msg: "Friend request accepted"}, status: :ok }
     end
   end
@@ -77,7 +77,7 @@ class FriendshipsController < ApplicationController
     end
     other_friendship.destroy
     respond_to do |format|
-      format.html { redirect_to guilds_url, notice: 'Friend request rejected.' }
+      format.html { redirect_to "/#friends", notice: 'Friend request rejected.' }
       format.json { render json: {msg: "Friend request rejected"}, status: :ok }
     end
   end
