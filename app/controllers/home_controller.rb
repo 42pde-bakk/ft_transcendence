@@ -25,8 +25,10 @@ class HomeController < ApplicationController
         @user = usr
       end
     end
+    puts("WILL BEGIN USER CREATION")
     if (new_token == true)
       @user = User.new
+      puts("USER CREATED")
       @user.token = cookies[:atoken]
       @user.name = "New_User_" + ((rand() * 1000000).to_i).to_s
       @user.img_path = "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
@@ -45,7 +47,11 @@ class HomeController < ApplicationController
       end
       @user.log_token = @n
       cookies[:log_token] = @n
-      @user.save()
+      if @user.save()
+        puts("User saved sucessfully")
+      else
+        puts("Error saving user")
+      end
       @new_user_form = true
     end
     if (@user.reg_done == true)
@@ -57,7 +63,9 @@ class HomeController < ApplicationController
 
   def logout
   cookies.delete :log_token
-  redirect_to "http://127.0.0.1:3000/home"
+  #  cookies[:log_token] = ""
+    cookies.delete :atoken
+  redirect_to "http://127.0.0.1:3000"
   end
 
   def auth

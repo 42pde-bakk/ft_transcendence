@@ -10,7 +10,7 @@ class User < ApplicationRecord
   belongs_to :guild, required: false
 
   validates :name, uniqueness: true
-  validates :token, uniqueness: true
+ # validates :token, uniqueness: true
 
   def self.clean(usr)
     new_user = {
