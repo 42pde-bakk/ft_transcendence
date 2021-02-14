@@ -12,6 +12,17 @@ class ProfileController < ApplicationController
     render json: @users
   end
 
+  def changeAccount
+    found = false
+    User.all.each do |usr|
+     if (usr.log_token == params[:new_logtoken])
+     found = true
+     cookies[:log_token] = params[:new_logtoken]
+     @user = usr 
+     end 
+    end
+  end
+
   def show
     User.all.each do |usr|
       if (cookies[:log_token] == usr.log_token)
