@@ -4,19 +4,16 @@ class FriendshipsController < ApplicationController
   before_action :set_id, only: [:destroy, :add, :accept, :reject]
   before_action :check_in_friendlist, only: [:add, :accept]
 
-  def active
-    @current_user.last_seen = DateTime.now
-    @current_user.save
-  end
-
   def index
     @friendships = Friendship.all
     render json: @friendships
   end
 
   def get_all
+    @current_user.last_seen = DateTime.now
+    @current_user.save
     @users = User.all.where.not(:id => @current_user.id)
-    @users = @users.all.where.not(:id => @current_user.friends.pluck(:friend_id).reject {|x| x.nil?})
+    @users = @users.all.where.not(:id => @current_user.friendships.pluck(:friend_id).reject { |x| x.nil? })
     respond_to do |format|
       format.html { redirect_to "/", notice: '^^' }
       format.json { render json: @users, status: :ok }
@@ -34,22 +31,22 @@ class FriendshipsController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to "/#friends", notice: 'Friendship successfully destroyed.' }
-      format.json { render json: {msg: "Friendship successfully destroyed"}, status: :ok }
+      format.json { render json: { msg: "Friendship successfully destroyed" }, status: :ok }
     end
   end
 
   def add
     other_friendship = Friendship.where(user_id: @friend_id, friend_id: @current_user.id).first
     if other_friendship
-      @current_user.friendships.create({friend_id: @friend_id, confirmed: true})
+      @current_user.friendships.create({ friend_id: @friend_id, confirmed: true })
       other_friendship.confirmed = true
       other_friendship.save
     else
-      @current_user.friendships.create({friend_id: @friend_id})
+      @current_user.friendships.create({ friend_id: @friend_id })
     end
     respond_to do |format|
       format.html { redirect_to "/#friends", notice: 'Friend request sent.' }
-      format.json { render json: {msg: "Friend request sent"}, status: :ok }
+      format.json { render json: { msg: "Friend request sent" }, status: :ok }
     end
   end
 
@@ -62,10 +59,10 @@ class FriendshipsController < ApplicationController
     end
     user_friendship.confirmed = true
     user_friendship.save
-    @current_user.friendships.create({friend_id: @friend_id, confirmed: true})
+    @current_user.friendships.create({ friend_id: @friend_id, confirmed: true })
     respond_to do |format|
       format.html { redirect_to "/#friends", notice: 'Friend request accepted.' }
-      format.json { render json: {msg: "Friend request accepted"}, status: :ok }
+      format.json { render json: { msg: "Friend request accepted" }, status: :ok }
     end
   end
 
@@ -78,7 +75,7 @@ class FriendshipsController < ApplicationController
     other_friendship.destroy
     respond_to do |format|
       format.html { redirect_to "/#friends", notice: 'Friend request rejected.' }
-      format.json { render json: {msg: "Friend request rejected"}, status: :ok }
+      format.json { render json: { msg: "Friend request rejected" }, status: :ok }
     end
   end
 
@@ -95,7 +92,7 @@ class FriendshipsController < ApplicationController
   def res_with_error(msg, error)
     respond_to do |format|
       format.html { redirect_to "/", alert: "#{msg}" }
-      format.json { render json: {alert: "#{msg}"}, status: error }
+      format.json { render json: { alert: "#{msg}" }, status: error }
     end
   end
 
