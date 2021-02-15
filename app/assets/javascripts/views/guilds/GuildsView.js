@@ -11,7 +11,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         this.template = App.templates["guilds/index"];
         this.updateRender(); // render the template only one time, unless model changed
         this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
-        this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
+        this.listenTo(App.collections.available_for_guild, "change reset add remove", this.updateRender);
     }
 
     guildAction(event, url, id, msgSuccess) {
@@ -21,7 +21,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
             .done(usersData => {
                 console.log(msgSuccess);
                 App.models.user.fetch();
-                App.collections.users_no_self.myFetch();
+                App.collections.available_for_guild.myFetch();
             })
             .fail(
                 function(jqXHR, textStatus, errorThrown) {
@@ -58,7 +58,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         } else {
             this.$("#Guild").append(App.templates["guilds/HasGuild"]({
                 current_user: App.models.user.toJSON(),
-                users: App.collections.users_no_self.toJSON(),
+                users: App.collections.available_for_guild.toJSON(),
                 guild: App.models.user.toJSON().guild,
                 token: $('meta[name="csrf-token"]').attr('content')}));
         }

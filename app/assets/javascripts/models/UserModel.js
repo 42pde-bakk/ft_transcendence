@@ -23,14 +23,31 @@ AppClasses.Models.Friendship = Backbone.Model.extend({
     }
 });
 
-AppClasses.Collections.UsersNoSelf = class extends Backbone.Collection {
+AppClasses.Collections.AvailableForGuild = class extends Backbone.Collection {
     constructor(opts) {
         super(opts);
         this.myFetch();
     }
     myFetch() {
         let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
-        jQuery.post("/api/friendships/get_all.json", data)
+        jQuery.post("/api/guilds/users_available.json", data)
+            .done(usersData => {
+                this.set(usersData);
+            })
+            .fail(e => {
+                console.error(e);
+            })
+    }
+};
+
+AppClasses.Collections.NotFriends = class extends Backbone.Collection {
+    constructor(opts) {
+        super(opts);
+        this.myFetch();
+    }
+    myFetch() {
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+        jQuery.post("/api/friendships/not_friends.json", data)
             .done(usersData => {
                 this.set(usersData);
             })

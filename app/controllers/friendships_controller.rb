@@ -9,7 +9,7 @@ class FriendshipsController < ApplicationController
     render json: @friendships
   end
 
-  def get_all
+  def not_friends
     @current_user.last_seen = DateTime.now
     @current_user.save
     @users = User.all.where.not(:id => @current_user.id)

@@ -11,7 +11,7 @@ AppClasses.Views.Friends = class extends Backbone.View {
 		this.template = App.templates["friends/index"];
         this.updateRender(); // render the template only one time, unless model changed
 		this.listenTo(App.models.user, "change", this.updateRender);
-		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
+		this.listenTo(App.collections.available_for_friends, "change reset add remove", this.updateRender);
 	}
 	friendAction(event, url, msgSuccess) {
 		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
@@ -20,7 +20,7 @@ AppClasses.Views.Friends = class extends Backbone.View {
             .done(usersData => {
                 console.log(msgSuccess);
                 App.models.user.fetch();
-                App.collections.users_no_self.myFetch();
+                App.collections.available_for_friends.myFetch();
             })
             .fail(e => {
                 console.log("Error in friendship");
@@ -43,7 +43,7 @@ AppClasses.Views.Friends = class extends Backbone.View {
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
-			allUsers: App.collections.users_no_self.toJSON()
+			allUsers: App.collections.available_for_friends.toJSON()
 		}));
 		return (this);
 	}

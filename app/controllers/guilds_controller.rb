@@ -9,6 +9,17 @@ class GuildsController < ApplicationController
     render json: @guilds
   end
 
+  def users_available
+    @current_user.last_seen = DateTime.now
+    @current_user.save
+    @users = User.all.where.not(:id => @current_user.id)
+    @users = @users.all.where(:guild_id => nil)
+    respond_to do |format|
+      format.html { redirect_to "/", notice: '^^' }
+      format.json { render json: @users, status: :ok }
+    end
+  end
+
   def show
     @guild = Guild.find(params[:id])
     render json: Guild.clean(@guild)

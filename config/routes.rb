@@ -14,11 +14,11 @@ Rails.application.routes.draw do
     post '/friendships/accept'
     post '/friendships/reject'
     post '/friendships/destroy'
-    post '/friendships/get_all'
-    post '/friendships/active'
+    post '/friendships/not_friends'
     # guild actions
     resources :guilds
     post '/guilds/invite'
+    post '/guilds/users_available'
     post '/guilds/quit'
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
