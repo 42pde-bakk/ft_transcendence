@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.integer :guild_id
       t.boolean :guild_owner, default: false
       t.boolean :guild_officer, default: false
-      t.boolean :guild_validated, default: true
+      t.boolean :guild_validated, default: false
       t.boolean :tfa
       t.boolean :reg_done
       t.boolean :current

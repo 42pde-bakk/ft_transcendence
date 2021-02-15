@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_131428) do
     t.integer "guild_id"
     t.boolean "guild_owner", default: false
     t.boolean "guild_officer", default: false
-    t.boolean "guild_validated", default: true
+    t.boolean "guild_validated", default: false
     t.boolean "tfa"
     t.boolean "reg_done"
     t.boolean "current"

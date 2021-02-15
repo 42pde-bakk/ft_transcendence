@@ -11,6 +11,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         this.template = App.templates["guilds/index"];
         this.updateRender(); // render the template only one time, unless model changed
         this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
+        this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
     }
 
     guildAction(event, url, id, msgSuccess) {

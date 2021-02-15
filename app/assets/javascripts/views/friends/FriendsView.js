@@ -9,14 +9,9 @@ AppClasses.Views.Friends = class extends Backbone.View {
 		super(opts);
 		this.tagName = "div";
 		this.template = App.templates["friends/index"];
-        // this.updateRender(); // render the template only one time, unless model changed
+        this.updateRender(); // render the template only one time, unless model changed
 		this.listenTo(App.models.user, "change", this.updateRender);
 		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
-        const seconds = 15; // update every N seconds
-        setInterval(() => {
-            App.models.user.fetch();
-            App.collections.users_no_self.myFetch();
-        }, 1000 * seconds);
 	}
 	friendAction(event, url, msgSuccess) {
 		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
