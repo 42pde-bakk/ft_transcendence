@@ -7,7 +7,6 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
         this.tagName = "div";
         this.template = App.templates["guilds/NewGuild"];
         this.updateRender(); // render the template only one time, unless model changed
-        this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
     }
 
     submit(e) {
