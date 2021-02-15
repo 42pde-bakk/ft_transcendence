@@ -37,6 +37,7 @@ class ProfileController < ApplicationController
     old_name = @user.name
     @user.name = params[:name]
     @user.img_path = params[:img_path]
+    @user.tfa = params[:tfa]
     @already_in_use = User.find_by name: params[:name]
     if @already_in_use && old_name != params[:name]
       render json: {alert: "Username is already taken"}, status: :unprocessable_entity
