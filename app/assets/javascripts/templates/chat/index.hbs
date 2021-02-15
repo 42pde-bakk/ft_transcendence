@@ -73,10 +73,9 @@
 													<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{print_color}}">{{print_status}}</span>
 												</td>
 												<td>
-                                                    <span class="clickToMessage cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                    Message
-                                                    <span hidden class="nodisplay">{{id}}</span>
-                                                </span>
+													<a href="#chat/{{id}}">
+														<span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Message</span>
+													</a>
 												</td>
 											</tr>
 										{{/each}}
@@ -90,4 +89,34 @@
 			</div>
 		</div>
 	</div>
+	<div id="ChatBox" class="bg-white bg-opacity-15 bg-right-bottom box-content w-64 border-4 ..." style="display: none">
+		<form name="ChatBoxContainer" class="form-container">
+			<h1>Chat</h1>
+			<label for="msg"><b>Message</b></label>
+			<textarea placeholder="Type message.." style="color:black" name="msg" required></textarea>
+
+			<button type="submit" class="btn">Send</button>
+			<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+		</form>
+	</div>
+	<script>
+		$(function () {
+			$('ChatBoxContainer').submit(function() {
+				$.ajax({
+					type: 'POST',
+					url: 'submit.php',
+					data: document.ChatBoxContainer
+				});
+				return false;
+			});
+		})
+		function handleMessage() {
+			alert("Txt thingy: " + document.ChatBoxContainer);
+			return false;
+		}
+		function closeForm() {
+			document.getElementById("ChatBox").style.display = "none";
+		}
+	</script>
+
 </div>

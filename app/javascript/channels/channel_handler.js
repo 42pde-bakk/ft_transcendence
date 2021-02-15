@@ -15,6 +15,8 @@ function runshit() {
 	console.log("in runshit");
 	window.addEventListener('hashchange', e => {
 		console.log("in hashchange eventlistener");
+		// console.log(`hash is ${window.location.hash}, id is ${window.location.hashIds}, hashparams is ${window.location.hashIds}`);
+		// console.log(`printing hash info done`);
 		setTimeout(selectchannel, 1000);
 	});
 }
