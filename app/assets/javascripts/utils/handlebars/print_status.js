@@ -1,5 +1,5 @@
 Handlebars.registerHelper('print_status', function () {
-    const secondsToBeOffline = 30; // user is considered offline after 30 scd
+    const secondsToBeOffline = 15; // user is considered offline after 30 scd
     if (!this.last_seen) {
         return ("Offline");
     }
@@ -10,7 +10,7 @@ Handlebars.registerHelper('print_status', function () {
 });
 
 Handlebars.registerHelper('print_color', function () {
-    const secondsToBeOffline = 30; // user is considered offline after 30 scd
+    const secondsToBeOffline = 15; // user is considered offline after 30 scd
     if (!this.last_seen) {
         return ("bg-red-100 text-red-800");
     }

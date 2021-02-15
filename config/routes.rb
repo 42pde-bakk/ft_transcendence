@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     #profile actions
     resources :profile
     post '/profile/changeAccount'
+    post '/profile/users_no_self'
     # friends actions
     resources :friendships
     post '/friendships/add'

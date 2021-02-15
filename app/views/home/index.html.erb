@@ -13,6 +13,11 @@
     }
     App.models.user.fetch();
 
+    if (!App.collections.users_no_self) {
+        App.collections.users_no_self = new AppClasses.Collections.UsersNoSelf();
+    }
+    App.collections.users_no_self.myFetch();
+
     if (!App.collections.available_for_guild) {
         App.collections.available_for_guild = new AppClasses.Collections.AvailableForGuild();
     }
