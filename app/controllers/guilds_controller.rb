@@ -156,7 +156,7 @@ class GuildsController < ApplicationController
 
   def connect_user
     User.all.each do |usr|
-      if cookies[:atoken] == usr.token
+      if cookies[:log_token] == usr.log_token
         @current_user = usr
       end
     end
