@@ -87,16 +87,21 @@ class GuildsController < ApplicationController
     end
   end
 
-  def quit
+  def remove
+    @user = User.find(params[:id])
+    if !@current_user.guild_owner && @user != @current_user
+      res_with_error("You can't remove it if you don't own it!", :unauthorized)
+      return
+    end
     if @current_user.guild_owner
       @guild = @current_user.guild
       destroy
       return true
     end
-    User.reset_guild(@current_user)
+    User.reset_guild(@user)
     respond_to do |format|
       format.html { redirect_to "/#guilds", notice: 'You quitted your guild' }
-      format.json { render json: User.clean(@current_user), status: :ok }
+      format.json { render json: User.clean(@user), status: :ok }
     end
   end
 

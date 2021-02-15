@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :guilds
     post '/guilds/invite'
     post '/guilds/users_available'
-    post '/guilds/quit'
+    post '/guilds/remove'
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
   end

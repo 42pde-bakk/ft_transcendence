@@ -1,8 +1,8 @@
 AppClasses.Views.Guilds = class extends Backbone.View {
     constructor(opts) {
         opts.events = {
-            "click .clickToQuitGuild": "quit",
             "click .clickToInviteMember": "invite",
+            "click .clickToRemoveMember": "remove",
             "click .clickToAcceptInvite": "accept_invite",
             "click .clickToRejectInvite": "reject_invite"
         };
@@ -31,8 +31,8 @@ AppClasses.Views.Guilds = class extends Backbone.View {
             );
     }
 
-    quit(e) {
-        this.guildAction(e, "/api/guilds/quit.json", "Leave", "Quit guild");
+    remove(e) {
+        this.guildAction(e, "/api/guilds/remove.json", "remove", "Quit guild");
     }
 
     invite(e) {
