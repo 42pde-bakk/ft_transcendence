@@ -13,6 +13,14 @@ class ProfileController < ApplicationController
     render json: @users
   end
 
+  def index_no_self
+    @users = User.all.where.not(:id => @current_user.id)
+    respond_to do |format|
+      format.html { redirect_to "/", notice: '^^' }
+      format.json { render json: @users, status: :ok }
+    end
+  end
+
   def changeAccount
     found = false
     User.all.each do |usr|
