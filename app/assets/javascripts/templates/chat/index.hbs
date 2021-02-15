@@ -1,0 +1,93 @@
+<form style="display: none;" id="friendsForm" method="POST">
+	<input type="hidden" name="authenticity_token" value="{{token}}">
+	<input type="text" name="id" id="friendIDField">
+</form>
+
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class=" h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 ...">
+	<div>
+		<nav class="bg-gray-800">
+			<div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+				<div class="relative flex items-center justify-between h-16">
+					<div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+						<div class="flex-shrink-0 flex items-center">
+							<img class="block lg:hidden h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow">
+							<img class="hidden lg:block h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg" alt="Workflow">
+						</div>
+						<div class="hidden sm:block sm:ml-6">
+							<div class="flex space-x-4">
+								<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+								<a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+								<a href="#profile" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+								<a href="#friends" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Friends</a>
+								<a href="#guilds" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Guilds</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<div>
+		<div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
+			<div class="max-w-4xl mx-auto">
+				<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+					<div class="md:flex px-4 py-5 sm:px-6">
+						<div class="md:w-48">
+							<h3 class="text-lg leading-6 font-medium text-gray-900">
+								All Users
+							</h3>
+						</div>
+					</div>
+					<div class="flex flex-col">
+						<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+							<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+								<div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+									<table class="min-w-full divide-y divide-gray-200">
+										<thead class="bg-white">
+										<tr>
+											<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												Name
+											</th>
+											<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												Status
+											</th>
+										</tr>
+										</thead>
+										<tbody class="bg-white divide-y divide-gray-200">
+										{{#each allUsers}}
+											<tr>
+												<td class="px-6 py-4 whitespace-nowrap">
+													<div class="flex items-center">
+														<div class="flex-shrink-0 h-10 w-10">
+															<img class="h-10 w-10 rounded-full" src={{img_path}}>
+														</div>
+														<div class="ml-4">
+															<div class="text-sm font-medium text-gray-900">
+																{{name}}
+															</div>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-4 whitespace-nowrap">
+													<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{print_color}}">{{print_status}}</span>
+												</td>
+												<td>
+                                                    <span class="clickToMessage cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    Message
+                                                    <span hidden class="nodisplay">{{id}}</span>
+                                                </span>
+												</td>
+											</tr>
+										{{/each}}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
