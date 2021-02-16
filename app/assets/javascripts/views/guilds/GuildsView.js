@@ -44,7 +44,9 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     updateRender() {
         this.$el.html(this.template());
         if (App.models.user.toJSON().guild_validated === false || !App.models.user.toJSON().guild_id) {
-            this.$("#Guild").append(App.templates["guilds/NoGuild"]());
+            this.$("#Guild").append(App.templates["guilds/NoGuild"]({
+                current_user: App.models.user.toJSON()
+            }));
         } else {
             this.$("#Guild").append(App.templates["guilds/HasGuild"]({
                 current_user: App.models.user.toJSON(),
