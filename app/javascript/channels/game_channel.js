@@ -1,7 +1,8 @@
 import consumer from "./consumer"
 import Render from "../rendering/render"
 let logKey = null;
-let ARROW_UP = 38,
+let KEY_SPACE = 32,
+	ARROW_UP = 38,
 	ARROW_DOWN = 40,
 	KEY_S = 83,
 	KEY_W = 87;
@@ -25,6 +26,9 @@ export function GameChannel(game_id) {
 		keyType = "paddle_down";
 	  input = {type: keyType, id: inputs_id};
 	  let ret = sub.perform('input', input);
+	} else if (e.keyCode === KEY_SPACE) {
+		input = { type: "toggleReady", id: inputs_id};
+		// let ret = sub.perform('input, input');
 	}
   }
 

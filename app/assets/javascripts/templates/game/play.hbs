@@ -1,4 +1,8 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
+<form style="display: none;" id="friendsForm" method="POST">
+	<input type="hidden" name="authenticity_token" value="{{token}}">
+	<input type="text" name="id" id="friendIDField">
+</form>
 
 <div class=" h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 ...">
 

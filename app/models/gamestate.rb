@@ -8,12 +8,14 @@ class Player
 
 	def initialize(id, x, canvas_width, canvas_height)
 		@id = id
+		@ai = true
 		@score = 0
 		@name = "Player #{id.to_i + 1}"
 		@canvas_width = canvas_width
 		@canvas_height = canvas_height
 		@paddle = Paddle.new(x, @canvas_width, @canvas_height)
 		@inputs = Array.new
+		@status = "ready"
 	end
 
 	def ai_sim(ball)
@@ -29,6 +31,7 @@ class Player
 	end
 	def name=(name)
 		@name = name
+		@ai = false
 	end
 	def score
 		@score
@@ -40,19 +43,34 @@ class Player
 		@paddle
 	end
 
+	def status
+		if @ai
+			"ready"
+		else
+			@status
+		end
+	end
+
+	def toggle_ready
+		if @status == "waiting"
+			@status = "ready"
+		elsif @status == "ready"
+			@status = "waiting"
+		end
+	end
+
 	def add_move(new_move)
 		@inputs.unshift(new_move)
 	end
 
 	def move(ball)
-		if @inputs.empty? and @id == 1 and rand(1..5) == 1
+		if @ai and rand(1..5) == 1
 			ai_sim(ball)
 		end
 		if @inputs.length > 0
 			@paddle.move(@inputs.pop)
 		end
 	end
-
 end
 
 class Gamestate
@@ -71,6 +89,10 @@ class Gamestate
 		@ball = Ball.new(@canvas_width, @canvas_height)
 	end
 
+	def add_player(name, id)
+		@players[id].name = name
+	end
+
 	def score
 		if @ball.posx <= 0 then @players[1].inc_score else @players[0].inc_score end
 		@players.each do |p|
@@ -80,6 +102,16 @@ class Gamestate
 	end
 
 	def sim_turn
+		if @players.any? {|p| p.status == "waiting"}
+			@status = "waiting"
+		end
+		if @status == "waiting"
+			if @players.all? {|p| p.status == "ready"}
+				@status = "running"
+			else
+				return sleep(2)
+			end
+		end
 		@players.each do |p|
 			p.move(@ball)
 		end
@@ -152,6 +184,9 @@ class Gamestate
 
 	def add_input(type, id)
 		STDERR.puts "adding input, id is #{id}, type is #{type}"
+		if type == "toggleReady"
+			@players[id.to_i].toggle_ready
+		end
 		@players[id].add_move({type: type, id: id})
 	end
 end

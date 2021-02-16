@@ -7,9 +7,11 @@ class GameChannel < ApplicationCable::Channel
 
 	def find_game(game_id)
 		@game = Game.find_by(room_nb: game_id)
-		unless @game
+		if @game
+			STDERR.puts("Found game by room_nb: #{game_id}")
+		else
 			@game = Game.create(room_nb: game_id)
-			STDERR.puts "game = #{@game}, game.room_nb is #{@game.room_nb}"
+			STDERR.puts "GAME CREATED, game = #{@game}, game.room_nb is #{@game.room_nb}"
 			@game.mysetup
 			@game.save
 		end
@@ -23,9 +25,7 @@ class GameChannel < ApplicationCable::Channel
 
 		find_game(game_id)
 		@game.send_config
-		if @@subscribers[game_id] == 1
-			GameJob.perform_later(game_id)
-		end
+		GameJob.perform_later(game_id)
 	end
 
 	def receive(data)

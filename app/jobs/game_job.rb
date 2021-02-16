@@ -1,10 +1,5 @@
 class GameJob < ApplicationJob
 	queue_as :default
-	self.log_arguments = false
-
-	private def args_info(job)
-		''
-	end
 
 	def check
 		unless @game
@@ -25,7 +20,7 @@ class GameJob < ApplicationJob
 		unless check
 			return
 		end
-		@gamestate.status = "running"
+		# @gamestate.status = "waiting"
 		play_game
 		@game.mydestructor
 		@game.destroy

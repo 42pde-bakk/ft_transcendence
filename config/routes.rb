@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   # root "home#index"
   root "home#auth"
   get "/home", to: "home#index"
+  get 'game/index'
+  # get "/game", to: "game#index"
   get "/logout", to: "home#logout"
   scope "api" do
     #profile actions
@@ -24,6 +26,9 @@ Rails.application.routes.draw do
     post '/guilds/quit'
     post '/guilds/accept_request'
     post '/guilds/reject_request'
+
+    resources :game
+    post '/game/join'
   end
   # map.resources :friendships
 end
