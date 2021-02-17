@@ -5,15 +5,13 @@ class WarsController < ApplicationController
   before_action :check_active_war, only: [:create, :accept]
 
   def create
-    puts "In create !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    puts @opponent.id
     inverse_war = War.where(guild1_id: @current_user.guild.id, guild2_id: @opponent.id).first
     if inverse_war && !check_active_war
       @current_user.wars.create(guild2: @opponent, confirmed: true)
       inverse_war.confirmed = true
       inverse_war.save
     else
-      @current_user.guild.wars.create(guild2: @opponent)
+      @current_user.guild.wars.create(war_params)
     end
     respond_to do |format|
       format.html { redirect_to "/#guilds", notice: 'War request sent.' }
@@ -23,8 +21,22 @@ class WarsController < ApplicationController
 
   private
 
+  def war_params
+    params.require(:war).permit(:guild1_id,
+                                :guild2_id,
+                                :start,
+                                :end,
+                                :prize,
+                                :wt_begin,
+                                :wt_end,
+                                :time_to_answer,
+                                :ladder,
+                                :tournament,
+                                :duel)
+  end
+
   def set_opponent_guild
-    @opponent_guild_id = params[:opponent_id]
+    @opponent_guild_id = params[:guild2_id]
     @opponent = Guild.where(id: @opponent_guild_id).first
     if @opponent_guild_id == @current_user.guild.id.to_s
       res_with_error("You can't go to war with yourself", :bad_request)
