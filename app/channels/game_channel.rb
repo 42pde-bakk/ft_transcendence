@@ -26,7 +26,7 @@ class GameChannel < ApplicationCable::Channel
 
 		find_game(game_id)
 		@game.send_config
-		GameJob.perform_later(game_id)
+		# GameJob.perform_later(game_id)
 	end
 
 	def receive(data)

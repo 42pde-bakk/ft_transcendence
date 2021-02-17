@@ -17,12 +17,13 @@ AppClasses.Routers.GameRouter = class extends AppClasses.Routers.AbstractRouter 
 			console.log(`room_id '${room_id}' is not an integer apparently`);
 			return (this.index());
 		}
-		console.log(`room_id = ${room_id}`);
-		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content'), room_nb: room_id }
+		this.renderViewWithParam('GamePlayView', room_id, {room_id});
+
+		console.log(`room_id = ${room_id}, authenticity_token is ` + App.models.user.toJSON().log_token);
+		let data = { authenticity_token: App.models.user.toJSON().log_token, room_nb: room_id }
 		jQuery.post("/api/game/join", data)
 			.done(usersData => {
 				// empty is fine, needs to run async from rendering the view
 			})
-		this.renderViewWithParam('GamePlayView', room_id, {room_id});
 	}
 }

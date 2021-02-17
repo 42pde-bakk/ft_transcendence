@@ -13,11 +13,18 @@ class GameController < ApplicationController
 			sleep 0.5
 			i += 1
 		end
-		# Do something like @game.build_player1(@user)
+		if @game.player1 == nil
+			@game.assign_attributes(player1: @user)
+		elsif @game.player2 == nil
+			@game.assign_attributes(player2: @user)
+		end
+		STDERR.puts("after assigning attributes")
 	end
 
 	def set_params
 		@game_id = params[:room_nb]
 		# Set @user to be the current user
+		@user = User.find_by(log_token: params[:authenticity_token])
+		if @user then STDERR.puts("@user.log_token is #{@user.log_token}") end
 	end
 end

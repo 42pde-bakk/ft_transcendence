@@ -11,8 +11,6 @@ class User < ApplicationRecord
 
   validates :name, uniqueness: true
  # validates :token, uniqueness: true
-  attr_accessor :name
-  attr_accessor :id
 
   def self.clean(usr)
     new_user = {
@@ -51,7 +49,8 @@ class User < ApplicationRecord
   end
 
   def self.print(usr)
-    STDERR.puts("usr is #{usr.name}, with id = #{usr.id}, token = #{usr.token}, log_token is #{usr.log_token}")
+    STDERR.puts("usr is #{usr.name}, with id = #{usr.id}, token = #{usr.token}, log_token is #{usr.log_token}, ")
+    STDERR.puts("the same user is #{usr}")
   end
 
 end

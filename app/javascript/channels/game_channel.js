@@ -32,8 +32,6 @@ export function GameChannel(game_id) {
   sub = consumer.subscriptions.create({ channel: "GameChannel", game_id: game_id}, {
 	connected() {
 	  console.log("Connected to game channel " + game_id);
-	  console.log("sub = " + sub.toString());
-	  console.log("sub.channel is " + sub.channel);
 	  document.addEventListener('keydown', logKey);
 	  // Called when the subscription is ready for use on the server
 	},
