@@ -7,6 +7,7 @@ class War < ApplicationRecord
       id: war.id,
       guild1_id: war.guild1_id,
       guild2_id: war.guild2_id,
+      opponent_name: war.guild2.name,
       finished: war.finished,
       accepted: war.accepted,
       start: war.start,
