@@ -137,15 +137,67 @@
                         <div class="bg-white shadow overflow-hidden sm:rounded-lg">
                             <div class="px-4 py-5 sm:px-6">
                                 <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                    No active war
+                                    War invites
                                 </h3>
                                 <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                                    When a war is active, you can find all details here
+                                    Invitations from other guilds. When you're in an active war, the details will appear here.
                                 </p>
                             </div>
+                            <div class="flex flex-col">
+                                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                            <table class="min-w-full divide-y divide-gray-200">
+                                                <thead class="bg-white">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Opponent
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Proposed prize
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200">
+                                                {{#each guild.war_invites}}
+                                                    <tr>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {{name}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {{prize}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
+                                                            <a href="#guilds/wars/invitations/{{id}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                                Details
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="pt-4 pl-0.5">
+                        <div class="pt-4">
                             <a href="#guilds/new_war" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <svg class="h-5 w-5 mr-1" mlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd" />
+                                </svg>
                                 New War
                             </a>
                         </div>
@@ -184,7 +236,7 @@
                                                         <div class="flex items-center">
                                                             <div class="ml-4">
                                                                 <div class="text-sm font-medium text-gray-900">
-                                                                    {{Finished}}
+                                                                    {{finished}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -193,7 +245,7 @@
                                                         <div class="flex items-center">
                                                             <div class="ml-4">
                                                                 <div class="text-sm font-medium text-gray-900">
-                                                                    {{Prize}}
+                                                                    {{prize}}
                                                                 </div>
                                                             </div>
                                                         </div>
