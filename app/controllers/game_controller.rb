@@ -6,16 +6,18 @@ class GameController < ApplicationController
 	end
 
 	def join
-		# until @game
-		# 	sleep(0.5)
-		# 	@game = Game.find_by(room_nb: @game_id)
-		# end
-		# @game.add_player(@user)
+		i = 0
+		STDERR.puts("@game_id is #{@game_id}")
+		until i > 10 or @game
+			@game = Game.find_by(room_nb: @game_id)
+			sleep 0.5
+			i += 1
+		end
+		# Do something like @game.build_player1(@user)
 	end
 
 	def set_params
-		@user = User.find_by log_token: cookies[:log_token]
-		STDERR.puts("BABYBACKBITCH user = #{@user}")
-		@game_id = params[:room_number]
+		@game_id = params[:room_nb]
+		# Set @user to be the current user
 	end
 end

@@ -7,12 +7,12 @@ class Ball
 		@canvas_width = canvas_width
 		@canvas_height = canvas_height
 		@turncounter = 0
-		@xvelocity = 2
+		@xvelocity = 5
 
 		if rand(1..2) == 1
 			@xvelocity *= -1
 		end
-		@yvelocity = 0.5
+		@yvelocity = 2.5 * (rand(1..3) / 2)
 		@startvelocity = [@xvelocity, @yvelocity]
 	end
 
@@ -22,7 +22,7 @@ class Ball
 		if players[0].paddle.include?(self) or players[1].paddle.include?(self)
 			@xvelocity *= -1.1
 			@turncounter += 1
-			@yvelocity *= 1.1
+			@yvelocity *= 1.1 * rand(1..3) / 2
 		end
 		if @posy < @radius or @posy > @canvas_height - @radius
 			@yvelocity *= -1

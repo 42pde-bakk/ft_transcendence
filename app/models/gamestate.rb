@@ -15,7 +15,7 @@ class Player
 		@canvas_height = canvas_height
 		@paddle = Paddle.new(x, @canvas_width, @canvas_height)
 		@inputs = Array.new
-		@status = "ready"
+		@status = "waiting"
 	end
 
 	def ai_sim(ball)
@@ -44,11 +44,7 @@ class Player
 	end
 
 	def status
-		if @ai
-			"ready"
-		else
-			@status
-		end
+		@status
 	end
 
 	def toggle_ready

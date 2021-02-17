@@ -13,10 +13,7 @@ export function GameChannel(game_id) {
   let render = new Render(document.getElementById("PongCanvas"));
   let sub;
 
-  // let paddles = [null, null];
-  // let ball;
   let inputs_id = 0;
-  // let unverified_inputs = [];
 
   logKey = function(e) {
 	e.preventDefault();
@@ -28,7 +25,7 @@ export function GameChannel(game_id) {
 	  let ret = sub.perform('input', input);
 	} else if (e.keyCode === KEY_SPACE) {
 		input = { type: "toggleReady", id: inputs_id};
-		// let ret = sub.perform('input, input');
+		let ret = sub.perform('input', input);
 	}
   }
 
@@ -47,15 +44,10 @@ export function GameChannel(game_id) {
 	},
 
 	received(data) {
-	  // console.log("Game channel " + game_id + " broadcasted: " + data);
+	  // Called when there's incoming data on the websocket for this channel
 	  if (data.config) {
 		render.config(data.config);
-		// render.canvas.width = data.config.canvas.width;
-		// render.canvas.height = data.config.canvas.height;
-		// render.resetCanvas();
 	  }
-	  // Called when there's incoming data on the websocket for this channel
 	}
   });
-  // sub.unsubscribe();
 }

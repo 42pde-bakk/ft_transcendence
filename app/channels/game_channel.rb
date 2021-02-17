@@ -13,7 +13,8 @@ class GameChannel < ApplicationCable::Channel
 			@game = Game.create(room_nb: game_id)
 			STDERR.puts "GAME CREATED, game = #{@game}, game.room_nb is #{@game.room_nb}"
 			@game.mysetup
-			@game.save
+			saveret = @game.save
+			STDERR.puts("saveret = #{saveret}")
 		end
 	end
 

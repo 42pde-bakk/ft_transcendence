@@ -1,23 +1,12 @@
 class Game < ApplicationRecord
-	# belongs_to  :player1, :class_name => "User"
-	# belongs_to  :player2, :class_name => "User"
+	has_one  :player1, :class_name => "User"
+	has_one  :player2, :class_name => "User"
 	has_many    :spectators, :class_name => "User"
 
 	@@gamestates = Hash.new
 
 	def mysetup
 		@@gamestates[room_nb] = Gamestate.new(room_nb)
-	end
-
-	def add_player(new_user)
-		if !player1
-			player1 = new_user
-		elsif !player2
-			player2 = new_user
-		else
-			spectators += new_user
-		end
-		STDERR.puts("player1 = #{player1}, player2 = #{player2}, spectators = #{spectators}")
 	end
 
 	def send_config

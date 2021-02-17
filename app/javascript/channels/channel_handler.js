@@ -1,7 +1,6 @@
 import {GameChannel} from "./game_channel"
 
 function selectchannel() {
-	console.log("in selectchannel");
 	// GameChannel
 	const element = document.getElementById("game-id");
 	if (element) {
@@ -14,10 +13,7 @@ function selectchannel() {
 function runshit() {
 	console.log("in runshit");
 	window.addEventListener('hashchange', e => {
-		console.log("in hashchange eventlistener");
-		// console.log(`hash is ${window.location.hash}, id is ${window.location.hashIds}, hashparams is ${window.location.hashIds}`);
-		// console.log(`printing hash info done`);
-		setTimeout(selectchannel, 1000);
+		setTimeout(selectchannel, 200);
 	});
 }
 

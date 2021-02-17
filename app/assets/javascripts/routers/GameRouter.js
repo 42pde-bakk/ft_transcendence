@@ -18,12 +18,11 @@ AppClasses.Routers.GameRouter = class extends AppClasses.Routers.AbstractRouter 
 			return (this.index());
 		}
 		console.log(`room_id = ${room_id}`);
-		jQuery.post("/api/game/join", room_id)
+		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content'), room_nb: room_id }
+		jQuery.post("/api/game/join", data)
 			.done(usersData => {
-				console.log("it worked!");
-				this.renderViewWithParam('GamePlayView', room_id, {room_id});
-				// window.location.reload();
+				// empty is fine, needs to run async from rendering the view
 			})
-		// this.renderViewWithParam('GamePlayView', room_id, {room_id});
+		this.renderViewWithParam('GamePlayView', room_id, {room_id});
 	}
 }
