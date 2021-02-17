@@ -13,12 +13,17 @@ class ProfileController < ApplicationController
   end
 
   def changeAccount
-    found = false
     User.all.each do |usr|
      if (usr.log_token == params[:new_logtoken])
-     found = true
-     cookies[:log_token] = params[:new_logtoken]
-     @user = usr 
+       if (usr.tfa == false)
+         cookies[:log_token] = params[:new_logtoken]
+         @user = usr
+       elsif (params[:bypass_tfa] == "true") 
+         cookies[:log_token] = params[:new_logtoken]
+         @user = usr
+       else
+          render json: {alert: "tfa dude"}, status: :unauthorized
+        end
      end 
     end
   end
