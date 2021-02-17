@@ -13,7 +13,7 @@ class Guild < ApplicationRecord
   validates :anagram, uniqueness: true
 
   def self.clean(gld)
-    new_user = {
+    new_gld = {
       id: gld.id,
       name: gld.name,
       anagram: gld.anagram,
@@ -21,8 +21,14 @@ class Guild < ApplicationRecord
       users: gld.users,
       requests: gld.requests,
       owner: gld.owner,
-      officers: gld.officers
+      officers: gld.officers,
+      finished_wars: gld.finished_wars,
+      war_invites: gld.war_invites
     }
+    if gld.active_war
+      new_gld[:active_war] = War.clean(gld.active_war)
+    end
+    new_gld
   end
 
 

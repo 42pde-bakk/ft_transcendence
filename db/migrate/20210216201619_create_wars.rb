@@ -6,6 +6,17 @@ class CreateWars < ActiveRecord::Migration[6.1]
       t.boolean :finished, default: false
       t.boolean :accepted, default: false
 
+      t.datetime :start
+      t.datetime :end
+      t.integer :prize
+      t.datetime :wt_begin
+      t.datetime :wt_end
+      t.integer :time_to_answer, default: 10 # in min
+      t.boolean :ladder, default: false
+      t.boolean :tournament, default: false
+      t.boolean :duel, default: false
+      t.integer :winning_guild_id
+
       t.timestamps
     end
     add_foreign_key :wars, :guilds, column: :guild1_id, primary_key: :id

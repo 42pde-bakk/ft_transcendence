@@ -8,6 +8,7 @@ AppClasses.Routers.GuildsRouter = class extends Backbone.Router {
         this.route("guilds", "index");
         this.route("guilds/new", "new");
         this.route("guilds/join", "join");
+        this.route("guilds/new_war", "new_war");
         this.mainDiv = $("#app");
     };
 
@@ -30,5 +31,12 @@ AppClasses.Routers.GuildsRouter = class extends Backbone.Router {
             this.views.join = new AppClasses.Views.JoinGuild({});
         }
         this.mainDiv.html(this.views.join.render().el);
+    }
+
+    new_war() {
+        if (!this.views.newWar) {
+            this.views.newWar = new AppClasses.Views.NewWar({});
+        }
+        this.mainDiv.html(this.views.newWar.render().el);
     }
 }
