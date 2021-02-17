@@ -31,6 +31,7 @@ class HomeController < ApplicationController
       puts("USER CREATED")
       @user.token = cookies[:atoken]
       @user.name = "New_User_" + ((rand() * 1000000).to_i).to_s
+      @user.email = "ft.transcendence@gmail.com"
       @user.img_path = "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
       @user.reg_done = false
       @user.tfa = false

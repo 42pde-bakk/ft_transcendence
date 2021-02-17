@@ -23,15 +23,16 @@ AppClasses.Views.ProfileTfa = class extends Backbone.View {
         this.tagName = "div";
         this.template = App.templates["profile/tfa"];
         this.updateRender(); // render the template only one time, unless model changed
-        this.listenTo(App.models.user, "change reset add remove", this.updateRender);
+        this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
     }
 	sendTfa(event) {
 	let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), code_tfa : $('#tfa_code').val(), new_logtoken: getCookie('tar_log_tok'), bypass_tfa: "true"};
        jQuery.post("/api/profile/changeAccount", data)
            .done(usersData => {
                console.log("It worked after tfa doude !");
-               this.updateRender(); // or fetch the new data from server
-                App.routers.profile.navigate("/profile", {trigger: true})
+		   //    this.updateRender(); // or fetch the new data from server
+	       	 App.models.user.fetch();
+		   App.routers.profile.navigate("/profile", {trigger: true})
 	   })
            .fail(e => {
                console.log("Error changing account");

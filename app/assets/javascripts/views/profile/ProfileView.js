@@ -28,7 +28,6 @@ AppClasses.Views.Profile = class extends Backbone.View {
          	window.location.reload();
 	   })
            .fail(e => {
-		setCookie('tar_log_tok', tok, 2)
                 App.routers.profile.navigate("/profile/tfa", {trigger: true})
            })
 	}

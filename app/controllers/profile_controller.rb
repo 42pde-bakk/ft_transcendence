@@ -18,10 +18,18 @@ class ProfileController < ApplicationController
        if (usr.tfa == false)
          cookies[:log_token] = params[:new_logtoken]
          @user = usr
-       elsif (params[:bypass_tfa] == "true") 
+       elsif (params[:bypass_tfa] == "true")
+         if (params[:code_tfa] == cookies[:tfa_auth_code]) 
          cookies[:log_token] = params[:new_logtoken]
          @user = usr
+         else 
+          render json: {alert: "tfa dude"}, status: :unauthorized
+         end
        else
+          cookies[:tar_log_tok] = params[:new_logtoken]
+          tfa_code = ((rand() * 1000).to_i).to_s
+          cookies[:tfa_auth_code] = tfa_code
+          TfaMailer.with(tar_log_tok:params[:new_logtoken], tfa_auth_code: tfa_code).new_tfa_code.deliver_later
           render json: {alert: "tfa dude"}, status: :unauthorized
         end
      end 
@@ -43,6 +51,7 @@ class ProfileController < ApplicationController
     @user.name = params[:name]
     @user.img_path = params[:img_path]
     @user.tfa = params[:tfa]
+    @user.email = params[:email]
     @already_in_use = User.find_by name: params[:name]
     if @already_in_use && old_name != params[:name]
       render json: {alert: "Username is already taken"}, status: :unprocessable_entity

@@ -27,7 +27,7 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
         xhr.send(fd);
 	url_img = xhr.extraInfo;
 	}
-        let attr = {name: $('#user_nickname').val(), img_path: url_img, tfa: document.querySelector('.tfa_checkbox').checked};
+        let attr = {name: $('#user_nickname').val(), img_path: url_img, tfa: document.querySelector('.tfa_checkbox').checked, email: $('#user_email').val()};
 
         App.models.user.save(attr, {patch: true,
             error: function(model, response){
