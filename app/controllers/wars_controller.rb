@@ -19,6 +19,31 @@ class WarsController < ApplicationController
     end
   end
 
+  def accept_war # TODO To be implement
+    # Check if not already in a war >> abort
+    inverse_war = War.where(guild1_id: @opponent.id, guild2_id: @current_user.guild.id).first
+    if inverse_war
+      # Duplicate the inverse ware but with id's in reverse order and confirmed = true
+      inverse_war.confirmed = true
+      inverse_war.save
+    else
+      # throw error
+    end
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'War request sent.' }
+      format.json { render json: { msg: "War request accepted" }, status: :ok }
+    end
+  end
+
+  def reject_war # TODO To be implement
+    inverse_war = War.where(guild1_id: @current_user.guild.id, guild2_id: @opponent.id).first
+    # Delete inverse_war
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'War request sent.' }
+      format.json { render json: { msg: "War request sent" }, status: :ok }
+    end
+  end
+
   private
 
   def war_params

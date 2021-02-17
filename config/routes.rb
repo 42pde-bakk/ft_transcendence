@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     # War actions
     resources :wars
     post '/wars/create'
+    post '/wars/accept_war'
+    post '/wars/reject_war'
   end
   # map.resources :friendships
 end
