@@ -15,6 +15,14 @@ AppClasses.Views.NewWar = class extends Backbone.View {
         e.preventDefault();
         let war = new AppClasses.Models.War();
         console.log($('#opponent_id').val());
+        console.log($('#start_date').val());
+        console.log($('#end_date').val());
+        console.log($('#start_wt').val());
+        console.log($('#end_wt').val());
+        console.log($('#prize').val());
+        console.log($('#ladder').is(':checked'));
+        console.log($('#tournament').is(':checked'));
+        console.log($('#duel').is(':checked'));
         // let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), opponent_id: $('#opponent_id').val()};
         // war.save(attr, {patch: true,
         //     error: function(guild, response){
