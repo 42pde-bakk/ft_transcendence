@@ -4,6 +4,11 @@ class Guild < ApplicationRecord
   has_one :owner, -> { where(guild_owner: true) }, class_name: "User"
   has_many :officers, -> { where(guild_officer: true) }, class_name: "User"
 
+  has_many :wars, class_name: "War", foreign_key: "guild1_id"
+  has_one :active_war, -> { where(finished: false, accepted: true) }, class_name: "War", foreign_key: "guild1_id"
+  has_many :finished_wars, -> { where(accepted: true) }, class_name: "War", foreign_key: "guild1_id"
+  has_many :war_invites, class_name: "War", foreign_key: "guild2_id" # invites from other guilds
+
   validates :name, uniqueness: true
   validates :anagram, uniqueness: true
 

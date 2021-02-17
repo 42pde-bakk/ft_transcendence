@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_13_131428) do
+ActiveRecord::Schema.define(version: 2021_02_16_201619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,19 @@ ActiveRecord::Schema.define(version: 2021_02_13_131428) do
     t.string "log_token"
   end
 
+  create_table "wars", force: :cascade do |t|
+    t.bigint "guild1_id", null: false
+    t.bigint "guild2_id", null: false
+    t.boolean "finished", default: false
+    t.boolean "accepted", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["guild1_id"], name: "index_wars_on_guild1_id"
+    t.index ["guild2_id"], name: "index_wars_on_guild2_id"
+  end
+
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "wars", "guilds", column: "guild1_id"
+  add_foreign_key "wars", "guilds", column: "guild2_id"
 end

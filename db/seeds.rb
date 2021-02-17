@@ -31,4 +31,9 @@ Guild.create([{
                name: "Ants",
                anagram: "ant",
                points: 55
-             }])
+             },
+              {
+                name: "Lion",
+                anagram: "lio",
+                points: 55
+              }])
