@@ -15,6 +15,7 @@ class GameController < ApplicationController
 			if @user.game then @user.game.destroy end
 			@user.create_game(room_nb: @game_id, player2: ant)
 			@user.game.mysetup
+			@user.game.add_player(@user, 0) # 0 means as left player
 			saveret = @user.game.save
 			STDERR.puts("saveret = #{saveret}")
 		end

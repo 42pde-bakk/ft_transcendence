@@ -27,6 +27,12 @@ class Game < ApplicationRecord
 		end
 	end
 
+	def add_player(usr, pos)
+		if usr != nil and usr.id > 2
+			@@gamestates[room_nb].add_player(usr.name, pos)
+		end
+	end
+
 	def mydestructor
 		@@gamestates[room_nb] = nil
 	end
