@@ -10,7 +10,6 @@ bundle install
 rails db:create
 #rails db:setup
 rails db:migrate
-#echo "n\nn" | rails webpacker:install
 rails db:seed
 
 # Then exec the container's main process (what's set as CMD in the Dockerfile).
