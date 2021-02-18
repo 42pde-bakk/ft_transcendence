@@ -29,6 +29,9 @@ Rails.application.routes.draw do
 
     resources :game
     post '/game/join'
+
+    resources :chat
+    post '/chat/new'
   end
   # map.resources :friendships
 end

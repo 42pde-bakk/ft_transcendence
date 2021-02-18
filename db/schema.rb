@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_210805) do
+ActiveRecord::Schema.define(version: 2021_02_18_170302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chatrooms", force: :cascade do |t|
+    t.bigint "user1_id"
+    t.bigint "user2_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user1_id"], name: "index_chatrooms_on_user1_id"
+    t.index ["user2_id"], name: "index_chatrooms_on_user2_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.bigint "user1_id"
+    t.bigint "user2_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user1_id"], name: "index_chats_on_user1_id"
+    t.index ["user2_id"], name: "index_chats_on_user2_id"
+  end
 
   create_table "friendships", force: :cascade do |t|
     t.bigint "user_id", null: false
