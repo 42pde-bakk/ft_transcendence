@@ -74,7 +74,7 @@ class Gamestate
 		@gameid = gameid
 		@canvas_width = 200
 		@canvas_height = 100
-		@status = "waiting"
+		@status = "running"
 		@players = [
 			Player.new(0, 5, @canvas_width, @canvas_height),
 			Player.new(1, @canvas_width - 20, @canvas_width, @canvas_height)
@@ -98,16 +98,16 @@ class Gamestate
 	end
 
 	def sim_turn
-		if @players.any? {|p| p.status == "waiting"}
-			@status = "waiting"
-		end
-		if @status == "waiting"
-			if @players.all? {|p| p.status == "ready"}
-				@status = "running"
-			else
-				return sleep(2)
-			end
-		end
+		# if @players.any? {|p| p.status == "waiting"}
+		# 	@status = "waiting"
+		# end
+		# if @status == "waiting"
+		# 	if @players.all? {|p| p.status == "ready"}
+		# 		@status = "running"
+		# 	else
+		# 		return sleep(2)
+		# 	end
+		# end
 		@players.each do |p|
 			p.move(@ball)
 		end

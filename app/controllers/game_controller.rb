@@ -6,32 +6,23 @@ class GameController < ApplicationController
 	end
 
 	def find_or_create_game
+		ant = User.find_by(name: "Ant-Man")
 		@game = Game.find_by(room_nb: @game_id)
 		if @game
 			STDERR.puts("Found game by room_nb: #{@game_id}")
+			@game.player2 = @user
 		else
-			@game = Game.create(room_nb: @game_id)
-			@game.player1 = @user
-			STDERR.puts "GAME CREATED, game = #{@game}, game.room_nb is #{@game.room_nb}"
-			@game.mysetup
-			saveret = @game.save
+			if @user.game then @user.game.destroy end
+			@user.create_game(room_nb: @game_id, player2: ant)
+			@user.game.mysetup
+			saveret = @user.game.save
 			STDERR.puts("saveret = #{saveret}")
 		end
 	end
 
-	def add_player
-		if @game
-			# @game.attributes = { player1: @user, player2: nil}
-			@game.assign_attributes({ :player1 => @user })
-			@game.save
-		end
-		STDERR.puts("AFTER ADDING PLAYER AS PLAYER 1")
-	end
-
 	def join
 		find_or_create_game
-		STDERR.puts("@game_id is #{@game_id}, game is #{@game}")
-		# STDERR.puts("after assigning attributes, player 1 is #{@game.player1}")
+		STDERR.puts("@game_id is #{@game_id}, game is #{@user.game}")
 	end
 
 	def set_params

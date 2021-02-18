@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2021_02_16_210805) do
 
   create_table "games", force: :cascade do |t|
     t.bigint "player1_id", null: false
-    t.bigint "player2_id", null: false
+    t.bigint "player2_id"
     t.integer "room_nb"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

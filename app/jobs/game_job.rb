@@ -16,6 +16,7 @@ class GameJob < ApplicationJob
 
 	def perform(gameid)
 		@game_channel = gameid
+		STDERR.puts("@game_channel is #{gameid}")
 		@game = Game.find_by(room_nb: @game_channel)
 		unless check
 			return
