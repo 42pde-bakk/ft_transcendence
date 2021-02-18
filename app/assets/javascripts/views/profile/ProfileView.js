@@ -1,3 +1,10 @@
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;SameSite=Lax";
+}
+
 AppClasses.Views.Profile = class extends Backbone.View {
     constructor(opts) {
 	opts.events = {
@@ -21,8 +28,7 @@ AppClasses.Views.Profile = class extends Backbone.View {
          	window.location.reload();
 	   })
            .fail(e => {
-               console.log("Error changing account");
-               alert("Could not change account..."); // Your error, or catch error from server
+                App.routers.profile.navigate("/profile/tfa", {trigger: true})
            })
 	}
 }

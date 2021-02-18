@@ -52,6 +52,15 @@
                                     {{current_user.name}}
                                 </dd>
                             </div>
+				<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Email
+                                </dt>
+                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    {{current_user.email}}
+                                </dd>
+                            </div>
+
                             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
                                     Avatar url
@@ -68,6 +77,22 @@
                                     {{current_user.log_token}}
                                 </dd>
                             </div>
+
+				<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Tfa
+                                </dt>
+				{{#if current_user.tfa}}
+				<dd id="tfa_val" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                              	  Activated
+				</dd>
+				{{else}}
+                                <dd id="tfa_val" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                	Off
+				</dd>
+				{{/if}}
+                            </div>
+
                         </dl>
                     </div>
                 </div>
