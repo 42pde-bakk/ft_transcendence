@@ -8,6 +8,7 @@ class War < ApplicationRecord
       guild1_id: war.guild1_id,
       guild2_id: war.guild2_id,
       opponent_name: war.guild2.name,
+      invite_name: war.guild1.name,
       finished: war.finished,
       accepted: war.accepted,
       start: war.start,
@@ -21,5 +22,14 @@ class War < ApplicationRecord
       duel: war.duel,
       winning_guild_id: war.winning_guild_id
     }
+  end
+
+  def self.clean_arr(war_arr)
+    new_war_arr = []
+
+    war_arr.each do |war|
+      new_war_arr.append clean(war)
+    end
+    new_war_arr
   end
 end

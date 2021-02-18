@@ -23,7 +23,7 @@ class Guild < ApplicationRecord
       owner: gld.owner,
       officers: gld.officers,
       finished_wars: gld.finished_wars,
-      war_invites: gld.war_invites
+      war_invites: War.clean_arr(gld.war_invites)
     }
     if gld.active_war
       new_gld[:active_war] = War.clean(gld.active_war)
