@@ -22,6 +22,19 @@ class War < ApplicationRecord
       duel: war.duel,
       winning_guild_id: war.winning_guild_id
     }
+
+    if war.start <= Date.current && war.end >= Date.current
+      new_war[:active] = true
+    else
+      new_war[:active] = false
+    end
+
+    if war.wt_begin.strftime("%H:%M:%S") <= Time.now.strftime("%H:%M:%S") && war.wt_end.strftime("%H:%M:%S") >= Time.now.strftime("%H:%M:%S")
+      new_war[:wt_active] = true
+    else
+      new_war[:wt_active] = false
+    end
+    new_war
   end
 
   def self.clean_arr(war_arr)

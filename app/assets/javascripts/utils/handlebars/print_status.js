@@ -19,3 +19,19 @@ Handlebars.registerHelper('print_color', function () {
     }
     return ("bg-green-100 text-green-800");
 });
+
+Handlebars.registerHelper('print_color_war', function (start, end) {
+    var today = new Date();
+    if (today < start || today > end) {
+        return ("bg-red-100 text-red-800");
+    }
+    return ("bg-green-100 text-green-800");
+});
+
+Handlebars.registerHelper('print_status_war', function (start, end) {
+    var today = new Date();
+    if (today < start || today > end) {
+        return ("Not yet started");
+    }
+    return ("Active");
+});

@@ -23,7 +23,7 @@ class WarsController < ApplicationController
     end
   end
 
-  def accept_war # TODO To be implement
+  def accept_war
     # Check if not already in a war >> abort
     inverse_war = War.where(guild1_id: params[:id], guild2_id: @current_user.guild.id).first
     if inverse_war
@@ -44,7 +44,7 @@ class WarsController < ApplicationController
     end
   end
 
-  def reject_war # TODO To be implement
+  def reject_war
     inverse_war = War.where(guild1_id: params[:id], guild2_id: @current_user.guild.id).first
     unless inverse_war
       res_with_error("Somehow, the war you want to accept does not exist", :bad_request)
