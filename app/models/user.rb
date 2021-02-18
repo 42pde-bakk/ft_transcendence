@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   belongs_to :guild, required: false
   has_one :game, class_name: "Game", foreign_key: "player1_id"
+  has_one :game_invite, class_name: "Game", foreign_key: "player2_id"
 
   validates :name, uniqueness: true
  # validates :token, uniqueness: true

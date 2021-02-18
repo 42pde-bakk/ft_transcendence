@@ -27,10 +27,12 @@ ActiveRecord::Schema.define(version: 2021_02_16_210805) do
 
   create_table "games", force: :cascade do |t|
     t.bigint "player1_id", null: false
+    t.bigint "player2_id", null: false
     t.integer "room_nb"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["player1_id"], name: "index_games_on_player1_id"
+    t.index ["player2_id"], name: "index_games_on_player2_id"
   end
 
   create_table "guilds", force: :cascade do |t|
@@ -61,4 +63,5 @@ ActiveRecord::Schema.define(version: 2021_02_16_210805) do
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "games", "users", column: "player1_id"
+  add_foreign_key "games", "users", column: "player2_id"
 end
