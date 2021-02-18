@@ -3,6 +3,7 @@ AppClasses.Models.User = Backbone.Model.extend({
 
 	defaults: {
 		name: "",
+		email: "",
         img_path: "",
         token: "",
         guild_id: 0,
