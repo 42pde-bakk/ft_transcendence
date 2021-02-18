@@ -1,10 +1,14 @@
 #noinspection RubyResolve
 class WarsController < ApplicationController
   before_action :connect_user
-  before_action :set_opponent_guild
+  before_action :set_opponent_guild, only: [:create]
   before_action :check_active_war, only: [:create, :accept]
 
   def create
+    if @current_user.guild_id == @opponent.id
+      res_with_error("You cannot go to war with yourself", :bad_request)
+      return
+    end
     inverse_war = War.where(guild1_id: @current_user.guild.id, guild2_id: @opponent.id).first
     if inverse_war && !check_active_war
       @current_user.wars.create(guild2: @opponent, confirmed: true)
@@ -21,13 +25,18 @@ class WarsController < ApplicationController
 
   def accept_war # TODO To be implement
     # Check if not already in a war >> abort
-    inverse_war = War.where(guild1_id: @opponent.id, guild2_id: @current_user.guild.id).first
+    inverse_war = War.where(guild1_id: params[:id], guild2_id: @current_user.guild.id).first
     if inverse_war
       # Duplicate the inverse ware but with id's in reverse order and confirmed = true
-      inverse_war.confirmed = true
+      inverse_war.accepted = true
       inverse_war.save
+      war = inverse_war.dup
+      war.guild1_id = inverse_war.guild2_id
+      war.guild2_id = inverse_war.guild1_id
+      war.save
     else
-      # throw error
+      res_with_error("Somehow, the war you want to accept does not exist", :bad_request)
+      return
     end
     respond_to do |format|
       format.html { redirect_to "/#guilds", notice: 'War request sent.' }
@@ -36,11 +45,15 @@ class WarsController < ApplicationController
   end
 
   def reject_war # TODO To be implement
-    inverse_war = War.where(guild1_id: @current_user.guild.id, guild2_id: @opponent.id).first
-    # Delete inverse_war
+    inverse_war = War.where(guild1_id: params[:id], guild2_id: @current_user.guild.id).first
+    unless inverse_war
+      res_with_error("Somehow, the war you want to accept does not exist", :bad_request)
+      return false
+    end
+    inverse_war.destroy
     respond_to do |format|
       format.html { redirect_to "/#guilds", notice: 'War request sent.' }
-      format.json { render json: { msg: "War request sent" }, status: :ok }
+      format.json { render json: { msg: "War request rejected" }, status: :ok }
     end
   end
 
@@ -65,6 +78,10 @@ class WarsController < ApplicationController
     @opponent = Guild.where(id: @opponent_guild_id).first
     if @opponent_guild_id == @current_user.guild.id.to_s
       res_with_error("You can't go to war with yourself", :bad_request)
+      false
+    end
+    unless @opponent
+      res_with_error("Opponent is missing", :bad_request)
       false
     end
   end

@@ -26,20 +26,18 @@ AppClasses.Views.NewWar = class extends Backbone.View {
         var tournament = $('#tournament').is(':checked');
         var duel = $('#duel').is(':checked');
 
+        var form_error = false;
+
         if (!opponent_id) {
             $('#opponent_id').removeClass('border-gray-300').addClass('border-red-700');
+            form_error = true;
         } else {
             $('#opponent_id').removeClass('border-red-700').addClass('border-gray-300');
         }
 
-        if (!prize || prize < 0) {
-            $('#prize').removeClass('border-gray-300').addClass('border-red-700');
-        } else {
-            $('#prize').removeClass('border-red-700').addClass('border-gray-300');
-        }
-
         if (!resp_time || resp_time < 0) {
             $('#resp_time').removeClass('border-gray-300').addClass('border-red-700');
+            form_error = true;
         } else {
             $('#resp_time').removeClass('border-red-700').addClass('border-gray-300');
         }
@@ -47,6 +45,7 @@ AppClasses.Views.NewWar = class extends Backbone.View {
         if (start_date >= end_date || !start_date || !end_date) {
             $('#end_date').removeClass('border-gray-300').addClass('border-red-700');
             $('#start_date').removeClass('border-gray-300').addClass('border-red-700');
+            form_error = true;
         } else {
             $('#end_date').removeClass('border-red-700').addClass('border-gray-300');
             $('#start_date').removeClass('border-red-700').addClass('border-gray-300');
@@ -55,10 +54,21 @@ AppClasses.Views.NewWar = class extends Backbone.View {
         if (start_wt >= end_wt || !start_wt || !end_wt) {
             $('#end_wt').removeClass('border-gray-300').addClass('border-red-700');
             $('#start_wt').removeClass('border-gray-300').addClass('border-red-700');
-            return;
+            form_error = true;
         } else {
             $('#end_wt').removeClass('border-red-700').addClass('border-gray-300');
             $('#start_wt').removeClass('border-red-700').addClass('border-gray-300');
+        }
+
+        if (!prize || prize < 0) {
+            $('#prize').removeClass('border-gray-300').addClass('border-red-700');
+            form_error = true;
+        } else {
+            $('#prize').removeClass('border-red-700').addClass('border-gray-300');
+        }
+
+        if (form_error) {
+            return;
         }
 
         let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'),
