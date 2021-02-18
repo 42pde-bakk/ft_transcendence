@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :invites, :through => :invitations, class_name: 'User', :source => :user
 
   belongs_to :guild, required: false
+  has_one :game, class_name: "Game", foreign_key: "player1_id"
 
   validates :name, uniqueness: true
  # validates :token, uniqueness: true

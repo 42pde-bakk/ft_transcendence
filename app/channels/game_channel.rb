@@ -18,8 +18,8 @@ class GameChannel < ApplicationCable::Channel
 		@@subscribers[game_id] ||= 0 # if it's nil, it'll be set to be 0, poggers
 		@@subscribers[game_id] += 1
 
-		find_game(game_id)
-			@game.send_config
+		# find_game(game_id)
+		# 	@game.send_config
 		if @@subscribers[game_id] > 0
 			# GameJob.perform_later(game_id)
 		end
