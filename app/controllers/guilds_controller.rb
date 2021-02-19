@@ -93,7 +93,7 @@ class GuildsController < ApplicationController
       res_with_error("You can't remove it if you don't own it!", :unauthorized)
       return
     end
-    if @current_user.guild_owner
+    if @current_user.guild_owner && @user == @current_user
       @guild = @current_user.guild
       destroy
       return true
