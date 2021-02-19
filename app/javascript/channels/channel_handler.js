@@ -1,8 +1,8 @@
 import {GameChannel} from "./game_channel"
+import {ChatChannel} from "./chat_channel"
 import consumer from "./consumer"
 
-
-function unregister(game_id, room_nb) {
+function unregister_gamechannels(room_nb) {
 	consumer.subscriptions.subscriptions.forEach(sub => {
 		console.log(`sub identifier is ${sub.identifier}`);
 		if (!room_nb || room_nb !== sub.identifier["game_id"]) {
@@ -15,17 +15,29 @@ function unregister(game_id, room_nb) {
 	});
 }
 
-function selectchannel() {
-	// GameChannel
-	const element = document.getElementById("game-id");
-	let game_id = null;
-	if (element != null)
-		game_id = element.getAttribute("data-game-id");
-	unregister(element, game_id);
-	if (element) {
+function check_game_channels(element) {
+	if (element !== null) {
+		console.log("check_game_channels, element is " + element);
+		let game_id = element.getAttribute("data-game-id");
+		unregister_gamechannels(game_id);
 		if (game_id)
 			GameChannel(game_id);
 	}
+}
+
+function check_chat_channels(element) {
+	if (element !== null) {
+		let chat_id = element.getAttribute("chat-target-id");
+		console.log("check_chat_channels, element is " + element + ", chat_id is " + chat_id);
+		// if (chat_id)
+			ChatChannel(chat_id);
+	}
+}
+
+function selectchannel() {
+	// GameChannel
+	check_game_channels(document.getElementById("game-id"));
+	check_chat_channels(document.getElementById("chat-target"));
 }
 
 function runshit() {

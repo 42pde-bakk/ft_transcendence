@@ -74,7 +74,7 @@
 												</td>
 												<td>
 													<a href="#chat/{{id}}">
-														<span class="open_msgbox cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-user-id="{{id}}">Message</span>
+														<span class="open_msgbox cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-user-id="{{id}}" data-user-name="{{name}}">Message</span>
 													</a>
 												</td>
 											</tr>
@@ -91,35 +91,19 @@
 	</div>
 	<div id="ChatBox" class="bg-white bg-opacity-15 bg-right-bottom box-content w-64 border-4 ..." style="display: none">
 		<form name="ChatBoxContainer" class="form-container">
+			<div id="chat-target" data-chat-target-id="{{ target_user_id }}"></div>
 			<h1>Chat</h1>
-			<label for="msg"><b>Message</b></label>
+			<label for="msg"><b>Messaging {{ target_user_name }}</b></label>
 			<textarea placeholder="Type message.." style="color:black" name="msg" required></textarea>
 
 			<span class="send_message cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-				Send
+				Send it!
 			</span>
 <!--			<button type="submit" class="btn">Send</button>-->
-			<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+			<span class="close_msgbox cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+				Cancel
+			</span>
 		</form>
 	</div>
-	<script>
-		$(function () {
-			$('ChatBoxContainer').submit(function() {
-				$.ajax({
-					type: 'POST',
-					url: 'submit.php',
-					data: document.ChatBoxContainer
-				});
-				return false;
-			});
-		})
-		function handleMessage() {
-			alert("Txt thingy: " + document.ChatBoxContainer);
-			return false;
-		}
-		function closeForm() {
-			document.getElementById("ChatBox").style.display = "none";
-		}
-	</script>
 
 </div>

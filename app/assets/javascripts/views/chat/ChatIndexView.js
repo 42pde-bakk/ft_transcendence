@@ -2,12 +2,14 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	constructor(options) {
 		options.events = {
 			"click .open_msgbox": "open_msgbox",
+			"click .close_msgbox": "close_msgbox",
 			"click .send_message": "send_message"
 		};
 		super(options);
 		this.tagName = "div";
 		this.template = App.templates["chat/index"];
 		this.targetUserID = 0;
+		this.targetUserName = "";
 	}
 
 	updateRender() {
@@ -17,7 +19,9 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
-			allUsers: App.collections.users_no_self.toJSON()
+			allUsers: App.collections.users_no_self.toJSON(),
+			target_user_id: this.targetUserID,
+			target_user_name: this.targetUserName
 		}));
 		return (this);
 	}
@@ -42,10 +46,19 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 
 	open_msgbox(event) {
 		this.targetUserID = $(event.currentTarget).data('user-id');
+		this.targetUserName = $(event.currentTarget).data('user-name');
+		this.updateRender();
+	}
+
+	close_msgbox(event) {
+		document.getElementById("ChatBox").style.display = "none";
+		this.targetUserID = 0;
+		this.targetUserName = "";
+		this.updateRender();
 	}
 
 	send_message(event) {
-		console.log("send_message, event is" + event);
+		// console.log("send_message, event is" + event);
 		this.ChatAction(event,  '/api/chat/new.json', 'Chatmessage sent!');
 	}
 }
