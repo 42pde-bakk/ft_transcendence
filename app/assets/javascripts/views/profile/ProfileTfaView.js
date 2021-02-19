@@ -23,7 +23,6 @@ AppClasses.Views.ProfileTfa = class extends Backbone.View {
         this.tagName = "div";
         this.template = App.templates["profile/tfa"];
         this.updateRender(); // render the template only one time, unless model changed
-        this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
     }
 	sendTfa(event) {
 	let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), code_tfa : $('#tfa_code').val(), new_logtoken: getCookie('tar_log_tok'), bypass_tfa: "true"};

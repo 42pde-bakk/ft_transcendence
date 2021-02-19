@@ -50,7 +50,7 @@ class ProfileController < ApplicationController
   end
 
   def update
-    @user = @current_user
+    @user = User.find_by log_token: cookies[:log_token]
     old_name = @user.name
     @user.name = params[:name]
     @user.img_path = params[:img_path]

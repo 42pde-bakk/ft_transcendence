@@ -25,7 +25,7 @@ AppClasses.Views.Profile = class extends Backbone.View {
            .done(usersData => {
                console.log("It worked!");
                this.updateRender(); // or fetch the new data from server
-         	window.location.reload();
+               App.models.user.fetch();
 	   })
            .fail(e => {
                 App.routers.profile.navigate("/profile/tfa", {trigger: true})
