@@ -29,12 +29,20 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 		return this.updateRender();
 	}
 
+	clearInput() {
+		// idk
+	}
+
 	ChatAction(event, url, msgSuccess) {
+		let msg = $("textarea").val();
 		let data = { authenticity_token: App.models.user.toJSON().log_token,
 			other_user_id: this.targetUserID,
-			chat_message: $("textarea").val()};
+			chat_message: msg};
+		console.log("message is " + msg);
 
-		jQuery.post(url, data)
+				// $('chat_log').append('<div class="row msg_container base_sent"><div class="col-md-10 col-xs-10"><div class="messages msg_receive"><p>' + data + '</p></div></div></div><div class="row msg_container base_receive"><div class="col-md-10 col-xs-10"><div class="messages msg_receive"><p>'+data+'</p></div></div></div>');
+				// this.clearInput();
+		jQuery.post("/api/chat/send", data)
 			.done(usersData => {
 				console.log(msgSuccess);
 				this.updateRender();
