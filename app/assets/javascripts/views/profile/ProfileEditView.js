@@ -35,7 +35,10 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
         App.models.user.save(attr, {
             patch: true,
             error: function (model, response) {
-                alert(response.responseJSON.alert);
+                if (response)
+                    alert(response.responseJSON.alert);
+                else
+                    alert("Unknown error while saving user");
                 App.models.user.fetch(); // To reset the model to the db state
             },
             success: function () {

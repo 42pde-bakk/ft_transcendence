@@ -16,7 +16,10 @@ AppClasses.Views.EditGuild = class extends Backbone.View {
         guild.urlRoot = "/api/guilds";
         guild.save(attr, {patch: true,
             error: function(guild, response){
-                alert("Could not create guild");
+                if (response)
+                    alert(response.responseJSON.alert);
+                else
+                    alert("Unknown error while saving guild");
             },
             success: function(){
                 App.models.user.fetch();
