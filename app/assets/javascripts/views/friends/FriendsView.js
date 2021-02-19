@@ -9,17 +9,9 @@ AppClasses.Views.Friends = class extends Backbone.View {
 		super(opts);
 		this.tagName = "div";
 		this.template = App.templates["friends/index"];
-		this.updateRender(); // render the template only one time, unless model changed
+        this.updateRender(); // render the template only one time, unless model changed
 		this.listenTo(App.models.user, "change", this.updateRender);
-		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
-        const seconds = 10; // update every N seconds
-        setInterval(() => {
-            $.ajax({
-                url:  '/api/friendships/active',
-                data: { "authenticity_token": $('meta[name="csrf-token"]').attr('content') },
-                type: 'POST'
-            });
-        }, 1000 * seconds);
+		this.listenTo(App.collections.available_for_friends, "change reset add remove", this.updateRender);
 	}
 	friendAction(event, url, msgSuccess) {
 		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
@@ -27,7 +19,8 @@ AppClasses.Views.Friends = class extends Backbone.View {
         jQuery.post(url, data)
             .done(usersData => {
                 console.log(msgSuccess);
-                this.updateRender();
+                App.models.user.fetch();
+                App.collections.available_for_friends.myFetch();
             })
             .fail(e => {
                 console.log("Error in friendship");
@@ -47,12 +40,10 @@ AppClasses.Views.Friends = class extends Backbone.View {
 		this.friendAction(e, "/api/friendships/add.json", "Request sent");
 	}
 	updateRender() {
-        App.models.user.fetch();
-        App.collections.users_no_self.myFetch();
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
-			allUsers: App.collections.users_no_self.toJSON()
+			allUsers: App.collections.available_for_friends.toJSON()
 		}));
 		return (this);
 	}

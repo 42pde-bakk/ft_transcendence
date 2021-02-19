@@ -7,34 +7,41 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
         this.tagName = "div";
         this.template = App.templates["profile/edit"];
         this.updateRender(); // render the template only one time, unless model changed
-        this.listenTo(App.models.user, "change", this.updateRender);
     }
 
     submit(e) {
         e.preventDefault();
-	var url_img = $('#img_path').val();
-	if ($('#image').val() != "")
-	{
-	var fd = new FormData();
-	fd.append("image", $('#image')[0].files[0]);
-        var xhr = new XMLHttpRequest();
-	xhr.open("POST", "https://api.imgur.com/3/image.json", false);
-        xhr.extraInfo = ""
-	   xhr.onload = function() {
-		 this.extraInfo = (JSON.parse(xhr.responseText)).data.link;
-	}
-        xhr.setRequestHeader('Authorization', 'Client-ID a504f6539d73d5b');
-        xhr.send(fd);
-	url_img = xhr.extraInfo;
-	}
-        let attr = {name: $('#user_nickname').val(), img_path: url_img, tfa: document.querySelector('.tfa_checkbox').checked, email: $('#user_email').val()};
+        var url_img = $('#img_path').val();
+        if ($('#image').val() != "") {
+            var fd = new FormData();
+            fd.append("image", $('#image')[0].files[0]);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://api.imgur.com/3/image.json", false);
+            xhr.extraInfo = ""
+            xhr.onload = function () {
+                this.extraInfo = (JSON.parse(xhr.responseText)).data.link;
+            }
+            xhr.setRequestHeader('Authorization', 'Client-ID a504f6539d73d5b');
+            xhr.send(fd);
+            url_img = xhr.extraInfo;
+        }
+        let attr = {
+            name: $('#user_nickname').val(),
+            img_path: url_img,
+            tfa: document.querySelector('.tfa_checkbox').checked,
+            email: $('#user_email').val()
+        };
 
-        App.models.user.save(attr, {patch: true,
-            error: function(model, response){
-                alert(response.responseJSON.alert);
-                model.fetch(); // To reset the model to the db state
+        App.models.user.save(attr, {
+            patch: true,
+            error: function (model, response) {
+                if (response)
+                    alert(response.responseJSON.alert);
+                else
+                    alert("Unknown error while saving user");
+                App.models.user.fetch(); // To reset the model to the db state
             },
-            success: function(){
+            success: function () {
                 App.routers.profile.navigate("/profile", {trigger: true})
             }
         });
@@ -47,6 +54,7 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
         }));
         return (this);
     }
+
     render() {
         return (this);
     }

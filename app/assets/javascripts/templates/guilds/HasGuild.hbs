@@ -108,6 +108,14 @@
                                                             </div>
                                                         </div>
                                                     </td>
+                                                    {{#if ../current_user.guild_owner}}
+                                                    <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
+                                                        <p class="clickToRemoveMember cursor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                            Remove
+                                                            <span hidden class="remove">{{id}}</span>
+                                                        </p>
+                                                    </td>
+                                                    {{/if}}
                                                 </tr>
                                             {{/each}}
                                             </tbody>
@@ -118,9 +126,9 @@
                         </div>
                     </div>
                     <div class="pt-4">
-                        <p class="clickToQuitGuild cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <p class="clickToRemoveMember cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Leave Guild
-                            <span hidden class="nodisplay">{{guild.id}}</span>
+                            <span hidden class="remove">{{current_user.id}}</span>
                         </p>
                     </div>
                 </div>
@@ -135,10 +143,10 @@
                         <div class="md:flex px-4 py-5 sm:px-6">
                             <div class="md:w-48">
                                 <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                    Requests
+                                    Invite
                                 </h3>
                                 <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                                    These users have requested to join the guild
+                                    These users can be invited to your guild
                                 </p>
                             </div>
                         </div>
@@ -155,7 +163,7 @@
                                             </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                            {{#each guild.requests}}
+                                            {{#each users}}
                                                 <tr>
                                                     <td class="px-6 py-4 whitespace-nowrap">
                                                         <div class="flex items-center">
@@ -170,13 +178,9 @@
                                                         </div>
                                                     </td>
                                                     <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
-                                                        <p class="clickToAcceptMember cursor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                            Accept
-                                                            <span hidden class="nodisplay">{{id}}</span>
-                                                        </p>
-                                                        <p class="clickToRejectMember cursor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                            Reject
-                                                            <span hidden class="nodisplay">{{id}}</span>
+                                                        <p class="clickToInviteMember cursor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                            Invite
+                                                            <span hidden class="Invite">{{id}}</span>
                                                         </p>
                                                     </td>
                                                 </tr>
@@ -189,11 +193,11 @@
                         </div>
                     </div>
                     {{#if current_user.guild_owner}}
-                    <div class="pt-4">
-                        <p class="clickToUpdate Guild cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Update guild settings
-                        </p>
-                    </div>
+                        <div class="pt-4">
+                            <a href="#guilds/edit" class="cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Update guild settings
+                            </a>
+                        </div>
                     {{/if}}
                 </div>
             </div>

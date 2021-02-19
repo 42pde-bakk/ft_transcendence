@@ -7,6 +7,7 @@ end
 
 class ProfileController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :connect_user
   def index
     @users = User.all
     @users.each do |usr|
@@ -19,19 +20,25 @@ class ProfileController < ApplicationController
     render json: @users
   end
 
+  def index_no_self
+    @users = User.all.where.not(:id => @current_user.id)
+    respond_to do |format|
+      format.html { redirect_to "/", notice: '^^' }
+      format.json { render json: @users, status: :ok }
+    end
+  end
+
   def changeAccount
     User.all.each do |usr|
      if (decrypt(usr.log_token) == params[:new_logtoken])
        if (usr.tfa == false)
-         puts('usr.log = ' + decrypt(usr.log_token))
-         puts('paramLog = ' + params[:new_logtoken])
          cookies[:log_token] = params[:new_logtoken]
          @user = usr
        elsif (params[:bypass_tfa] == "true")
-         if (params[:code_tfa] == cookies[:tfa_auth_code]) 
+         if (params[:code_tfa] == cookies[:tfa_auth_code])
          cookies[:log_token] = params[:new_logtoken]
          @user = usr
-         else 
+         else
           render json: {alert: "tfa dude"}, status: :unauthorized
          end
        else
@@ -46,12 +53,7 @@ class ProfileController < ApplicationController
   end
 
   def show
-    User.all.each do |usr|
-      if (cookies[:log_token] == decrypt(usr.log_token))
-        @user = usr
-      end
-    end
-    render json: User.clean(@user)
+    render json: User.clean(@current_user)
   end
 
   def update
@@ -65,13 +67,22 @@ class ProfileController < ApplicationController
     if @already_in_use && old_name != params[:name]
       render json: {alert: "Username is already taken"}, status: :unprocessable_entity
     elsif @user.save
-      # respond_to do |format|
-      #   format.html { redirect_to "/#profile", notice: 'Profile was successfully updated.' }
-      #   format.json { render json: @user, status: :ok }
-      # end
-      render json: User.clean(@user), status: :ok
+      respond_to do |format|
+        format.html { redirect_to "/#profile", notice: 'Profile was successfully updated.' }
+        format.json { render json: User.clean(@user), status: :ok }
+      end
     else
       render json: {alert: "There was an error saving your changes"}, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def connect_user
+    User.all.each do |usr|
+      if cookies[:log_token] == decrypt(usr.log_token)
+        @current_user = usr
+      end
     end
   end
 end

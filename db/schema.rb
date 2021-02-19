@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2021_02_17_124835) do
   create_table "friendships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "friend_id", null: false
-    t.boolean "confirmed", default: true
+    t.boolean "confirmed", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["friend_id"], name: "index_friendships_on_friend_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2021_02_17_124835) do
     t.integer "guild_id"
     t.boolean "guild_owner", default: false
     t.boolean "guild_officer", default: false
-    t.boolean "guild_validated", default: true
+    t.boolean "guild_validated", default: false
     t.boolean "tfa"
     t.boolean "reg_done"
     t.boolean "current"
