@@ -1,10 +1,17 @@
+def encrypt(log_token)
+  return ((log_token.to_i + 420 - 69).to_s)
+end
+def decrypt(log_token)
+  return ((log_token.to_i - 420 + 69).to_s)
+end
+
 class ProfileController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :connect_user
   def index
     @users = User.all
     @users.each do |usr|
-      if (cookies[:log_token] == usr.log_token)
+      if (cookies[:log_token] == decrypt(usr.log_token))
         usr.current = true
       else
         usr.current = false
@@ -23,7 +30,7 @@ class ProfileController < ApplicationController
 
   def changeAccount
     User.all.each do |usr|
-     if (usr.log_token == params[:new_logtoken])
+     if (decrypt(usr.log_token) == params[:new_logtoken])
        if (usr.tfa == false)
          cookies[:log_token] = params[:new_logtoken]
          @user = usr
@@ -50,7 +57,7 @@ class ProfileController < ApplicationController
   end
 
   def update
-    @user = User.find_by log_token: cookies[:log_token]
+    @user = User.find_by log_token: encrypt(cookies[:log_token])
     old_name = @user.name
     @user.name = params[:name]
     @user.img_path = params[:img_path]
@@ -73,7 +80,7 @@ class ProfileController < ApplicationController
 
   def connect_user
     User.all.each do |usr|
-      if cookies[:log_token] == usr.log_token
+      if cookies[:log_token] == decrypt(usr.log_token)
         @current_user = usr
       end
     end
