@@ -1,3 +1,10 @@
+def encrypt(log_token)
+  return ((log_token.to_i + 420 - 69).to_s)
+end
+def decrypt(log_token)
+  return ((log_token.to_i - 420 + 69).to_s)
+end
+
 class GuildsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :connect_user
@@ -62,7 +69,7 @@ class GuildsController < ApplicationController
     respond_to do |format|
       if @guild.update(g_params)
         format.html { redirect_to "/#guilds", notice: 'Guild was successfully updated.' }
-        format.json { render :show, status: :ok, location: @guild }
+        format.json { head :no_content }
       else
         res_with_error("Guild was not updated.", :bad_request)
       end
@@ -93,7 +100,7 @@ class GuildsController < ApplicationController
       res_with_error("You can't remove it if you don't own it!", :unauthorized)
       return
     end
-    if @current_user.guild_owner
+    if @current_user.guild_owner && @user == @current_user
       @guild = @current_user.guild
       destroy
       return true
@@ -139,7 +146,7 @@ class GuildsController < ApplicationController
   private
 
   def guild_params
-    guild_params = params.require(:guild).permit(:name, :anagram)
+    guild_params = params.require(:guild).permit(:id, :name, :anagram)
     if !guild_params['name'] || check_len(guild_params['name'], 3, 20)
       res_with_error("Name length must be >= 3 and <= 20", :bad_request)
       return false
@@ -171,7 +178,7 @@ class GuildsController < ApplicationController
 
   def connect_user
     User.all.each do |usr|
-      if cookies[:log_token] == usr.log_token
+      if cookies[:log_token] == decrypt(usr.log_token)
         @current_user = usr
       end
     end

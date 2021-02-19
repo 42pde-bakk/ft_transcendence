@@ -11,6 +11,13 @@ def get_auth_tok()
   return (JSON.parse(resp.body)["access_token"])
 end 
 
+def encrypt(log_token)
+  return ((log_token.to_i + 420 - 69).to_s)
+end
+def decrypt(log_token)
+  return ((log_token.to_i - 420 + 69).to_s)
+end
+
 class HomeController < ApplicationController
   @new_user_form = false
   @user = nil
@@ -20,7 +27,7 @@ class HomeController < ApplicationController
     end 
     new_token = true
     User.all.each do |usr|
-      if (cookies[:log_token].present? && cookies[:log_token] == usr.log_token)
+      if (cookies[:log_token].present? && cookies[:log_token] == decrypt(usr.log_token))
         new_token = false
         @user = usr
       end
@@ -31,13 +38,15 @@ class HomeController < ApplicationController
       puts("USER CREATED")
       @user.token = cookies[:atoken]
       @user.name = "New_User_" + ((rand() * 1000000).to_i).to_s
+      @user.email = "ft.transcendence@gmail.com"
       @user.img_path = "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
       @user.reg_done = false
+      @user.tfa = false
       log_token_used = false
       loop do 
         @n = ((rand() * 100000000).to_i).to_s
         User.all.each do |usr|
-          if (usr.log_token == @n)
+          if (decrypt(usr.log_token) == @n)
             log_token_used = true
           end
         end
@@ -45,7 +54,7 @@ class HomeController < ApplicationController
           break
         end
       end
-      @user.log_token = @n
+      @user.log_token = encrypt(@n)
       cookies[:log_token] = @n
       if @user.save()
         puts("User saved sucessfully")

@@ -16,6 +16,7 @@ class User < ApplicationRecord
     new_user = {
       id: usr.id,
       name: usr.name,
+      email: usr.email,
       img_path: usr.img_path,
       token: usr.token,
       guild_id: usr.guild_id,

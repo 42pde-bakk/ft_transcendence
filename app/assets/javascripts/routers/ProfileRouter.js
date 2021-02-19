@@ -6,6 +6,7 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
         // routes
         this.route("profile", "profile");
         this.route("profile/edit", "edit");
+	    this.route("profile/tfa", "tfa")
         this.mainDiv = $("#app");
     };
 
@@ -14,10 +15,17 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
             this.views.profile = new AppClasses.Views.Profile({});
         }
         this.mainDiv.html(this.views.profile.render().el);
+        this.views.profile.delegateEvents();
     }
 
     edit() {
         this.views.profileEdit = new AppClasses.Views.ProfileEdit({});
         this.mainDiv.html(this.views.profileEdit.render().el);
+        this.views.profileEdit.delegateEvents();
     }
+	tfa()
+	{
+        this.views.profileTfa = new AppClasses.Views.ProfileTfa({});
+        this.mainDiv.html(this.views.profileTfa.render().el);
+	}
 }

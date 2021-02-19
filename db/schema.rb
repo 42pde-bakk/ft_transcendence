@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2021_02_16_201619) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "log_token"
+    t.string "email"
   end
 
   create_table "wars", force: :cascade do |t|
