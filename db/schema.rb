@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_18_170302) do
+ActiveRecord::Schema.define(version: 2021_02_19_224042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "chatrooms", force: :cascade do |t|
-    t.bigint "user1_id"
-    t.bigint "user2_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user1_id"], name: "index_chatrooms_on_user1_id"
-    t.index ["user2_id"], name: "index_chatrooms_on_user2_id"
-  end
 
   create_table "friendships", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -50,6 +41,25 @@ ActiveRecord::Schema.define(version: 2021_02_18_170302) do
     t.integer "points", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "private_chats", force: :cascade do |t|
+    t.bigint "user1_id"
+    t.bigint "user2_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user1_id"], name: "index_private_chats_on_user1_id"
+    t.index ["user2_id"], name: "index_private_chats_on_user2_id"
+  end
+
+  create_table "private_messages", force: :cascade do |t|
+    t.bigint "from_id"
+    t.bigint "chatroom_id"
+    t.text "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["chatroom_id"], name: "index_private_messages_on_chatroom_id"
+    t.index ["from_id"], name: "index_private_messages_on_from_id"
   end
 
   create_table "users", force: :cascade do |t|
