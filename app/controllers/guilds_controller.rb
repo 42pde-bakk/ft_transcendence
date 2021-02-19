@@ -1,3 +1,10 @@
+def encrypt(log_token)
+  return ((log_token.to_i + 420 - 69).to_s)
+end
+def decrypt(log_token)
+  return ((log_token.to_i - 420 + 69).to_s)
+end
+
 class GuildsController < ApplicationController
   before_action :connect_user
   before_action :set_guild, only: [:show, :edit, :update, :destroy, :join]
@@ -142,7 +149,7 @@ class GuildsController < ApplicationController
 
   def connect_user
     User.all.each do |usr|
-      if cookies[:log_token] == usr.log_token
+      if cookies[:log_token] == decrypt(usr.log_token)
         @current_user = usr
       end
     end
