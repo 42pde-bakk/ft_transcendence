@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     post '/game/join'
 
     resources :chat
-    post '/chat/send'
+    post '/chat/send_a_msg'
   end
   # map.resources :friendships
 end

@@ -3,9 +3,10 @@ class ChatController < ApplicationController
 	def index
 	end
 
-	def send
-		STDERR.puts("in ChatController::new, params is #{params} and cookies is #{cookies}")
-		current_user = User.find_by(log_token: params[:authenticity_token]) 		# Set @user to be the current user
+	def send_a_msg
+#		STDERR.puts("in ChatController::new, params is #{params} and cookies is #{cookies}")
+        current_user = User.find_by(log_token: cookies[:log_token])
+          #	current_user = User.find_by(log_token: params[:authenticity_token]) 		# Set @user to be the current user
 		target_user = User.find_by(id: params[:other_user_id])
 		# STDERR.puts("params is #{params}")
 
