@@ -27,8 +27,12 @@ AppClasses.Views.Guilds = class extends Backbone.View {
             })
             .fail(
                 function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.responseText);
-                    alert(jqXHR.responseJSON.alert);
+                    if (jqXHR) {
+                        console.log(jqXHR.responseText);
+                        alert(jqXHR.responseJSON.alert);
+                    } else {
+                        alert("Error while performing action on guild");
+                    }
                 }
             );
     }

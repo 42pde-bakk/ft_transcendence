@@ -79,9 +79,16 @@ class GuildsController < ApplicationController
   # DELETE /guilds/1
   # DELETE /guilds/1.json
   def destroy
+    if @guild.active_war
+      res_with_error("You can't destroy the guild while in a war!", :bad_request)
+      return
+    end
     unless @guild.owner == @current_user
       res_with_error("You can't destroy it if you don't own it!", :unauthorized)
       return
+    end
+    @guild.war_invites.each do |war|
+      war.destroy
     end
     # remove all associations with this guild
     User.where("guild_id = #{@guild.id}").each do |user|
