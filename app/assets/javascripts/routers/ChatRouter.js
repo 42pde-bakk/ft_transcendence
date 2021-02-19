@@ -10,10 +10,10 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 		const user = this.models.user;
 		const users = this.collections.users_no_self
 		this.renderView("ChatIndexView");
-		console.log("Chat index view\n");
 	}
 
 	open_msgbox(chat_id) {
-		document.getElementById("ChatBox").style.display = "block";
+		if (document.getElementById("ChatBox").style.display === "none")
+			document.getElementById("ChatBox").style.display = "block";
 	}
 }

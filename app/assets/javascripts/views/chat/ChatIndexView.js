@@ -15,7 +15,6 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	updateRender() {
 		App.models.user.fetch();
 		App.collections.users_no_self.myFetch();
-		console.log(`all users: ${App.collections.users_no_self}`);
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
@@ -32,7 +31,9 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 
 	ChatAction(event, url, msgSuccess) {
 		let data = { authenticity_token: App.models.user.toJSON().log_token,
-			other_user_id: this.targetUserID };
+			other_user_id: this.targetUserID,
+			chat_message: $("textarea").val()};
+
 		jQuery.post(url, data)
 			.done(usersData => {
 				console.log(msgSuccess);
@@ -59,6 +60,6 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 
 	send_message(event) {
 		// console.log("send_message, event is" + event);
-		this.ChatAction(event,  '/api/chat/new.json', 'Chatmessage sent!');
+		this.ChatAction(event,  '/api/chat/send.json', 'Chatmessage sent!');
 	}
 }
