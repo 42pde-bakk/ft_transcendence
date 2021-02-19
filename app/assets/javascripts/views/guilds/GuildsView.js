@@ -66,7 +66,6 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     }
 
     render() {
-        this.delegateEvents();
         return (this);
     }
 }

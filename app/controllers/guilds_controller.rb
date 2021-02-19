@@ -62,7 +62,7 @@ class GuildsController < ApplicationController
     respond_to do |format|
       if @guild.update(g_params)
         format.html { redirect_to "/#guilds", notice: 'Guild was successfully updated.' }
-        format.json { render :show, status: :ok, location: @guild }
+        format.json { head :no_content }
       else
         res_with_error("Guild was not updated.", :bad_request)
       end
@@ -140,7 +140,7 @@ class GuildsController < ApplicationController
   private
 
   def guild_params
-    guild_params = params.require(:guild).permit(:name, :anagram)
+    guild_params = params.require(:guild).permit(:id, :name, :anagram)
     if !guild_params['name'] || check_len(guild_params['name'], 3, 20)
       res_with_error("Name length must be >= 3 and <= 20", :bad_request)
       return false
