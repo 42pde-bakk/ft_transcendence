@@ -33,23 +33,12 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 		$("textarea").val('');
 	}
 
-	ChatAction(event, url, msgSuccess) {
-		let msg = $("textarea").val();
-		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			other_user_id: this.targetUserID,
-			chat_message: msg};
-		console.log("message is " + msg);
-
-		jQuery.post("/api/chat/send_a_msg", data)
+	ChatAction(event, data, url, msgSuccess) {
+		jQuery.get(url, data)
 			.done(usersData => {
 				console.log(msgSuccess);
-				// $('chat_log').append('<div class="row msg_container base_sent"><div class="col-md-10 col-xs-10"><div class="messages msg_receive"><p>' + data + '</p></div></div></div><div class="row msg_container base_receive"><div class="col-md-10 col-xs-10"><div class="messages msg_receive"><p>'+data+'</p></div></div></div>');
-				$('chat_log').append("<br>" + msg);
-				this.clearInput();
-				// this.updateRender();
 			})
 			.fail(e => {
-				console.log("Error ChatAction");
 				alert("Could not send message to chat...");
 			})
 	}
@@ -57,7 +46,20 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	open_msgbox(event) {
 		this.targetUserID = $(event.currentTarget).data('user-id');
 		this.targetUserName = $(event.currentTarget).data('user-name');
+
+		const data = {
+			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			other_user_id: this.targetUserID
+		};
+
 		this.updateRender();
+		jQuery.post("/api/chat/get_old_messages.json'", data)
+			.done(usersData => {
+				console.log("Message history got!");
+			})
+			.fail(e => {
+				alert("Could not load message history...");
+			})
 	}
 
 	close_msgbox(event) {
@@ -68,7 +70,19 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	}
 
 	send_message(event) {
-		// console.log("send_message, event is" + event);
-		this.ChatAction(event,  '/api/chat/send.json', 'Chatmessage sent!');
+		const msg = $("textarea").val();
+		const data = {
+			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			other_user_id: this.targetUserID,
+			chat_message: msg
+		};
+		jQuery.post("/api/chat/send_a_msg", data)
+			.done(usersData => {
+				console.log("Chatmessage sent!");
+				this.clearInput();
+			})
+			.fail(e => {
+				alert("Could not send message to chat...");
+			})
 	}
 }

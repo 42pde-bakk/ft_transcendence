@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
     resources :chat
     post '/chat/send_a_msg'
+    post '/chat/get_old_messages'
   end
   # map.resources :friendships
 end

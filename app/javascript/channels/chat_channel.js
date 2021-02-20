@@ -16,7 +16,9 @@ export function ChatChannel(room_id) {
 
 	  received(data) {
 		  console.log(`I have received "${data}" from ChatChannel`);
-	    // Called when there's incoming data on the websocket for this channel
+		  $('chat_log').append("<br>" + data);
+
+		  // Called when there's incoming data on the websocket for this channel
 	  }
 	});
 

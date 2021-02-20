@@ -50,9 +50,8 @@ class User < ApplicationRecord
     return (usr.guild_owner || usr.guild_officer)
   end
 
-  def self.print(usr)
-    STDERR.puts("usr is #{usr.name}, with id = #{usr.id}, token = #{usr.token}, log_token is #{usr.log_token}, ")
-    STDERR.puts("the same user is #{usr}")
+  def str
+    return self.name
   end
 
 end

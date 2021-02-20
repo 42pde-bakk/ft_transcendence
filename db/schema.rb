@@ -54,12 +54,12 @@ ActiveRecord::Schema.define(version: 2021_02_19_224042) do
 
   create_table "private_messages", force: :cascade do |t|
     t.bigint "from_id"
-    t.bigint "chatroom_id"
+    t.bigint "private_chat_id", null: false
     t.text "message"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["chatroom_id"], name: "index_private_messages_on_chatroom_id"
     t.index ["from_id"], name: "index_private_messages_on_from_id"
+    t.index ["private_chat_id"], name: "index_private_messages_on_private_chat_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -83,4 +83,5 @@ ActiveRecord::Schema.define(version: 2021_02_19_224042) do
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "games", "users", column: "player1_id"
   add_foreign_key "games", "users", column: "player2_id"
+  add_foreign_key "private_messages", "private_chats"
 end
