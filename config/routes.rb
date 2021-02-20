@@ -24,6 +24,9 @@ Rails.application.routes.draw do
     post '/guilds/remove'
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
+    # admin actions
+    resources :admin
+    post '/admin/ban'
   end
   # map.resources :friendships
 end

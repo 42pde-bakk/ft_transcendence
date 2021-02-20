@@ -10,7 +10,8 @@ AppClasses.Models.User = Backbone.Model.extend({
         tfa: false,
         reg_done: false,
 	admin: false,
-	log_token: 0,
+	ban: false,
+	log_token: 0
 	}
 });
 

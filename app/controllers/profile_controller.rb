@@ -28,6 +28,14 @@ class ProfileController < ApplicationController
     end
   end
 
+  def index_not_banned
+    @users = User.all.where.not(:ban => true)
+    respond_to do |format|
+      format.html {redirect_to "/", notice: '^' }
+      format.json {render json: @users, status: :ok }
+    end 
+  end
+
   def changeAccount
     User.all.each do |usr|
      if (decrypt(usr.log_token) == params[:new_logtoken])
