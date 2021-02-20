@@ -95,8 +95,24 @@
                                 	Off
 				</dd>
 				{{/if}}
-                            </div>
+                            	</div>
+				
+				<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Admin
+                                </dt>
 
+				{{#if current_user.admin}}
+				<dd id="admin_val" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                              	  Yes
+				</dd>	
+				{{else}}
+				<dd id="admin_val" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                              	  No
+				</dd>
+				{{/if}}
+				</div>
+				
                         </dl>
                     </div>
                 </div>
@@ -104,8 +120,11 @@
                     <a href="#profile/edit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Edit</a>
 <p class="changeAccount cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
     Change Account
-<!--    <span hidden class="nodisplay">{{id}}</span> -->
 </p>
+<p class="getAdmin cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    Become Admin
+</p>
+
                 </div>
             </div>
         </div>

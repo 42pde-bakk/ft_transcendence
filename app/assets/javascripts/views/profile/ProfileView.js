@@ -8,7 +8,8 @@ function setCookie(cname, cvalue, exdays) {
 AppClasses.Views.Profile = class extends Backbone.View {
     constructor(opts) {
         opts.events = {
-            "click .changeAccount": "changeAccount"
+            "click .changeAccount": "changeAccount",
+            "click .getAdmin": "getAdmin"
         };
         super(opts);
         this.tagName = "div";
@@ -23,7 +24,6 @@ AppClasses.Views.Profile = class extends Backbone.View {
 	let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), new_logtoken : tok};
        jQuery.post("/api/profile/changeAccount", data)
            .done(usersData => {
-               console.log("It worked!");
                this.updateRender(); // or fetch the new data from server
                App.models.user.fetch();
 	   })
@@ -31,7 +31,24 @@ AppClasses.Views.Profile = class extends Backbone.View {
                 App.routers.profile.navigate("/profile/tfa", {trigger: true})
            })
 	}
-}
+	}
+	getAdmin(event)
+	{
+		var password = prompt("Enter admin password: ", "password")
+		if (password != null && password != "")
+		{
+			let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), passwd : password};
+		jQuery.post("/api/profile/getAdmin", data)
+           .done(usersData => {
+               this.updateRender(); // or fetch the new data from server
+               App.models.user.fetch();
+	   })
+           .fail(e => {
+                App.routers.profile.navigate("/profile", {trigger: true})
+           })
+
+		}
+	}
     updateRender() {
         this.$el.html(this.template({current_user: App.models.user.toJSON()}));
         return (this);

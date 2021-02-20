@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :profile
     post '/profile/changeAccount'
     post '/profile/index_no_self'
+    post '/profile/getAdmin'
     # friends actions
     resources :friendships
     post '/friendships/add'
