@@ -32,12 +32,21 @@ class HomeController < ApplicationController
         @user = usr
       end
     end
-    puts("WILL BEGIN USER CREATION")
     if (new_token == true)
       @user = User.new
-      puts("USER CREATED")
       @user.token = cookies[:atoken]
-      @user.name = "New_User_" + ((rand() * 1000000).to_i).to_s
+      def_name_used = false
+      loop do
+        @user.name = "New_User_" + ((rand() * 1000000).to_i).to_s
+        User.all.each do |usr|
+         if (usr.name == @user.name)
+           def_name_used = true
+          end
+        end 
+         if (def_name_used == false)
+           break
+         end 
+      end
       @user.email = "ft.transcendence@gmail.com"
       @user.img_path = "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
       @user.reg_done = false
