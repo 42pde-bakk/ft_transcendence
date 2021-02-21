@@ -30,6 +30,7 @@ class ProfileController < ApplicationController
 
   def index_not_banned
     @users = User.all.where.not(:ban => true)
+    @users = @users.where.not(:id => @current_user.id)
     respond_to do |format|
       format.html {redirect_to "/", notice: '^' }
       format.json {render json: @users, status: :ok }

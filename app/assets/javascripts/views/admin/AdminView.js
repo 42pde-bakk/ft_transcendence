@@ -8,7 +8,7 @@ AppClasses.Views.Admin = class extends Backbone.View {
 		this.template = App.templates["admin/index"];
         this.updateRender(); // render the template only one time, unless model changed
 		this.listenTo(App.models.user, "change", this.updateRender);
-		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
+		this.listenTo(App.collections.users_not_banned, "change reset add remove", this.updateRender);
 	}
 	banUser(event) {
 		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
@@ -16,7 +16,7 @@ AppClasses.Views.Admin = class extends Backbone.View {
         jQuery.post("/api/admin/ban", data)
             .done(usersData => {
                 App.models.user.fetch();
-                App.collections.users_no_self.myFetch();
+                App.collections.users_not_banned.myFetch();
             })
             .fail(e => {
                 console.log("Error in ban");
@@ -26,7 +26,7 @@ AppClasses.Views.Admin = class extends Backbone.View {
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
-			allUsers: App.collections.users_no_self.toJSON()
+			allUsers: App.collections.users_not_banned.toJSON()
 		}));
 		return (this);
 	}

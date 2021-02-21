@@ -19,6 +19,12 @@
     }
     App.collections.users_no_self.myFetch();
 
+
+    if (!App.collections.users_not_banned) {
+        App.collections.users_not_banned = new AppClasses.Collections.UsersNotBanned();
+    }
+    App.collections.users_not_banned.myFetch();
+
     if (!App.collections.available_for_guild) {
         App.collections.available_for_guild = new AppClasses.Collections.AvailableForGuild();
     }
