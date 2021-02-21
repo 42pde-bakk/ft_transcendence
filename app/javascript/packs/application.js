@@ -4,13 +4,9 @@
 // that code so it'll be compiled.
 
 import Rails from "@rails/ujs"
-// import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import  "../layouts/application.css";
-import runshit from "../channels/channel_handler.js"
+import "channels"
 
 Rails.start()
-// Turbolinks.start()
 ActiveStorage.start()
-
-console.log("started app/javascript/application.js");

@@ -27,7 +27,7 @@ class ChatController < ApplicationController
 		dm_room = find_or_create_chat
 
 		dm_room.private_messages.each do |msg|
-			puts("old message is #{msg.str}")
+			# puts("old message is #{msg.str}")
 			ChatChannel.broadcast_to(@current_user, msg.str)
 		end
 	end
@@ -37,26 +37,19 @@ class ChatController < ApplicationController
 		dm_room = find_or_create_chat
 
 		@message = PrivateMessage.create(message: params[:chat_message], from: @current_user, private_chat: dm_room)
-		STDERR.puts("saving message returned #{@message.save}")
-		STDERR.puts("dm_room.save returns #{dm_room.save} ")
-		# STDERR.puts("saving a new channel returned #{msg_save_ret}")
-		dm_room.private_messages.each do |m|
-			STDERR.puts("dm_room has the following message: '#{m.message}'")
-		end
+		@message.save
+		dm_room.save
 
-		ChatChannel.broadcast_to(@current_user, params[:chat_message])
-		ChatChannel.broadcast_to(@target_user, params[:chat_message])
-		# respond_to do |format|
-		# 	ActionCable.server.broadcast "chat_channel", type: "chat_message", description: "create-message", user: current_user
-		# 	format.html { redirect_to @chat_message, notice: 'Room message was succesfully created' }
-		# 	format.json { head :no_content}
-		# end
+		ChatChannel.broadcast_to(@current_user, @message.str)
+		ChatChannel.broadcast_to(@target_user, @message.str)
+
 	end
 
 	def set_users_please
 		STDERR.puts("in ChatController::new, params is #{params} and cookies is #{cookies}")
 		@current_user = User.find_by(log_token: cookies[:log_token])
 		@target_user = User.find_by(id: params[:other_user_id])
+		STDERR.puts("current_user is #{@current_user.str}, target_user is #{@target_user.str}")
 
 	end
 end

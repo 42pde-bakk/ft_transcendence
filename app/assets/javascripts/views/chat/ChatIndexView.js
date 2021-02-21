@@ -22,6 +22,7 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 			target_user_id: this.targetUserID,
 			target_user_name: this.targetUserName
 		}));
+		console.log("updating render, target_user id = " + this.targetUserID + ", and name is " + this.targetUserName);
 		return (this);
 	}
 
@@ -63,6 +64,7 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	}
 
 	close_msgbox(event) {
+		console.log("in ChatIndexView.close_msgbox");
 		document.getElementById("ChatBox").style.display = "none";
 		this.targetUserID = 0;
 		this.targetUserName = "";
@@ -70,6 +72,7 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	}
 
 	send_message(event) {
+		console.log("in ChatIndexView.send_message");
 		const msg = $("textarea").val();
 		const data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
