@@ -20,30 +20,25 @@ function manageChatChannels() {
 				},
 				received: (data) => {
 					// Called when there's incoming data on the websocket for this channel
-					// console.log(`current chat_target is ${chat_target_id}`);
-					console.log(`I have received "${data}" from ChatChannel_${chat_target_id}`);
-					if (data !== null) { // Why is it fucking receiving the message twice?!?!?
-						$('chat_log').append("<br>" + data);
-						console.log(`I have received "${data}" from ChatChannel_${chat_target_id}`);
+					console.log(`current chat_target is ${chat_target_id}`);
+					if (data !== null && chat_target_id !== "0") { // Why is it fucking receiving the message twice?!?!?
+						if (parseInt(data["title"]) === parseInt(chat_target_id)) {
+							$('chat_log').append("<br>" + data["body"]);
+						}
+						console.log(`I have received "${data["body"]}" from ChatChannel_${data["title"]}`);
 					}
 				}
 			});
 		}
 	}
 	{
-		let chat_target_id = null;
-		if (chat_div !== null)
-			chat_target_id = chat_div.getAttribute("data-chat-target-id");
 			// clean up stale connections
 			consumer.subscriptions.subscriptions.forEach(sub => {
-				if (sub.identifier) {
-					if (chat_target_id !== null && sub.identifier.includes(`ChatChannel_${chat_target_id}`)) {
-						// current chatbox connection, keep it pls
-					} else if (sub.identifier.includes("ChatChannel")) {
-						console.log("removing " + sub.identifier + ", chat_target_id is " + chat_target_id);
-						sub.disconnected(); // afaik this is just for calling the disconnected() function above,not sure if it does something else behind the scenes
-						consumer.subscriptions.remove(sub);
-					}
+				console.log("sub.identifier is " + sub.identifier);
+				if (sub.identifier && sub.identifier.includes("ChatChannel")) {
+					console.log("removing sub");
+					sub.disconnected();
+					consumer.subscriptions.remove(sub);
 				}
 			})
 		}
