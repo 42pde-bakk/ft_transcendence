@@ -1,3 +1,8 @@
+{{#if current_user.ban}}
+<div>
+Your account has been banned.
+</div>
+{{else}}
 <div class="bg-white p-12 h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 rounded-lg">
         {{#unless current_user.guild_id}}
@@ -55,3 +60,4 @@
         {{/unless}}
     </div>
 </div>
+{{/if}}

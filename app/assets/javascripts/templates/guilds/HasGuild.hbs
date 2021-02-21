@@ -1,3 +1,9 @@
+
+{{#if current_user.ban}}
+<div>
+Your account has been banned.
+<div>
+{{else}}
 <div class="bg-gradient-to-br from-yellow-100 via-red-100 to-pink-100 p-12 h-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 rounded-lg">
         <div class="lg:text-center pt-4">
@@ -204,3 +210,4 @@
         </div>
     {{/if}}
 </div>
+{{/if}}
