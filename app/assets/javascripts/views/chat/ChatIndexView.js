@@ -47,13 +47,14 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	open_msgbox(event) {
 		this.targetUserID = $(event.currentTarget).data('user-id');
 		this.targetUserName = $(event.currentTarget).data('user-name');
+		console.log(`in open_msgbox, targetID is ${this.targetUserID}, name is ${this.targetUserName}`);
 
 		const data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
 			other_user_id: this.targetUserID
 		};
-
 		this.updateRender();
+		location.hash = `#chat/${this.targetUserID}`;
 		jQuery.post("/api/chat/get_old_messages.json'", data)
 			.done(usersData => {
 				console.log("Message history got!");
@@ -65,10 +66,11 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 
 	close_msgbox(event) {
 		console.log("in ChatIndexView.close_msgbox");
-		document.getElementById("ChatBox").style.display = "none";
+		// document.getElementById("ChatBox").style.display = "none";
 		this.targetUserID = 0;
 		this.targetUserName = "";
 		this.updateRender();
+		location.hash = "#chat"
 	}
 
 	send_message(event) {
@@ -81,7 +83,6 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 		};
 		jQuery.post("/api/chat/send_a_msg", data)
 			.done(usersData => {
-				console.log("Chatmessage sent!");
 				this.clearInput();
 			})
 			.fail(e => {

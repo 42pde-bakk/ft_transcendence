@@ -37,11 +37,24 @@ class ChatController < ApplicationController
 		dm_room = find_or_create_chat
 
 		@message = PrivateMessage.create(message: params[:chat_message], from: @current_user, private_chat: dm_room)
-		@message.save
-		dm_room.save
-
-		ChatChannel.broadcast_to(@current_user, @message.str)
-		ChatChannel.broadcast_to(@target_user, @message.str)
+		# dm_room.save
+		respond_to do |format|
+			if @message.save
+				ChatChannel.broadcast_to(@target_user,
+				                         channel: @current_user.id,
+				                         body: @message.str)
+				ChatChannel.broadcast_to(@current_user,
+				                         channel: @target_user.id,
+				                         body: @message.str)
+				# ChatChannel.broadcast_to(@current_user, @message.str)
+ 				format.html { }
+				format.json { head :no_content }
+			else
+				puts "saving message failed"
+				format.html { }
+				format.json { render json: @message.errors, status: :unprocessable_entity }
+			end
+		end
 
 	end
 
