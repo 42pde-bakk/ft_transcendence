@@ -18,8 +18,10 @@ function manageChatChannels() {
 					// Called when there's incoming data on the websocket for this channel
 					console.log(`current chat_target is ${chat_target_id}`);
 					if (data !== null && chat_target_id !== "0") { // Why is it fucking receiving the message twice?!?!?
-						$('chat_log').append("<br>" + data);
-						console.log(`I have received "${data}" from ChatChannel`);
+						if (parseInt(data["title"]) === parseInt(chat_target_id)) {
+							$('chat_log').append("<br>" + data["body"]);
+						}
+						console.log(`I have received "${data["body"]}" from ChatChannel_${data["title"]}`);
 					}
 				}
 			});
@@ -28,10 +30,11 @@ function manageChatChannels() {
 			// clean up stale connections
 			consumer.subscriptions.subscriptions.forEach(sub => {
 				console.log("sub.identifier is " + sub.identifier);
-				if (sub.identifier && sub.identifier.includes("ChatChannel"))
+				if (sub.identifier && sub.identifier.includes("ChatChannel")) {
 					console.log("removing sub");
 					sub.disconnected();
 					consumer.subscriptions.remove(sub);
+				}
 			})
 		}
 

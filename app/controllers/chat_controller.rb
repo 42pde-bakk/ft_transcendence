@@ -27,8 +27,11 @@ class ChatController < ApplicationController
 		dm_room = find_or_create_chat
 
 		dm_room.private_messages.each do |msg|
-			# puts("old message is #{msg.str}")
-			ChatChannel.broadcast_to(@current_user, msg.str)
+			puts("old message is #{msg.str}")
+			ChatChannel.broadcast_to(@current_user, {
+				title: @target_user.id,
+				body: msg.str
+			})
 		end
 	end
 
@@ -38,10 +41,27 @@ class ChatController < ApplicationController
 
 		@message = PrivateMessage.create(message: params[:chat_message], from: @current_user, private_chat: dm_room)
 		@message.save
-		dm_room.save
 
-		ChatChannel.broadcast_to(@current_user, @message.str)
-		ChatChannel.broadcast_to(@target_user, @message.str)
+
+		respond_to do |format|
+			if @message.save
+				# ChatChannel.broadcast_to(@current_user, @message.str)
+				ChatChannel.broadcast_to(@current_user, {
+					title: @target_user.id,
+					body: @message.str
+				})
+				ChatChannel.broadcast_to(@target_user, {
+					title: @current_user.id,
+					body: @message.str
+				})
+				format.html { }
+				format.json { head :no_content }
+			else
+				puts "saving message failed, not pogchamp"
+				format.html { }
+				format.json { render json: @message.errors, status: :unprocessable_entity}
+			end
+		end
 
 	end
 
