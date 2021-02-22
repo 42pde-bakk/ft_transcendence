@@ -23,6 +23,13 @@
             </div>
         </nav>
     </div>
+
+{{#if current_user.ban}}
+<div>
+Your account has been banned.
+<div>
+{{else}}
+
     <div>
         <div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
             <div class="max-w-4xl mx-auto">
@@ -68,4 +75,5 @@
             </div>
         </div>
     </div>
+{{/if}}
 </div>

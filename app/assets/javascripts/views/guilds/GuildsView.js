@@ -6,7 +6,9 @@ AppClasses.Views.Guilds = class extends Backbone.View {
             "click .clickToAcceptInvite": "accept_invite",
             "click .clickToRejectInvite": "reject_invite",
             "click .clickToAcceptWar": "accept_war",
-            "click .clickToRejectWar": "reject_war"
+            "click .clickToRejectWar": "reject_war",
+            "click .clickToSetOfficer": "set_officer",
+            "click .clickToUnsetOfficer": "unset_officer"
         };
         super(opts);
         this.tagName = "div";
@@ -61,9 +63,17 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         this.guildAction(e, "/api/wars/reject_war.json", "War", "Rejected war");
     }
 
+    set_officer(e) {
+        this.guildAction(e, "/api/guilds/set_officer.json", "officer", "Set Officer");
+    }
+
+    unset_officer(e) {
+        this.guildAction(e, "/api/guilds/unset_officer.json", "officer", "Unset Officer");
+    }
+
 
     updateRender() {
-        this.$el.html(this.template());
+        this.$el.html(this.template({current_user: App.models.user.toJSON()}));
         if (App.models.user.toJSON().guild_validated === false || !App.models.user.toJSON().guild_id) {
             this.$("#Guild").append(App.templates["guilds/NoGuild"]({
                 current_user: App.models.user.toJSON(),

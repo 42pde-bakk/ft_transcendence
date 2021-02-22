@@ -6,6 +6,7 @@
 		App.routers.main = new AppClasses.Routers.Main();
 		App.routers.profile = new AppClasses.Routers.Profile();
 		App.routers.friends = new AppClasses.Routers.FriendsRouter();
+		App.routers.admin = new AppClasses.Routers.AdminRouter();
 		App.routers.guilds = new AppClasses.Routers.GuildsRouter();
 
     if (!App.models.user) {
@@ -17,6 +18,12 @@
         App.collections.users_no_self = new AppClasses.Collections.UsersNoSelf();
     }
     App.collections.users_no_self.myFetch();
+
+
+    if (!App.collections.users_not_banned) {
+        App.collections.users_not_banned = new AppClasses.Collections.UsersNotBanned();
+    }
+    App.collections.users_not_banned.myFetch();
 
     if (!App.collections.available_for_guild) {
         App.collections.available_for_guild = new AppClasses.Collections.AvailableForGuild();

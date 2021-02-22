@@ -9,7 +9,9 @@ AppClasses.Models.User = Backbone.Model.extend({
         guild_id: 0,
         tfa: false,
         reg_done: false,
-	log_token: 0,
+	admin: false,
+	ban: false,
+	log_token: 0
 	}
 });
 
@@ -40,6 +42,24 @@ AppClasses.Collections.UsersNoSelf = class extends Backbone.Collection {
             })
     }
 };
+
+AppClasses.Collections.UsersNotBanned = class extends Backbone.Collection {
+    constructor(opts) {
+        super(opts);
+        this.myFetch();
+    }
+    myFetch() {
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+        jQuery.post("/api/profile/index_not_banned.json", data)
+            .done(usersData => {
+                this.set(usersData);
+            })
+            .fail(e => {
+                console.error(e);
+            })
+    }
+};
+
 
 AppClasses.Collections.AvailableForGuild = class extends Backbone.Collection {
     constructor(opts) {
