@@ -14,7 +14,11 @@ User.create([{
                tfa: true,
                reg_done: false,
                current: false,
-               last_seen: DateTime.now
+               last_seen: DateTime.now,
+               admin: false,
+               owner: false,
+               ban: false,
+               email: "42@transcendence.com"
                },
              {
                name: "R2D2",
@@ -24,7 +28,11 @@ User.create([{
                tfa: true,
                reg_done: false,
                current: false,
-               last_seen: DateTime.now
+               last_seen: DateTime.now,
+               admin: false,
+               owner: false,
+               ban: false,
+               email: "42@transcendence.com"
              }])
 
 Guild.create([{
