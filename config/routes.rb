@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     resources :profile
     post '/profile/changeAccount'
     post '/profile/index_no_self'
+    post '/profile/index_not_banned'
+    post '/profile/getAdmin'
     # friends actions
     resources :friendships
     post '/friendships/add'
@@ -23,6 +25,9 @@ Rails.application.routes.draw do
     post '/guilds/remove'
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
+    # admin actions
+    resources :admin
+    post '/admin/ban'
   end
   # map.resources :friendships
 end
