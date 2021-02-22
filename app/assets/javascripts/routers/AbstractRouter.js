@@ -17,8 +17,8 @@ AppClasses.Routers.AbstractRouter = class extends Backbone.Router {
 		this.mainDiv.html(this.views[viewname].render().el);
 	}
 
-	renderViewWithParam(viewname, viewparam, viewoptions = {}) {
-		this.createView(viewname, viewoptions);
-		this.mainDiv.html(this.views[viewname].render(viewparam).el);
-	}
+	// renderViewWithParam(viewname, viewparam, viewoptions = {}) {
+	// 	this.createView(viewname, viewoptions);
+	// 	this.mainDiv.html(this.views[viewname].render(viewparam).el);
+	// }
 }
