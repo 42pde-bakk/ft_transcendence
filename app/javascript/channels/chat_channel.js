@@ -8,30 +8,26 @@ function manageChatChannels() {
 	let chat_div = document.getElementById("chat-target");
 
 	if (chat_div !== null) {
-		let chat_target_id = chat_div.getAttribute("data-chat-target-id");
-		console.log("chat_target_id is " + chat_target_id);
-
-		if (chat_target_id !== "0") {
-			ChatSub = consumer.subscriptions.create({channel: "ChatChannel"}, {
-				connected: () => {
-					console.log("Connected to " + ChatSub.identifier);
-				},
-				disconnected: () => {
-					console.log("Disconnected from " + ChatSub.identifier);
-				},
-				received: (data) => {
-					// Called when there's incoming data on the websocket for this channel
-					console.log(`current chat_target is ${chat_target_id}`);
-					if (data !== null && chat_target_id !== "0" && last_message !== data) { // Why is it fucking receiving the message twice?!?!?
-						if (parseInt(data["title"]) === parseInt(chat_target_id)) {
-							$('chat_log').append("<br>" + data["body"]);
-							last_message = data;
-						}
-						console.log(`I have received "${data["body"]}" from ChatChannel_${data["title"]}`);
+		ChatSub = consumer.subscriptions.create({channel: "ChatChannel"}, {
+			connected: () => {
+				console.log("Connected to " + ChatSub.identifier);
+			},
+			disconnected: () => {
+				console.log("Disconnected from " + ChatSub.identifier);
+			},
+			received: (data) => {
+				// Called when there's incoming data on the websocket for this channel
+				let chat_target_id = chat_div.getAttribute("data-chat-target-id");
+				console.log(`current chat_target is ${chat_target_id}`);
+				if (data !== null && chat_target_id !== "0" && last_message !== data) { // Why is it fucking receiving the message twice?!?!?
+					if (parseInt(data["title"]) === parseInt(chat_target_id)) {
+						$('chat_log').append("<br>" + data["body"]);
+						last_message = data;
 					}
+					console.log(`I have received "${data["body"]}" from ChatChannel_${data["title"]}`);
 				}
-			});
-		}
+			}
+		});
 	} else {
 			// clean up stale connections
 			consumer.subscriptions.subscriptions.forEach(sub => {
@@ -49,5 +45,5 @@ function manageChatChannels() {
 // })
 
 window.addEventListener("hashchange", e => {
-	setTimeout(manageChatChannels, 500);
+	setTimeout(manageChatChannels, 250);
 })

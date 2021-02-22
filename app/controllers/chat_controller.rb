@@ -33,6 +33,10 @@ class ChatController < ApplicationController
 				body: msg.str
 			})
 		end
+		respond_to do |format|
+			format.html { }
+			format.json { head :no_content }
+		end
 	end
 
 	def send_a_msg

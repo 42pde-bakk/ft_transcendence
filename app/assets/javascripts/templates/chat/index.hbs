@@ -73,9 +73,9 @@
 													<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{print_color}}">{{print_status}}</span>
 												</td>
 												<td>
-<!--													<a href="#chat/{{id}}">-->
-														<span class="open_msgbox cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-user-id="{{id}}" data-user-name="{{name}}">Message</span>
-<!--													</a>-->
+													<a href="#chat/{{id}}">
+														<span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Message</span>
+													</a>
 												</td>
 											</tr>
 										{{/each}}
@@ -96,21 +96,10 @@
 			<label for="msg"><b>Messaging {{ target_user_name }}</b></label>
 			<chat_log> . </chat_log>
 			<textarea placeholder="Type message.." style="color:black" name="msg" required></textarea>
-<!--			<script>-->
-<!--				$(function() {-->
-<!--					$("textarea").keydown(function (e) {-->
-<!--						if (e.keyCode === 13) { // 13 is the keycode for Enter-->
-<!--							alert("enter pressed");-->
-<!--						}-->
-<!--					});-->
-<!--				});-->
-<!--			</script>-->
-
 			<span class="send_message cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 				Send it!
 			</span>
-<!--			<button type="submit" class="btn">Send</button>-->
-			<span class="close_msgbox cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+			<span class="test cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 				Cancel
 			</span>
 		</form>

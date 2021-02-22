@@ -1,9 +1,9 @@
 AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	constructor(options) {
 		options.events = {
-			"click .open_msgbox": "open_msgbox",
+			"click .send_message": "send_message",
 			"click .close_msgbox": "close_msgbox",
-			"click .send_message": "send_message"
+			"click .test" : "test"
 		};
 		super(options);
 		this.tagName = "div";
@@ -12,43 +12,41 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 		this.targetUserName = "Noone";
 	}
 
-	updateRender(chatbox_display_style) {
+	updateRender(target_id, target_name, chatbox_display_style) {
 		App.models.user.fetch();
 		App.collections.users_no_self.myFetch();
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
 			allUsers: App.collections.users_no_self.toJSON(),
-			target_user_id: this.targetUserID,
-			target_user_name: this.targetUserName,
+			target_user_id: target_id,
+			target_user_name: target_name,
 			chatbox_display_style: chatbox_display_style
 		}));
-		console.log("updating render, target_user id = " + this.targetUserID + ", and name is " + this.targetUserName);
+		console.log("updating render, target_user id = " + target_id + ", and name is " + target_name);
 		return (this);
 	}
 
-	render() {
-		return this.updateRender("none");
+	render(target_id = 0, target_name = "Someone", chatbox_display_style = "none") {
+		return this.updateRender(target_id, target_name, chatbox_display_style);
 	}
 
 	clearInput() {
 		$("textarea").val('');
 	}
 
-	open_msgbox(event) {
-		this.targetUserID = $(event.currentTarget).data('user-id');
-		this.targetUserName = $(event.currentTarget).data('user-name');
-		// document.getElementById("ChatBox").style.display = "block";
-		console.log(`in open_msgbox, targetID is ${this.targetUserID}, name is ${this.targetUserName}`);
+	test(event) {
+		console.log("FUCKS SAKE");
+	}
 
+	open_msgbox(target_id) {
 		const data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			other_user_id: this.targetUserID
+			other_user_id: target_id
 		};
-		this.updateRender("block");
-		jQuery.post("/api/chat/get_old_messages.json'", data)
+		jQuery.post("/api/chat/get_old_messages.json", data)
 			.done(usersData => {
-				location.hash = `#chat/${this.targetUserID}`;
+				// location.hash = `#chat/${this.targetUserID}`;
 				console.log("Message history got!");
 			})
 			.fail(e => {
@@ -59,11 +57,12 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	close_msgbox(event) {
 		console.log("in ChatIndexView.close_msgbox");
 		// document.getElementById("ChatBox").style.display = "none";
-		this.targetUserID = 0;
-		this.targetUserName = "Noone";
+		// this.targetUserID = 0;
+		// this.targetUserName = "Noone";
 		this.clearInput();
-		this.updateRender("none");
-		location.hash = "#chat/0";
+		location.hash = "#chat";
+		console.log("hash changed");
+		// this.updateRender("none");
 	}
 
 	send_message(event) {
