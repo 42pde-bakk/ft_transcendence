@@ -143,6 +143,36 @@ class GuildsController < ApplicationController
     end
   end
 
+  def set_officer
+    @user = User.find_by(id: params[:id])
+    @user.guild_officer = true
+    @user.guild_owner = true
+
+    if @user.save
+      respond_to do |format|
+        format.html { redirect_to "/#guilds", notice: 'User set to officer' }
+        format.json { render json: {msg: "User set to officer"}, status: :ok }
+      end
+    else
+      res_with_error("Failed to set new user state", :unauthorized)
+    end
+  end
+
+  def unset_officer
+    @user = User.find_by(id: params[:id])
+    @user.guild_officer = false
+    @user.guild_owner = false
+
+    if @user.save
+      respond_to do |format|
+        format.html { redirect_to "/#guilds", notice: 'User set to officer' }
+        format.json { render json: {msg: "User set to normal"}, status: :ok }
+      end
+    else
+      res_with_error("Failed to set new user state", :unauthorized)
+    end
+  end
+
 
   private
 
