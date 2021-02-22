@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     post '/guilds/remove'
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
+    post '/guilds/set_officer'
+    post '/guilds/unset_officer'
     # admin actions
     resources :admin
     post '/admin/ban'
