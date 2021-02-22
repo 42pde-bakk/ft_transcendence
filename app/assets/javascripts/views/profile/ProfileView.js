@@ -9,7 +9,7 @@ AppClasses.Views.Profile = class extends Backbone.View {
     constructor(opts) {
         opts.events = {
             "click .changeAccount": "changeAccount",
-            "click .getAdmin": "getAdmin"
+            "click .getOwner": "getOwner"
         };
         super(opts);
         this.tagName = "div";
@@ -32,13 +32,13 @@ AppClasses.Views.Profile = class extends Backbone.View {
            })
 	}
 	}
-	getAdmin(event)
+	getOwner(event)
 	{
-		var password = prompt("Enter admin password: ", "password")
+		var password = prompt("Enter owner password: ", "password")
 		if (password != null && password != "")
 		{
 			let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), passwd : password};
-		jQuery.post("/api/profile/getAdmin", data)
+		jQuery.post("/api/profile/getOwner", data)
            .done(usersData => {
                this.updateRender(); // or fetch the new data from server
                App.models.user.fetch();

@@ -17,6 +17,7 @@ class User < ApplicationRecord
       id: usr.id,
       name: usr.name,
       email: usr.email,
+      owner: usr.owner,
       admin: usr.admin,
       ban: usr.ban,
       img_path: usr.img_path,
