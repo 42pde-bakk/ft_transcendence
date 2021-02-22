@@ -12,5 +12,6 @@ AppClasses.Routers.AdminRouter = class extends Backbone.Router {
             this.views.admin = new AppClasses.Views.Admin({});
         }
         this.mainDiv.html(this.views.admin.render().el);
+        this.views.admin.delegateEvents();
 	}
 }
