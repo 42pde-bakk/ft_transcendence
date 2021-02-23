@@ -16,6 +16,7 @@ User.create([{
                current: false,
                last_seen: DateTime.now,
                admin: false,
+               owner: false,
                ban: false,
                email: "42@transcendence.com"
                },
@@ -29,6 +30,7 @@ User.create([{
                current: false,
                last_seen: DateTime.now,
                admin: false,
+               owner: false,
                ban: false,
                email: "42@transcendence.com"
              }])

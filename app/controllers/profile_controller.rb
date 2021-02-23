@@ -31,11 +31,30 @@ class ProfileController < ApplicationController
   def index_not_banned
     @users = User.all.where.not(:ban => true)
     @users = @users.where.not(:id => @current_user.id)
+    @users = @users.where.not(:owner => true)
     respond_to do |format|
       format.html {redirect_to "/", notice: '^' }
       format.json {render json: @users, status: :ok }
     end 
   end
+
+  def index_not_admin
+    @users = User.all.where.not(:admin => true)
+    respond_to do |format|
+      format.html {redirect_to "/", notice: '^' }
+      format.json {render json: @users, status: :ok }
+    end 
+  end
+
+  def index_admin_only
+    @users = User.all.where.not(:admin => false)
+    @users = @users.where.not(:owner => true)
+    respond_to do |format|
+      format.html {redirect_to "/", notice: '^' }
+      format.json {render json: @users, status: :ok }
+    end 
+  end
+
 
   def changeAccount
     User.all.each do |usr|
@@ -61,18 +80,29 @@ class ProfileController < ApplicationController
     end
   end
 
-  def getAdmin
+  def getOwner
+  owner_found = false
+  User.all.each do |usr|
+    if (usr.owner == true)
+      owner_found = true
+    end 
+  end
+  if (owner_found == false)
     if (params[:passwd] == "securepwd")
       User.all.each do |usr|
         if (decrypt(usr.log_token) == cookies[:log_token])
           @user = usr
         end
       end
+    @user.owner = true
     @user.admin = true
     @user.save
     else
       render json: {alert: "Nope, incorrect password"}, status: :unauthorized
     end
+  else
+      render json: {alert: "Website already has an owner"}, status: :unauthorized
+  end
   end
 
   def show

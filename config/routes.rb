@@ -10,7 +10,9 @@ Rails.application.routes.draw do
     post '/profile/changeAccount'
     post '/profile/index_no_self'
     post '/profile/index_not_banned'
-    post '/profile/getAdmin'
+    post '/profile/index_not_admin'
+    post '/profile/index_admin_only'
+    post '/profile/getOwner'
     # friends actions
     resources :friendships
     post '/friendships/add'
@@ -30,6 +32,8 @@ Rails.application.routes.draw do
     # admin actions
     resources :admin
     post '/admin/ban'
+    post '/admin/getAdmin'
+    post '/admin/removeAdmin'
   end
   # map.resources :friendships
 end

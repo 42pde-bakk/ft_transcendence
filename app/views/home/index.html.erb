@@ -25,6 +25,17 @@
     }
     App.collections.users_not_banned.myFetch();
 
+    if (!App.collections.users_not_admin) {
+        App.collections.users_not_admin = new AppClasses.Collections.UsersNotAdmin();
+    }
+    App.collections.users_not_admin.myFetch();
+    
+  
+    if (!App.collections.users_admin_only) {
+        App.collections.users_admin_only = new AppClasses.Collections.UsersAdminOnly();
+    }
+    App.collections.users_admin_only.myFetch();
+
     if (!App.collections.available_for_guild) {
         App.collections.available_for_guild = new AppClasses.Collections.AvailableForGuild();
     }
