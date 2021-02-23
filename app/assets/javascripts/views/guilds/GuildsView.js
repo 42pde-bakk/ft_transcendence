@@ -4,7 +4,9 @@ AppClasses.Views.Guilds = class extends Backbone.View {
             "click .clickToInviteMember": "invite",
             "click .clickToRemoveMember": "remove",
             "click .clickToAcceptInvite": "accept_invite",
-            "click .clickToRejectInvite": "reject_invite"
+            "click .clickToRejectInvite": "reject_invite",
+            "click .clickToSetOfficer": "set_officer",
+            "click .clickToUnsetOfficer": "unset_officer"
         };
         super(opts);
         this.tagName = "div";
@@ -45,6 +47,14 @@ AppClasses.Views.Guilds = class extends Backbone.View {
 
     reject_invite(e) {
         this.guildAction(e, "/api/guilds/reject_invite.json", "Invite", "Rejected invite");
+    }
+
+    set_officer(e) {
+        this.guildAction(e, "/api/guilds/set_officer.json", "officer", "Set Officer");
+    }
+
+    unset_officer(e) {
+        this.guildAction(e, "/api/guilds/unset_officer.json", "officer", "Unset Officer");
     }
 
 
