@@ -25,7 +25,8 @@ AppClasses.Views.Profile = class extends Backbone.View {
        jQuery.post("/api/profile/changeAccount", data)
            .done(usersData => {
                this.updateRender(); // or fetch the new data from server
-               App.models.user.fetch();
+               window.location.reload();
+		App.models.user.fetch();
 	   })
            .fail(e => {
                 App.routers.profile.navigate("/profile/tfa", {trigger: true})
