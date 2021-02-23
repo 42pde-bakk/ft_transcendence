@@ -6,26 +6,19 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 		this.route('chat', 'index');
 	};
 
-	renderView(viewname, viewoptions = {} ) { // should overwrite the base method
+	renderViewWithParamsBitch(viewname, target_id, target_name, viewoptions = {}) { // should overwrite the base method
 		this.createView(viewname, viewoptions);
-		this.mainDiv.html(this.views[viewname].render(0, "Noone", "none").el);
-	}
-
-	renderViewWithParams(viewname, viewparams, viewoptions = {}) { // should overwrite the base method
-		this.createView(viewname, viewoptions);
-		this.mainDiv.html(this.views[viewname].render(viewparams["target_id"], viewparams["target_name"], viewparams["chatbox_display_style"]).el);
+		this.mainDiv.html(this.views[viewname].render(target_id, target_name).el);
 	}
 
 	index() {
 		const user = this.models.user;
 		const users = this.collections.users_no_self;
-		console.log("in ChatRouter::index()");
 		this.renderView("ChatIndexView");
 	}
 
 	chat_shit(chat_id) {
-		console.log("in chat_shit");
-		this.renderViewWithParams("ChatIndexView", { target_id: chat_id, target_name: "Someone", chatbox_display_style: "block"} );
-		this.views["ChatIndexView"].open_msgbox(chat_id);
+		this.renderViewWithParamsBitch("ConversationView", chat_id, "Someone"); // "Someone" should be the name of the person you're messaging
+		// this.views["ConversationView"].open_msgbox(chat_id);
 	}
 }

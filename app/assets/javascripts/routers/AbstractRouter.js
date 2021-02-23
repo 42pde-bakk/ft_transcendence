@@ -8,7 +8,7 @@ AppClasses.Routers.AbstractRouter = class extends Backbone.Router {
 	}
 
 	createView(viewname, viewoptions) {
-		if (this.views[viewname] == null)
+		if (!this.views[viewname])
 			this.views[viewname] = new AppClasses.Views[viewname](viewoptions);
 	}
 

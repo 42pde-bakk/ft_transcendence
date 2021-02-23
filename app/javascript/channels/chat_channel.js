@@ -1,5 +1,5 @@
+import {$,jQuery} from 'jquery';
 import consumer from "./consumer"
-
 let ChatSub = null;
 let last_message = null;
 
@@ -18,7 +18,7 @@ function manageChatChannels() {
 			received: (data) => {
 				// Called when there's incoming data on the websocket for this channel
 				let chat_target_id = chat_div.getAttribute("data-chat-target-id");
-				console.log(`current chat_target is ${chat_target_id}`);
+				console.log(`My current chat_target is ${chat_target_id}, data received is ${data}, data[title] = ${data["title"]}, data[body] = ${data["body"]}`);
 				if (data !== null && chat_target_id !== "0" && last_message !== data) { // Why is it fucking receiving the message twice?!?!?
 					if (parseInt(data["title"]) === parseInt(chat_target_id)) {
 						$('chat_log').append("<br>" + data["body"]);
