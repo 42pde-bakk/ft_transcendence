@@ -22,7 +22,7 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 			target_user_id: this.targetUserID,
 			target_user_name: this.targetUserName,
 		}));
-		this.open_msgbox();
+		// this.open_msgbox();
 		return (this);
 	}
 
@@ -35,25 +35,6 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 
 	clearInput() {
 		$("textarea").val('');
-	}
-
-	open_msgbox() {
-		const data = {
-			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			other_user_id: this.targetUserID
-		};
-		let elem = document.getElementById("chat-target");
-		let target_id = elem.getAttribute("data-chat-target-id");
-		console.log("when doing fuckiing query bs, target_id is " + target_id);
-
-		jQuery.post("/api/chat/get_old_messages.json", data)
-			.done(usersData => {
-				// location.hash = `#chat/${this.targetUserID}`;
-				console.log("Message history got!");
-			})
-			.fail(e => {
-				alert("Could not load message history...");
-			})
 	}
 
 	send_message(event) {

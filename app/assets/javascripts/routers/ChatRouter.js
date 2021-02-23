@@ -18,7 +18,7 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 	}
 
 	chat_shit(chat_id) {
+		console.log("in chat_shit, chat_id is " + chat_id);
 		this.renderViewWithParamsBitch("ConversationView", chat_id, "Someone"); // "Someone" should be the name of the person you're messaging
-		// this.views["ConversationView"].open_msgbox(chat_id);
 	}
 }

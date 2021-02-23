@@ -2,6 +2,24 @@
 	<input type="hidden" name="authenticity_token" value="{{token}}">
 	<input type="text" name="id" id="friendIDField">
 </form>
+<script>
+	console.log(document.readyState);
+	!function () {
+		const data = {
+			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			other_user_id: {{target_user_id}}
+		};
+		if (data["other_user_id"] !== "0") {
+			jQuery.post("/api/chat/get_old_messages.json", data)
+					.done(usersData => {
+						console.log("Message history got!");
+					})
+					.fail(e => {
+						alert("Could not load message history...");
+					})
+		}
+	}();
+</script>
 
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div class=" h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 ...">
@@ -89,9 +107,6 @@
 			</div>
 		</div>
 	</div>
-	<span class="test cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-		TEST
-	</span>
 	<div id="ChatBox" class="bg-white bg-opacity-15 bg-right-bottom box-content w-64 border-4 " style="display: block">
 		<form name="ChatBoxContainer" class="form-container">
 			<div id="chat-target" data-chat-target-id="{{ target_user_id }}"></div>
