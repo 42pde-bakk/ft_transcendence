@@ -1,4 +1,12 @@
+def encrypt(log_token)
+  return ((log_token.to_i + 420 - 69).to_s)
+end
+def decrypt(log_token)
+  return ((log_token.to_i - 420 + 69).to_s)
+end
+
 class GuildsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :connect_user
   before_action :set_guild, only: [:show, :edit, :update, :destroy, :join]
   before_action :has_guild, only: [:create, :join]
@@ -8,17 +16,38 @@ class GuildsController < ApplicationController
     render json: @guilds
   end
 
+  def users_available
+    @current_user.last_seen = DateTime.now
+    @current_user.save
+    @users = User.all.where.not(:id => @current_user.id)
+    @users = @users.all.where(:guild_id => nil)
+    respond_to do |format|
+      format.html { redirect_to "/", notice: '^^' }
+      format.json { render json: @users, status: :ok }
+    end
+  end
+
   def show
     @guild = Guild.find(params[:id])
     render json: Guild.clean(@guild)
   end
 
   def create
+
+    g_params = guild_params()
+    if (!g_params)
+      return false
+    end
+
     @guild = @current_user.create_guild(guild_params)
     @current_user.guild_owner = true
+    @current_user.guild_officer = true
     @current_user.guild_validated = true
     if @current_user.save and @guild
-      render json: {alert: "Added guild"}, status: :ok
+      respond_to do |format|
+        format.html { redirect_to "/#guilds", notice: 'Guild was successfully added.' }
+        format.json { render json: {alert: "Added guild"}, status: :ok }
+      end
     else
       res_with_error("Failed to create new guild", :unauthorized)
     end
@@ -37,10 +66,13 @@ class GuildsController < ApplicationController
       return false
     end
 
-    if @guild.update(g_params)
-      render json: @guild, status: ok
-    else
-      res_with_error("Error updating guild", :bad_request)
+    respond_to do |format|
+      if @guild.update(g_params)
+        format.html { redirect_to "/#guilds", notice: 'Guild was successfully updated.' }
+        format.json { head :no_content }
+      else
+        res_with_error("Guild was not updated.", :bad_request)
+      end
     end
   end
 
@@ -57,63 +89,95 @@ class GuildsController < ApplicationController
     end
     @guild.destroy
     respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'Guild was successfully quit.' }
       format.json { head :no_content }
     end
   end
 
-  def quit
-    if @current_user.guild_owner
+  def remove
+    @user = User.find(params[:id])
+    if !@current_user.guild_owner && @user != @current_user
+      res_with_error("You can't remove it if you don't own it!", :unauthorized)
+      return
+    end
+    if @current_user.guild_owner && @user == @current_user
       @guild = @current_user.guild
       destroy
       return true
     end
-    User.reset_guild(@current_user)
-    render json: User.clean(@current_user), status: :ok
+    User.reset_guild(@user)
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'You quitted your guild' }
+      format.json { render json: User.clean(@user), status: :ok }
+    end
   end
 
-  def join
-    @current_user.guild_id = @guild.id
-    @current_user.guild_officer = false
-    @current_user.guild_owner = false
-    @current_user.guild_validated = false
+  def invite
+    @guild = Guild.find(@current_user.guild_id)
+    @user = User.find(params[:id])
+    @user.guild_id = @guild.id
+    @user.guild_officer = false
+    @user.guild_owner = false
+    @user.guild_validated = false
+    @user.save
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'Joining request sent.' }
+      format.json { render json: User.clean(@current_user), status: :ok }
+    end
+  end
+
+  def accept_invite
+    @current_user.guild_validated = true
     @current_user.save
-    render json: User.clean(@current_user), status: :ok
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'Joining request accepted.' }
+      format.json { render json: {msg: "Joining request accepted"}, status: :ok }
+    end
   end
 
-  def accept_request
-    new_usr = User.find(params[:id])
-    unless new_usr.guild_id == @current_user.guild_id
-      res_with_error("Bad request", :bad_request)
-      return false
+  def reject_invite
+    User.reset_guild(@current_user)
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", notice: 'Joining request rejected.' }
+      format.json { render json: {msg: "Joining request rejected"}, status: :ok }
     end
-    unless User.has_officer_rights(@current_user)
-      res_with_error("Action unauthorized", :unauthorized)
-      return false
-    end
-    new_usr.guild_validated = true
-    new_usr.save
-    render json: {msg: "Joining request accepted"}, status: :ok
   end
 
-  def reject_request
-    new_usr = User.find(params[:id])
-    unless new_usr.guild_id == @current_user.guild_id
-      res_with_error("Bad request", :bad_request)
-      return false
+  def set_officer
+    @user = User.find_by(id: params[:id])
+    @user.guild_officer = true
+    @user.guild_owner = true
+
+    if @user.save
+      respond_to do |format|
+        format.html { redirect_to "/#guilds", notice: 'User set to officer' }
+        format.json { render json: {msg: "User set to officer"}, status: :ok }
+      end
+    else
+      res_with_error("Failed to set new user state", :unauthorized)
     end
-    unless User.has_officer_rights(@current_user)
-      res_with_error("Action unauthorized", :unauthorized)
-      return false
+  end
+
+  def unset_officer
+    @user = User.find_by(id: params[:id])
+    @user.guild_officer = false
+    @user.guild_owner = false
+
+    if @user.save
+      respond_to do |format|
+        format.html { redirect_to "/#guilds", notice: 'User set to officer' }
+        format.json { render json: {msg: "User set to normal"}, status: :ok }
+      end
+    else
+      res_with_error("Failed to set new user state", :unauthorized)
     end
-    User.reset_guild(new_usr)
-    render json: {msg: "Joining request rejected"}, status: :ok
   end
 
 
   private
 
   def guild_params
-    guild_params = params.require(:guild).permit(:name, :anagram)
+    guild_params = params.require(:guild).permit(:id, :name, :anagram)
     if !guild_params['name'] || check_len(guild_params['name'], 3, 20)
       res_with_error("Name length must be >= 3 and <= 20", :bad_request)
       return false
@@ -137,12 +201,15 @@ class GuildsController < ApplicationController
   end
 
   def res_with_error(msg, error)
-    render json: {alert: "#{msg}"}, status: error
+    respond_to do |format|
+      format.html { redirect_to "/#guilds", alert: "#{msg}" }
+      format.json { render json: {alert: "#{msg}"}, status: error }
+    end
   end
 
   def connect_user
     User.all.each do |usr|
-      if cookies[:log_token] == usr.log_token
+      if cookies[:log_token] == decrypt(usr.log_token)
         @current_user = usr
       end
     end

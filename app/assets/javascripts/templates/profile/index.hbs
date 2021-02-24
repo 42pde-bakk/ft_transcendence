@@ -16,6 +16,9 @@
                                 <a href="#profile" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
                                 <a href="#friends" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Friends</a>
                                 <a href="#guilds" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Guilds</a>
+{{#if current_user.admin }}
+                            <a href="#admin" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
+{{/if}} 
                             <a href="/logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
                             </div>
                         </div>
@@ -52,6 +55,15 @@
                                     {{current_user.name}}
                                 </dd>
                             </div>
+				<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Email
+                                </dt>
+                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    {{current_user.email}}
+                                </dd>
+                            </div>
+
                             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
                                     Avatar url
@@ -64,10 +76,46 @@
                                 <dt class="text-sm font-medium text-gray-500">
                                     Login Token/Password
                                 </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <dd id="log_id" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     {{current_user.log_token}}
                                 </dd>
                             </div>
+			<script>
+			var elem= document.getElementById("log_id");
+			elem.innerHTML = (parseInt(elem.innerHTML, 10) - 420 + 69).toString();
+			</script>
+
+				<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Tfa
+                                </dt>
+				{{#if current_user.tfa}}
+				<dd id="tfa_val" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                              	  Activated
+				</dd>
+				{{else}}
+                                <dd id="tfa_val" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                	Off
+				</dd>
+				{{/if}}
+                            	</div>
+				
+				<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Admin
+                                </dt>
+
+				{{#if current_user.admin}}
+				<dd id="admin_val" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                              	  Yes
+				</dd>	
+				{{else}}
+				<dd id="admin_val" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                              	  No
+				</dd>
+				{{/if}}
+				</div>
+				
                         </dl>
                     </div>
                 </div>
@@ -75,8 +123,12 @@
                     <a href="#profile/edit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Edit</a>
 <p class="changeAccount cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
     Change Account
-<!--    <span hidden class="nodisplay">{{id}}</span> -->
 </p>
+{{#unless current_user.owner }}
+<p class="getOwner cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    Claim owner
+</p>
+{{/unless}}
                 </div>
             </div>
         </div>

@@ -10,19 +10,33 @@ User.create([{
                name: "Ant-Man",
                img_path: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg",
                token: "12345",
-               guild_id: 3,
+               guild_id: nil,
                tfa: true,
                reg_done: false,
                current: false,
-               last_seen: DateTime.now
+               last_seen: DateTime.now,
+               admin: false,
+               owner: false,
+               ban: false,
+               email: "42@transcendence.com"
                },
              {
                name: "R2D2",
                img_path: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg",
                token: "123",
-               guild_id: 2,
+               guild_id: nil,
                tfa: true,
                reg_done: false,
                current: false,
-               last_seen: DateTime.now
+               last_seen: DateTime.now,
+               admin: false,
+               owner: false,
+               ban: false,
+               email: "42@transcendence.com"
+             }])
+
+Guild.create([{
+               name: "Ants",
+               anagram: "ant",
+               points: 55
              }])

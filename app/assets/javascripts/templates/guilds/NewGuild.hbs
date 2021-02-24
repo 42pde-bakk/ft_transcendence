@@ -1,3 +1,8 @@
+{{#if current_user.ban}}
+<div>
+Your account has been banned.
+<div>
+{{else}}
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div class="bg-gray-100 h-screen">
     <div>
@@ -35,7 +40,7 @@
                             Fill out the form to create a new guild
                         </p>
                     </div>
-                    <form id="createGuildForm" action="/guilds"
+                    <form id="createGuildForm" action="api/guilds"
                           accept-charset="UTF-8" method="post">
                         <input type="hidden"
                                name="authenticity_token"
@@ -66,3 +71,4 @@
         </div>
     </div>
 </div>
+{{/if}}

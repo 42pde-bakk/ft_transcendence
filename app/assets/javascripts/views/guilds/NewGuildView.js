@@ -7,7 +7,6 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
         this.tagName = "div";
         this.template = App.templates["guilds/NewGuild"];
         this.updateRender(); // render the template only one time, unless model changed
-        this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
     }
 
     submit(e) {
@@ -16,7 +15,7 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
         let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), name: $('#guild_name').val(), anagram: $('#anagram').val()};
         guild.save(attr, {patch: true,
             error: function(guild, response){
-                alert(response.responseJSON.alert);
+                alert("Could not create guild");
             },
             success: function(){
                 App.models.user.fetch();
@@ -28,7 +27,6 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
     updateRender() {
         this.$el.html(this.template({
             current_user: App.models.user.toJSON(),
-            users: App.collections.users_no_self.toJSON(),
             guilds: App.collections.guilds.toJSON(),
             token: $('meta[name="csrf-token"]').attr('content')}));
         return (this);

@@ -3,12 +3,16 @@ AppClasses.Models.User = Backbone.Model.extend({
 
 	defaults: {
 		name: "",
+		email: "",
         img_path: "",
         token: "",
         guild_id: 0,
         tfa: false,
         reg_done: false,
-	log_token: 0,
+	admin: false,
+	owner: false,
+	ban: false,
+	log_token: 0
 	}
 });
 
@@ -30,7 +34,93 @@ AppClasses.Collections.UsersNoSelf = class extends Backbone.Collection {
     }
     myFetch() {
         let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
-        jQuery.post("/api/friendships/get_all.json", data)
+        jQuery.post("/api/profile/index_no_self.json", data)
+            .done(usersData => {
+                this.set(usersData);
+            })
+            .fail(e => {
+                console.error(e);
+            })
+    }
+};
+
+AppClasses.Collections.UsersNotBanned = class extends Backbone.Collection {
+    constructor(opts) {
+        super(opts);
+        this.myFetch();
+    }
+    myFetch() {
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+        jQuery.post("/api/profile/index_not_banned.json", data)
+            .done(usersData => {
+                this.set(usersData);
+            })
+            .fail(e => {
+                console.error(e);
+            })
+    }
+};
+
+AppClasses.Collections.UsersNotAdmin = class extends Backbone.Collection {
+    constructor(opts) {
+        super(opts);
+        this.myFetch();
+    }
+    myFetch() {
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+        jQuery.post("/api/profile/index_not_admin.json", data)
+            .done(usersData => {
+                this.set(usersData);
+            })
+            .fail(e => {
+                console.error(e);
+            })
+    }
+};
+
+AppClasses.Collections.UsersAdminOnly = class extends Backbone.Collection {
+    constructor(opts) {
+        super(opts);
+        this.myFetch();
+    }
+    myFetch() {
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+        jQuery.post("/api/profile/index_admin_only.json", data)
+            .done(usersData => {
+                this.set(usersData);
+            })
+            .fail(e => {
+                console.error(e);
+            })
+    }
+};
+
+
+AppClasses.Collections.AvailableForGuild = class extends Backbone.Collection {
+    constructor(opts) {
+        super(opts);
+        this.myFetch();
+    }
+    myFetch() {
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+        jQuery.post("/api/guilds/users_available.json", data)
+            .done(usersData => {
+                this.set(usersData);
+            })
+            .fail(e => {
+                console.error(e);
+            })
+    }
+};
+
+AppClasses.Collections.NotFriends = class extends Backbone.Collection {
+    constructor(opts) {
+        super(opts);
+        this.myFetch();
+    }
+    myFetch() {
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+        jQuery.post("/api/friendships/not_friends.json", data)
             .done(usersData => {
                 this.set(usersData);
             })
