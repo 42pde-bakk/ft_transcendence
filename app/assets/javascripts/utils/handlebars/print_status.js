@@ -35,3 +35,14 @@ Handlebars.registerHelper('print_status_war', function (start, end) {
     }
     return ("Active");
 });
+
+Handlebars.registerHelper('check_timeframe', function (start, end) {
+    var today = new Date();
+    today = moment(today).format("HH/MM");
+    start = moment(start).format("HH/MM");
+    end = moment(end).format("HH/MM");
+    if (today < start || today > end) {
+        return false;
+    }
+    return true;
+});
