@@ -7,7 +7,7 @@ class Guild < ApplicationRecord
   has_many :wars, class_name: "War", foreign_key: "guild1_id"
   has_one :active_war, -> { where(finished: false, accepted: true) }, class_name: "War", foreign_key: "guild1_id"
   has_many :finished_wars, -> { where(finished: true, accepted: true) }, class_name: "War", foreign_key: "guild1_id"
-  has_many :war_invites, class_name: "War", foreign_key: "guild2_id" # invites from other guilds
+  has_many :war_invites, -> { where(finished: false, accepted: false) }, class_name: "War", foreign_key: "guild2_id" # invites from other guilds
 
   validates :name, uniqueness: true
   validates :anagram, uniqueness: true

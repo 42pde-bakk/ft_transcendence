@@ -8,7 +8,10 @@ AppClasses.Views.Guilds = class extends Backbone.View {
             "click .clickToAcceptWar": "accept_war",
             "click .clickToRejectWar": "reject_war",
             "click .clickToSetOfficer": "set_officer",
-            "click .clickToUnsetOfficer": "unset_officer"
+            "click .clickToUnsetOfficer": "unset_officer",
+            "click .clickToInviteBattle": "invite_battle",
+            "click .clickToAcceptBattle": "accept_battle",
+            "click .clickToRejectBattle": "reject_battle"
         };
         super(opts);
         this.tagName = "div";
@@ -38,6 +41,32 @@ AppClasses.Views.Guilds = class extends Backbone.View {
                 }
             );
     }
+
+    battleAction(event, url, id, msgSuccess) {
+        const opponent_id = event.target.getElementsByClassName(id)[0].innerText;
+
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+            user1_id: App.models.user.toJSON().id,
+            user2_id: opponent_id,
+            time_to_accept: App.models.user.toJSON().guild.active_war.time_to_answer};
+        jQuery.post(url, data)
+            .done(usersData => {
+                console.log(msgSuccess);
+                App.models.user.fetch();
+                App.collections.available_for_guild.myFetch();
+            })
+            .fail(
+                function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR) {
+                        console.log(jqXHR.responseText);
+                        alert(jqXHR.responseJSON.alert);
+                    } else {
+                        alert("Error while performing action on guild");
+                    }
+                }
+            );
+    }
+
 
     remove(e) {
         this.guildAction(e, "/api/guilds/remove.json", "remove", "Quit guild");
@@ -69,6 +98,18 @@ AppClasses.Views.Guilds = class extends Backbone.View {
 
     unset_officer(e) {
         this.guildAction(e, "/api/guilds/unset_officer.json", "officer", "Unset Officer");
+    }
+
+    invite_battle(e) {
+        this.battleAction(e, "/api/battles/create.json", "battle", "Sent battle invite");
+    }
+
+    accept_battle(e) {
+        this.battleAction(e, "/api/battles/accept_battle.json", "battle", "Accepted battle invite");
+    }
+
+    reject_battle(e) {
+        this.battleAction(e, "/api/battles/reject_battle.json", "battle", "Rejected battle invite");
     }
 
 

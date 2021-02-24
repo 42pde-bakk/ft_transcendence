@@ -11,8 +11,8 @@ class User < ApplicationRecord
 
   has_many :battles, class_name: "Battle", foreign_key: "user1_id"
   has_one :active_battle, -> { where(finished: false, accepted: true) }, class_name: "Battle", foreign_key: "user1_id"
-  has_many :finished_battle, -> { where(finished: true, accepted: true) }, class_name: "Battle", foreign_key: "user1_id"
-  has_many :battle_invites, class_name: "Battle", foreign_key: "user2_id" # invites from other users
+  has_many :finished_battles, -> { where(finished: true, accepted: true) }, class_name: "Battle", foreign_key: "user1_id"
+  has_many :battle_invites, -> { where(finished: false, accepted: false) }, class_name: "Battle", foreign_key: "user2_id" # invites from other users
 
   validates :name, uniqueness: true
  # validates :token, uniqueness: true
@@ -36,8 +36,13 @@ class User < ApplicationRecord
       current: usr.current,
       friends: usr.friends,
       invites: usr.invites,
-      last_seen: usr.last_seen
+      last_seen: usr.last_seen,
+      finished_battles: usr.finished_battles,
+      battle_invites: Battle.clean_arr(usr.battle_invites)
     }
+    if usr.active_battle
+      new_user[:active_battle] = Battle.clean(usr.active_battle)
+    end
     if usr.guild_id
       new_user[:guild] = Guild.clean(usr.guild);
     end

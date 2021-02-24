@@ -32,6 +32,11 @@ Rails.application.routes.draw do
     post '/wars/reject_war'
     post '/guilds/set_officer'
     post '/guilds/unset_officer'
+    # Battle actions
+    resources :battles
+    post '/battles/create'
+    post '/battles/accept_battle'
+    post '/battles/reject_battle'
     # admin actions
     resources :admin
     post '/admin/ban'

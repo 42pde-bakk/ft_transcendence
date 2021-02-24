@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2021_02_24_102715) do
     t.boolean "finished", default: false
     t.boolean "accepted", default: false
     t.integer "winner_id"
-    t.datetime "time_to_accept"
+    t.integer "time_to_accept"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user1_id"], name: "index_battles_on_user1_id"

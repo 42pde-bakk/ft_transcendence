@@ -6,7 +6,7 @@ class CreateBattles < ActiveRecord::Migration[6.1]
       t.boolean :finished, default: false
       t.boolean :accepted, default: false
       t.integer :winner_id
-      t.datetime :time_to_accept
+      t.integer :time_to_accept
 
       t.timestamps
     end
