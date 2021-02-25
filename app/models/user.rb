@@ -55,8 +55,4 @@ class User < ApplicationRecord
     return (usr.guild_owner || usr.guild_officer)
   end
 
-  def str
-    return self.name
-  end
-
 end

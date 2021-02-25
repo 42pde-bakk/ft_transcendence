@@ -31,29 +31,14 @@ class ChatController < ApplicationController
 		end
 
 		if BlockedUser.find_by(user: @current_user, towards: @target_user) != nil
-			respond_to do |format|
-				ChatChannel.broadcast_to(@current_user, {
-					title: @target_user.id,
-					body: "Dude, you can't just block #{@target_user.name} twice...\nNot cool dude."
-				})
-				format.html { }
-				format.json { head :no_content }
-			end
+			render json: {alert: "Cant block someone multiple times"}, status: :unprocessable_entity
 		else
 			newblock = BlockedUser.create(user: @current_user, towards: @target_user)
 			respond_to do |format|
 				if newblock.save
-					ChatChannel.broadcast_to(@current_user, {
-						title: @target_user.id,
-						body: "#{@target_user.name} has succesfully been blocked"
-					})
 					format.html { }
 					format.json { head :no_content }
 				else
-					ChatChannel.broadcast_to(@current_user, {
-						title: @target_user.id,
-						body: "Fuck, something went wrong in blocking #{@target_user.name}"
-					})
 					format.html { }
 					format.json { render json: newblock.errors, status: :unprocessable_entity }
 				end
@@ -69,26 +54,16 @@ class ChatController < ApplicationController
 		end
 
 		block = BlockedUser.find_by(user: @current_user, towards: @target_user)
-
-		respond_to do |format|
-			if block != nil and block.destroy
-				ChatChannel.broadcast_to(@current_user, {
-					title: @target_user.id,
-					body: "#{@target_user.name} has succesfully been unblocked"
-				})
+		if block == nil
+			render json: {alert: "Cant unblock someone you haven't blocked"}, status: :unprocessable_entity
+		else
+			block.destroy
+			respond_to do |format|
 				format.html { }
 				format.json { head :no_content }
-			else
-				ChatChannel.broadcast_to(@current_user, {
-					title: @target_user.id,
-					body: "Yo, are you sure you blocked #{@target_user.name}?"
-				})
-				format.html { }
-				format.json { render json: newblock.errors, status: :unprocessable_entity }
 			end
 		end
 	end
-
 
 	def send_dm
 		set_users_please
@@ -99,8 +74,6 @@ class ChatController < ApplicationController
 		end
 
 		@message = PrivateMessage.create(message: params[:chat_message], from: @current_user)
-		saveret = @message.save
-		STDERR.puts "moetherukdlsfjlsdjf, saveret is #{saveret}, message is #{@message}"
 		respond_to do |format|
 			if @message.save
 				ChatChannel.broadcast_to(@current_user, {
@@ -119,7 +92,6 @@ class ChatController < ApplicationController
 				format.json { render json: @message.errors, status: :unprocessable_entity}
 			end
 		end
-
 	end
 
 	def set_users_please
@@ -127,7 +99,7 @@ class ChatController < ApplicationController
 		@current_user = User.find_by(log_token: encrypt(cookies[:log_token])) rescue nil
 		@target_user = User.find_by(id: params[:other_user_id]) rescue nil
 		if @target_user != nil and @current_user != nil
-			STDERR.puts("current_user is #{@current_user.str}, target_user is #{@target_user.str}")
+			STDERR.puts("current_user is #{@current_user.name}, target_user is #{@target_user.name}")
 		end
 
 	end

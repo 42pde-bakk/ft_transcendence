@@ -71,8 +71,10 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 		};
 		jQuery.post("/api/chat/block_user", data)
 			.done(usersData => {
+				alert(`Succesfully blocked ${this.targetUserName}`);
 			})
 			.fail(e => {
+				alert(`Wtf dude, you can't just block ${this.targetUserName} more than once.`);
 			})
 	}
 
@@ -84,8 +86,10 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 		};
 		jQuery.post("/api/chat/unblock_user", data)
 			.done(usersData => {
+				alert(`Succesfully unblocked ${this.targetUserName}`);
 			})
 			.fail(e => {
+				alert(`What are you doing? You can't unblock someone you haven't blocked.`);
 			})
 	}
 }

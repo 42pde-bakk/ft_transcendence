@@ -4,6 +4,6 @@ class PrivateMessage < ApplicationRecord
 	def str
 		# If "from"-User is blocked by "to"-User,
 		# return "[Blocked user]: generic message"
-		"#{self.from.str}: #{self.message}"
+		"#{self.from.name}: #{self.message}"
 	end
 end
