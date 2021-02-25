@@ -58,6 +58,8 @@ AppClasses.Views.Guilds = class extends Backbone.View {
             .fail(
                 function(jqXHR, textStatus, errorThrown) {
                     if (jqXHR) {
+                        App.models.user.fetch();
+                        App.collections.available_for_guild.myFetch();
                         console.log(jqXHR.responseText);
                         alert(jqXHR.responseJSON.alert);
                     } else {
