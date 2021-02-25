@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     post '/battles/create'
     post '/battles/accept_battle'
     post '/battles/reject_battle'
+    post '/battles/resolve_battle'
     # admin actions
     resources :admin
     post '/admin/ban'
