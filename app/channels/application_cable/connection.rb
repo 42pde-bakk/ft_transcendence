@@ -8,8 +8,7 @@ module ApplicationCable
 
 		private
 		def find_verified_user
-			STDERR.puts("cookies is #{cookies}, cookies[:atoken] is #{cookies[:atoken]}")
-			if (current_user = User.find_by(token: cookies[:atoken]))
+			if (current_user = User.find_by(log_token: encrypt(cookies[:log_token])))
 				current_user
 			else
 				reject_unauthorized_connection
