@@ -22,11 +22,79 @@ class ChatController < ApplicationController
 	# 	dm_room
 	# end
 
+	def block_user
+		set_users_please
+
+		if @current_user == nil or @target_user == nil
+			puts "Oopsie, something went wrong"
+			return false
+		end
+
+		if BlockedUser.find_by(user: @current_user, towards: @target_user) != nil
+			respond_to do |format|
+				ChatChannel.broadcast_to(@current_user, {
+					title: @target_user.id,
+					body: "Dude, you can't just block #{@target_user.name} twice...\nNot cool dude."
+				})
+				format.html { }
+				format.json { head :no_content }
+			end
+		else
+			newblock = BlockedUser.create(user: @current_user, towards: @target_user)
+			respond_to do |format|
+				if newblock.save
+					ChatChannel.broadcast_to(@current_user, {
+						title: @target_user.id,
+						body: "#{@target_user.name} has succesfully been blocked"
+					})
+					format.html { }
+					format.json { head :no_content }
+				else
+					ChatChannel.broadcast_to(@current_user, {
+						title: @target_user.id,
+						body: "Fuck, something went wrong in blocking #{@target_user.name}"
+					})
+					format.html { }
+					format.json { render json: newblock.errors, status: :unprocessable_entity }
+				end
+			end
+		end
+	end
+
+	def unblock_user
+		set_users_please
+		if @current_user == nil or @target_user == nil
+			puts "Oopsie, something went wrong"
+			return false
+		end
+
+		block = BlockedUser.find_by(user: @current_user, towards: @target_user)
+
+		respond_to do |format|
+			if block != nil and block.destroy
+				ChatChannel.broadcast_to(@current_user, {
+					title: @target_user.id,
+					body: "#{@target_user.name} has succesfully been unblocked"
+				})
+				format.html { }
+				format.json { head :no_content }
+			else
+				ChatChannel.broadcast_to(@current_user, {
+					title: @target_user.id,
+					body: "Yo, are you sure you blocked #{@target_user.name}?"
+				})
+				format.html { }
+				format.json { render json: newblock.errors, status: :unprocessable_entity }
+			end
+		end
+	end
+
+
 	def send_dm
 		set_users_please
 
 		if @current_user == nil or @target_user == nil
-			puts "MOTHERFUCKER PLEASE, current user is #{@current_user}, target is #{@target_user}"
+			puts "Oopsie, something went wrong"
 			return false
 		end
 

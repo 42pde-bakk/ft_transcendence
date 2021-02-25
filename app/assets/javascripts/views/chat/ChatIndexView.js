@@ -4,18 +4,8 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 		super(options);
 		this.tagName = "div";
 		this.template = App.templates["chat/index"];
-		this.listenTo(App.models.user, "change", this.userchange);
-		this.listenTo(App.collections.users_no_self, "change reset add remove", this.noselfchange);
-	}
-
-	userchange() {
-		console.log("userchange");
-		this.updateRender();
-	}
-
-	noselfchange() {
-		console.log("usernoselfchange");
-		this.updateRender();
+		this.listenTo(App.models.user, "change", this.updateRender);
+		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
 	}
 
 	updateRender() {
