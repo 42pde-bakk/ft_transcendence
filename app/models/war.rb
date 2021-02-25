@@ -14,6 +14,8 @@ class War < ApplicationRecord
       start: war.start,
       end: war.end,
       prize: war.prize,
+      g1_points: war.g1_points,
+      g2_points: war.g2_points,
       wt_begin: war.wt_begin,
       wt_end: war.wt_end,
       time_to_answer: war.time_to_answer,
