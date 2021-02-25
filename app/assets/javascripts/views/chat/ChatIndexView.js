@@ -1,10 +1,21 @@
 AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	constructor(options) {
+		console.log("in chatindexview.constructor");
 		super(options);
 		this.tagName = "div";
 		this.template = App.templates["chat/index"];
-		this.listenTo(App.models.user, "change", this.updateRender);
-		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
+		this.listenTo(App.models.user, "change", this.userchange);
+		this.listenTo(App.collections.users_no_self, "change reset add remove", this.noselfchange);
+	}
+
+	userchange() {
+		console.log("userchange");
+		this.updateRender();
+	}
+
+	noselfchange() {
+		console.log("usernoselfchange");
+		this.updateRender();
 	}
 
 	updateRender() {
@@ -15,6 +26,7 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 			token: $('meta[name="csrf-token"]').attr('content'),
 			allUsers: App.collections.users_no_self.toJSON()
 		}));
+		this.delegateEvents();
 		return (this);
 	}
 

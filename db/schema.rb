@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_22_172755) do
+ActiveRecord::Schema.define(version: 2021_02_24_220951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "blocked_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "towards_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["towards_id"], name: "index_blocked_users_on_towards_id"
+    t.index ["user_id"], name: "index_blocked_users_on_user_id"
+  end
 
   create_table "friendships", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -43,23 +52,12 @@ ActiveRecord::Schema.define(version: 2021_02_22_172755) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "private_chats", force: :cascade do |t|
-    t.bigint "user1_id"
-    t.bigint "user2_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user1_id"], name: "index_private_chats_on_user1_id"
-    t.index ["user2_id"], name: "index_private_chats_on_user2_id"
-  end
-
   create_table "private_messages", force: :cascade do |t|
     t.bigint "from_id"
-    t.bigint "private_chat_id", null: false
     t.text "message"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["from_id"], name: "index_private_messages_on_from_id"
-    t.index ["private_chat_id"], name: "index_private_messages_on_private_chat_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -83,9 +81,9 @@ ActiveRecord::Schema.define(version: 2021_02_22_172755) do
     t.boolean "owner"
   end
 
+  add_foreign_key "blocked_users", "users", column: "towards_id"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "games", "users", column: "player1_id"
   add_foreign_key "games", "users", column: "player2_id"
-  add_foreign_key "private_messages", "private_chats"
 end

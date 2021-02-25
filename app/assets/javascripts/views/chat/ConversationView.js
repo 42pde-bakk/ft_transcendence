@@ -1,20 +1,35 @@
 AppClasses.Views.ConversationView = class extends Backbone.View {
 	constructor(options) {
+		console.log("in conversationview.constructor");
 		options.events = {
-			"click .send_message": "send_message"
+			"click .send_dm": "send_dm",
+			"click .test": "test"
 		};
 		super(options);
 		this.tagName = "div";
 		this.template = App.templates["chat/conversation"];
 		this.targetUserID = 0;
 		this.targetUserName = "Noone";
-		this.listenTo(App.models.user, "change", this.updateRender);
-		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
+		this.listenTo(App.models.user, "change", this.userchange);
+		this.listenTo(App.collections.users_no_self, "change reset add remove", this.noselfchange);
+	}
+
+	userchange() {
+		console.log("Convo userchange");
+		this.updateRender();
+	}
+
+	noselfchange() {
+		console.log("Convo usernoselfchange");
+		this.updateRender();
 	}
 
 	updateRender() {
 		App.models.user.fetch();
 		App.collections.users_no_self.myFetch();
+		this.$el.remove();  // This makes function calls still work even after you try to message someone else
+												// But this makes refreshing the page fail I guess...
+												// Whats the fix? Don't refresh the page
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
@@ -22,7 +37,7 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 			target_user_id: this.targetUserID,
 			target_user_name: this.targetUserName,
 		}));
-		// this.open_msgbox();
+		this.delegateEvents();
 		return (this);
 	}
 
@@ -33,11 +48,15 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 		return (this);
 	}
 
+	test() {
+		console.log("in test");
+	}
+
 	clearInput() {
 		$("textarea").val('');
 	}
 
-	send_message(event) {
+	send_dm(event) {
 		console.log("in ChatIndexView.send_message");
 		const msg = $("textarea").val();
 		const data = {
@@ -45,7 +64,7 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 			other_user_id: this.targetUserID,
 			chat_message: msg
 		};
-		jQuery.post("/api/chat/send_a_msg", data)
+		jQuery.post("/api/chat/send_dm", data)
 			.done(usersData => {
 				this.clearInput();
 			})

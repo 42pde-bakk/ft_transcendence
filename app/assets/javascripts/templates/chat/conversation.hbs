@@ -3,22 +3,8 @@
 	<input type="text" name="id" id="friendIDField">
 </form>
 <script>
-	console.log(document.readyState);
-	!function () {
-		const data = {
-			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			other_user_id: {{target_user_id}}
-		};
-		if (data["other_user_id"] !== "0") {
-			jQuery.post("/api/chat/get_old_messages.json", data)
-					.done(usersData => {
-						console.log("Message history got!");
-					})
-					.fail(e => {
-						alert("Could not load message history...");
-					})
-		}
-	}();
+	console.log('loading converstation.hbs or .html i guess');
+	console.log('mtd btw');
 </script>
 
 <!-- This example requires Tailwind CSS v2.0+ -->
@@ -30,7 +16,7 @@
 					<div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
 						<div class="flex-shrink-0 flex items-center">
 							<img class="block lg:hidden h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow">
-							<img class="hidden lg:block h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg" alt="Workflow">
+							<img class="hidden lg:block h-8 w-auto" src="https://cdn.betterttv.net/emote/5e1bd08688e62a5f14dc6316/3x" alt="Workflow">
 						</div>
 						<div class="hidden sm:block sm:ml-6">
 							<div class="flex space-x-4">
@@ -39,6 +25,7 @@
 								<a href="#profile" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
 								<a href="#friends" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Friends</a>
 								<a href="#guilds" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Guilds</a>
+								<a href="#chat" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Chat</a>
 							</div>
 						</div>
 					</div>
@@ -95,6 +82,9 @@
 														<span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Message</span>
 													</a>
 												</td>
+												<td>
+													<span class="test cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">MTD</span>
+												</td>
 											</tr>
 										{{/each}}
 										</tbody>
@@ -111,17 +101,17 @@
 		<form name="ChatBoxContainer" class="form-container">
 			<div id="chat-target" data-chat-target-id="{{ target_user_id }}"></div>
 			<h1>Chat</h1>
-			<label for="msg"><b>Messaging {{ target_user_name }} (id = id {{target_user_id }})</b></label>
+			<label for="msg"><b>Messaging [other user_name]</b></label>
 			<chat_log> . </chat_log>
 			<textarea placeholder="Type message.." style="color:black" name="msg" required></textarea>
-			<span class="send_message cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+			<span class="send_dm cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 				Send it!
 			</span>
-			<a href="#chat">
-				<span class="cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+<!--			<a href="#chat">-->
+				<span class="test cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 					Cancel
 				</span>
-			</a>
+<!--			</a>-->
 		</form>
 	</div>
 

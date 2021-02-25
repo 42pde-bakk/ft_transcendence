@@ -44,8 +44,8 @@ Rails.application.routes.draw do
     post '/game/join'
 
     resources :chat
-    post '/chat/send_a_msg'
-    post '/chat/get_old_messages'
+    post '/chat/send_dm'
+    post '/chat/send_groupmessage'
   end
   # map.resources :friendships
 end
