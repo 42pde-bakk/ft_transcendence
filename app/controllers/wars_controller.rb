@@ -12,6 +12,10 @@ class WarsController < ApplicationController
   before_action :check_active_war, only: [:create, :accept]
 
   def create
+    if params[:prize].to_i > @current_user.guild.points or params[:prize].to_i > @opponent.points
+      res_with_error("You or your opponent does not have enough points to commit to this war", :bad_request)
+      return
+    end
     if @current_user.guild_id == @opponent.id
       res_with_error("You cannot go to war with yourself", :bad_request)
       return

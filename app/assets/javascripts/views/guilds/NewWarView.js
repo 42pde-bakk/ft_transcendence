@@ -85,8 +85,12 @@ AppClasses.Views.NewWar = class extends Backbone.View {
         };
 
         war.save(attr, {
-            error: function(guild, response){
-                alert("Could not create war");
+            error: function (model, response) {
+                if (response)
+                    alert(response.responseJSON.alert);
+                else
+                    alert("Unknown error while saving user");
+                App.models.user.fetch(); // To reset the model to the db state
             },
             success: function(){
                 App.models.user.fetch();
