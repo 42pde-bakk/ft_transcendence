@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   has_many :battles, class_name: "Battle", foreign_key: "user1_id"
   has_one :active_battle, -> { where(finished: false, accepted: true) }, class_name: "Battle", foreign_key: "user1_id"
-  has_many :finished_battles, -> { where(finished: true, accepted: true) }, class_name: "Battle", foreign_key: "user1_id"
+  has_many :finished_battles, -> { where(finished: true) }, class_name: "Battle", foreign_key: "user1_id"
   has_many :battle_invites, -> { where(finished: false, accepted: false) }, class_name: "Battle", foreign_key: "user2_id" # invites from other users
 
   validates :name, uniqueness: true

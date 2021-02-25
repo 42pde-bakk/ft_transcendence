@@ -9,7 +9,8 @@ end
 class BattlesController < ApplicationController
   before_action :connect_user
   before_action :set_opponent, only: [:create]
-  before_action :check_active_battle, only: [:create, :accept]
+  before_action :check_active_battle, only: [:create, :accept_battle]
+  before_action :check_response_time, only: [:reject_battle, :accept_battle]
 
   def create
     inverse_battle = Battle.where(user1_id: @current_user.id, user2_id: @opponent.id).first
@@ -61,6 +62,33 @@ class BattlesController < ApplicationController
   end
 
   private
+
+  def handle_win
+    @inverse_battle.user1.guild.points -= @inverse_battle.user1.guild.active_war.prize
+    @inverse_battle.user2.guild.points += @inverse_battle.user2.guild.active_war.prize
+    @inverse_battle.user1.guild.save
+    @inverse_battle.user2.guild.save
+    @inverse_battle.destroy
+  end
+
+  def handle_loss
+    @inverse_battle.user1.guild.points += @inverse_battle.user1.guild.active_war.prize
+    @inverse_battle.user2.guild.points -= @inverse_battle.user2.guild.active_war.prize
+    @inverse_battle.user1.guild.save
+    @inverse_battle.user2.guild.save
+    @inverse_battle.destroy
+  end
+
+  def check_response_time
+    @inverse_battle = Battle.where(user1_id: params[:user2_id], user2_id: @current_user.id).first
+    if @inverse_battle
+      minutes_passed = (Time.now - @inverse_battle.created_at)/60
+      if minutes_passed > @inverse_battle.time_to_accept
+        handle_loss
+        res_with_error("You did not respond in time, so you lost the battle.", :bad_request)
+      end
+    end
+  end
 
   def set_opponent
     @opponent_id = params[:user2_id]

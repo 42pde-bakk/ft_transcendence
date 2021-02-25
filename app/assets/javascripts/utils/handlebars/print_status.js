@@ -38,9 +38,9 @@ Handlebars.registerHelper('print_status_war', function (start, end) {
 
 Handlebars.registerHelper('check_timeframe', function (start, end) {
     var today = new Date();
-    today = moment(today).format("HH/MM");
-    start = moment(start).format("HH/MM");
-    end = moment(end).format("HH/MM");
+    today = moment(today).format("HH/mm");
+    start = moment.utc(start).format("HH/mm");
+    end = moment.utc(end).format("HH/mm");
     if (today < start || today > end) {
         return false;
     }
