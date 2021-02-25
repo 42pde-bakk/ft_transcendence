@@ -22,8 +22,8 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     }
 
     guildAction(event, url, id, msgSuccess) {
-        const userID = event.target.getElementsByClassName(id)[0].innerText;
-        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: userID};
+        const ID = event.target.getElementsByClassName(id)[0].innerText;
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: ID};
         jQuery.post(url, data)
             .done(usersData => {
                 console.log(msgSuccess);
