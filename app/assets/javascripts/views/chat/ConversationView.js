@@ -44,13 +44,11 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 	}
 
 	cancel() {
-		console.log("in ConversationView.cancel()");
 		this.clearInput();
 		location.hash = "#chat";
 	}
 
 	send_dm(event) {
-		console.log("in ChatIndexView.send_message");
 		const msg = $("textarea").val();
 		const data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
@@ -67,17 +65,14 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 	}
 
 	block_user(event) {
-		console.log("in ChatIndexView.block_user");
 		const data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
 			other_user_id: this.targetUserID
 		};
 		jQuery.post("/api/chat/block_user", data)
 			.done(usersData => {
-				this.clearInput();
 			})
 			.fail(e => {
-				alert("Could not send message to chat...");
 			})
 	}
 
@@ -89,10 +84,8 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 		};
 		jQuery.post("/api/chat/unblock_user", data)
 			.done(usersData => {
-				this.clearInput();
 			})
 			.fail(e => {
-				alert("Could not send message to chat...");
 			})
 	}
 }
