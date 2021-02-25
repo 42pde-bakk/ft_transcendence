@@ -9,6 +9,8 @@ class CreateWars < ActiveRecord::Migration[6.1]
       t.datetime :start
       t.datetime :end
       t.integer :prize
+      t.integer :g1_points, default: 0
+      t.integer :g2_points, default: 0
       t.datetime :wt_begin
       t.datetime :wt_end
       t.integer :time_to_answer, default: 10 # in min
