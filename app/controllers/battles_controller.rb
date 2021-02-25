@@ -63,28 +63,35 @@ class BattlesController < ApplicationController
 
   private
 
-  def handle_win
-    @inverse_battle.user1.guild.points -= @inverse_battle.user1.guild.active_war.prize
-    @inverse_battle.user2.guild.points += @inverse_battle.user2.guild.active_war.prize
-    @inverse_battle.user1.guild.save
-    @inverse_battle.user2.guild.save
-    @inverse_battle.destroy
+  def handle_win(winner_id) # win from the perspective of guild1
+    battle = Battle.where(user1_id: winner_id, user2_id: @current_user.id).first
+    battle.user1.guild.active_war.g1_points += 1
+    battle.user1.guild.active_war.save
+    if battle.user2.guild.active_war
+      battle.user2.guild.active_war.g2_points += 1
+      battle.user2.guild.active_war.save
+    end
   end
 
-  def handle_loss
-    @inverse_battle.user1.guild.points += @inverse_battle.user1.guild.active_war.prize
-    @inverse_battle.user2.guild.points -= @inverse_battle.user2.guild.active_war.prize
-    @inverse_battle.user1.guild.save
-    @inverse_battle.user2.guild.save
-    @inverse_battle.destroy
+  def handle_loss(winner_id) # loss from the perspective of guild1
+    battle = Battle.where(user1_id: winner_id, user2_id: @current_user.id).first
+    battle.user1.guild.active_war.g1_points -= 1
+    battle.user1.guild.active_war.save
+    battle.user1.guild.save
+    if battle.user2.guild.active_war
+      battle.user2.guild.active_war.g2_points -= 1
+      battle.user2.guild.active_war.save
+      battle.user2.guild.save
+    end
   end
 
   def check_response_time
-    @inverse_battle = Battle.where(user1_id: params[:user2_id], user2_id: @current_user.id).first
-    if @inverse_battle
-      minutes_passed = (Time.now - @inverse_battle.created_at)/60
-      if minutes_passed > @inverse_battle.time_to_accept
-        handle_loss
+    battle = Battle.where(user1_id: params[:user2_id], user2_id: @current_user.id).first
+    if battle
+      minutes_passed = (Time.now - battle.created_at)/60
+      if minutes_passed > battle.time_to_accept
+        handle_win(battle.user1_id) # win because we are dealing with the battle from the guild that send the req
+        battle.destroy
         res_with_error("You did not respond in time, so you lost the battle.", :bad_request)
       end
     end
