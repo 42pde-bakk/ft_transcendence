@@ -33,9 +33,7 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 	render(target_id, target_name) {
 		this.targetUserID = target_id;
 		this.targetUserName = target_name;
-		this.$el.remove();  // This makes function calls still work even after you try to message someone else
-												// But this makes refreshing the page fail I guess...
-												// Whats the fix? Don't refresh the page
+		this.$el.remove();
 		this.updateRender();
 		this.delegateEvents();
 		return (this);
