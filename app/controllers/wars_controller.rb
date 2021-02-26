@@ -70,33 +70,6 @@ class WarsController < ApplicationController
 
   private
 
-  def resolve_war(winner_id)
-    if winner_id == @current_user.guild_id.to_s
-      war = War.where(guild1_id: @current_user.guild_id, guild2_id: winner_id).first
-      inverse_war = War.where(guild1_id: winner_id, guild2_id: @current_user.guild_id).first
-    else
-      war = War.where(guild1_id: winner_id, guild2_id: @current_user.guild_id).first
-      inverse_war = War.where(guild1_id: @current_user.guild_id, user2_id: winner_id).first
-    end
-    handle_points(war.guild1_id)
-    war.finished = true
-    inverse_war.finished = true
-    war.save
-    inverse_war.save
-    respond_to do |format|
-      format.html { redirect_to "/#guilds", notice: 'War resolved' }
-      format.json { render json: { msg: "War resolved" }, status: :ok }
-    end
-  end
-
-  def handle_points(winner_id)
-    war = War.where(guild1_id: winner_id, guild_id: @current_user.guild_id).first
-    war.guild1.points += war.prize
-    war.guild1.save
-    war.guild2.points -= war.prize
-    war.guild2.save
-  end
-
   def war_params
     params.require(:war).permit(:guild1_id,
                                 :guild2_id,

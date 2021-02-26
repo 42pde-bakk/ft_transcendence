@@ -27,7 +27,7 @@ class War < ApplicationRecord
 
     if war.g1_points == war.g2_points
       new_war[:result] = "Equal"
-    elseif war.g1_points > war.g2_points
+    elsif war.g1_points > war.g2_points
       new_war[:result] = "Won"
     else
       new_war[:result] = "Lost"
