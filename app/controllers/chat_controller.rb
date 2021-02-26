@@ -78,11 +78,11 @@ class ChatController < ApplicationController
 			if @message.save
 				ChatChannel.broadcast_to(@current_user, {
 					title: @target_user.id,
-					body: @message.str
+					body: @message.str(@current_user)
 				})
 				ChatChannel.broadcast_to(@target_user, {
 					title: @current_user.id,
-					body: @message.str
+					body: @message.str(@target_user)
 				})
 				format.html { }
 				format.json { head :no_content }
