@@ -72,6 +72,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
                 guild: App.models.user.toJSON().guild,
                 token: $('meta[name="csrf-token"]').attr('content')}));
         }
+        console.log(`Current_user is ${App.models.user.toJSON().toString()}, token is ${$('meta[name="csrf-token"]').attr('content')}`)
         return (this);
     }
 

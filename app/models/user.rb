@@ -6,8 +6,11 @@ class User < ApplicationRecord
   has_many :invitations, -> { where confirmed: false }, class_name: 'Friendship', foreign_key: "friend_id"
   # get the users that sent me a friend request
   has_many :invites, :through => :invitations, class_name: 'User', :source => :user
+  has_many :blocked_users, class_name: "BlockedUser", dependent: :destroy
 
   belongs_to :guild, required: false
+  has_one :game, class_name: "Game", foreign_key: "player1_id"
+  has_one :game_invite, class_name: "Game", foreign_key: "player2_id"
 
   validates :name, uniqueness: true
  # validates :token, uniqueness: true

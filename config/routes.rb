@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
   get 'guilds/index'
   # root "home#index"
   root "home#auth"
   get "/home", to: "home#index"
+  get 'game/index'
+  # get "/game", to: "game#index"
   get "/logout", to: "home#logout"
   scope "api" do
     #profile actions
@@ -34,6 +38,16 @@ Rails.application.routes.draw do
     post '/admin/ban'
     post '/admin/getAdmin'
     post '/admin/removeAdmin'
+
+
+    resources :game
+    post '/game/join'
+
+    resources :chat
+    post '/chat/send_dm'
+    post '/chat/block_user'
+    post '/chat/unblock_user'
+    post '/chat/send_groupmessage'
   end
   # map.resources :friendships
 end
