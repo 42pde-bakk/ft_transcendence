@@ -22,7 +22,7 @@ class Guild < ApplicationRecord
       requests: gld.requests,
       owner: gld.owner,
       officers: gld.officers,
-      finished_wars: gld.finished_wars,
+      finished_wars: War.clean_arr(gld.finished_wars),
       war_invites: War.clean_arr(gld.war_invites)
     }
     if gld.active_war

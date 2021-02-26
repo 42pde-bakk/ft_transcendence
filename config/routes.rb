@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     post '/wars/create'
     post '/wars/accept_war'
     post '/wars/reject_war'
+    post '/wars/check_if_ended'
     post '/guilds/set_officer'
     post '/guilds/unset_officer'
     # Battle actions

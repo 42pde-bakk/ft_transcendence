@@ -25,6 +25,14 @@ class War < ApplicationRecord
       winning_guild_id: war.winning_guild_id
     }
 
+    if war.g1_points == war.g2_points
+      new_war[:result] = "Equal"
+    elseif war.g1_points > war.g2_points
+      new_war[:result] = "Won"
+    else
+      new_war[:result] = "Lost"
+    end
+
     if war.start <= Date.current && war.end >= Date.current
       new_war[:active] = true
     else
