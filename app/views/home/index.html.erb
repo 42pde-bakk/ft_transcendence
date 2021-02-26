@@ -6,6 +6,7 @@
 		App.routers.main = new AppClasses.Routers.Main();
 		App.routers.profile = new AppClasses.Routers.Profile();
 		App.routers.friends = new AppClasses.Routers.FriendsRouter();
+		App.routers.tournaments = new AppClasses.Routers.TournamentsRouter();
 		App.routers.admin = new AppClasses.Routers.AdminRouter();
 		App.routers.guilds = new AppClasses.Routers.GuildsRouter();
 
@@ -18,6 +19,18 @@
         App.collections.users_no_self = new AppClasses.Collections.UsersNoSelf();
     }
     App.collections.users_no_self.myFetch();
+
+
+    if (!App.collections.upcoming_tournaments) {
+        App.collections.upcoming_tournaments = new AppClasses.Collections.UpcomingTournaments();
+    }
+    App.collections.upcoming_tournaments.myFetch();
+
+
+    if (!App.collections.ongoing_tournaments) {
+        App.collections.ongoing_tournaments = new AppClasses.Collections.OngoingTournaments();
+    }
+    App.collections.ongoing_tournaments.myFetch();
 
 
     if (!App.collections.users_not_banned) {

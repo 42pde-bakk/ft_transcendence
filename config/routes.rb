@@ -34,6 +34,11 @@ Rails.application.routes.draw do
     post '/admin/ban'
     post '/admin/getAdmin'
     post '/admin/removeAdmin'
+    # tournaments actions
+    resources :tournaments
+    post '/tournaments/create_tournament'
+    post '/tournaments/index_upcoming_tournaments'
+    post '/tournaments/index_ongoing_tournaments'
   end
   # map.resources :friendships
 end

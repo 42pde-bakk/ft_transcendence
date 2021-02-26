@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_22_172755) do
+ActiveRecord::Schema.define(version: 2021_02_26_015101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 2021_02_22_172755) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "tournaments", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "started"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "img_path", default: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
@@ -52,6 +59,8 @@ ActiveRecord::Schema.define(version: 2021_02_22_172755) do
     t.boolean "admin"
     t.boolean "ban"
     t.boolean "owner"
+    t.bigint "tournament_id"
+    t.index ["tournament_id"], name: "index_users_on_tournament_id"
   end
 
   add_foreign_key "friendships", "users"
