@@ -3,6 +3,7 @@ AppClasses.Routers.TournamentsRouter = class extends Backbone.Router {
 		super(options);
 		// routes
 		this.route("tournaments", "index");
+		this.route("tournaments/new", "new");
         this.mainDiv = $("#app");
         this.models = App.models;
         this.views = App.views;
@@ -13,4 +14,14 @@ AppClasses.Routers.TournamentsRouter = class extends Backbone.Router {
         }
         this.mainDiv.html(this.views.tournaments.render().el);
 	}
+    
+	new() {
+        if (!this.views.new) {
+            this.views.new = new AppClasses.Views.NewTournament({});
+        }
+        this.mainDiv.html(this.views.new.render().el);
+        this.views.new.delegateEvents();
+    }
+
+
 }

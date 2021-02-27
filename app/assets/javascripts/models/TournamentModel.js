@@ -1,5 +1,5 @@
 AppClasses.Models.Tournament = Backbone.Model.extend({
-    url: "api/tournaments/1",
+    url: "api/tournaments",
 
 	defaults: {
 		name: "",
