@@ -19,6 +19,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         this.updateRender(); // render the template only one time, unless model changed
         this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
         this.listenTo(App.collections.available_for_guild, "change reset add remove", this.updateRender);
+        this.listenTo(App.collections.guilds, "change reset add remove", this.updateRender);
     }
 
     guildAction(event, url, id, msgSuccess) {
@@ -120,7 +121,8 @@ AppClasses.Views.Guilds = class extends Backbone.View {
         if (App.models.user.toJSON().guild_validated === false || !App.models.user.toJSON().guild_id) {
             this.$("#Guild").append(App.templates["guilds/NoGuild"]({
                 current_user: App.models.user.toJSON(),
-                guild: App.models.user.toJSON().guild
+                guild: App.models.user.toJSON().guild,
+                all_guilds: App.collections.guilds.toJSON()
             }));
         } else {
             this.$("#Guild").append(App.templates["guilds/HasGuild"]({

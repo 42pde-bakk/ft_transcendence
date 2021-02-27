@@ -39,7 +39,7 @@ Guild.create([{
                points: 66
              },
               {
-                name: "Lion",
+                name: "Lions",
                 anagram: "lio",
                 points: 55
               }])
