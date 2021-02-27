@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     post '/guilds/remove'
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
+    post '/guilds/add_points'
     # War actions
     resources :wars
     post '/wars/create'

@@ -8,7 +8,7 @@ end
 class GuildsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :connect_user
-  before_action :set_guild, only: [:show, :edit, :update, :destroy, :join]
+  before_action :set_guild, only: [:show, :edit, :update, :destroy, :join, :add_points]
   before_action :has_guild, only: [:create, :join]
 
   def index
@@ -178,6 +178,18 @@ class GuildsController < ApplicationController
       end
     else
       res_with_error("Failed to set new user state", :unauthorized)
+    end
+  end
+
+  def add_points
+    @guild.points += params[:points]
+    if @guild.save
+      respond_to do |format|
+        format.html { redirect_to "/#guilds", notice: 'Guild points updated' }
+        format.json { render json: {msg: "Guild points updated"}, status: :ok }
+      end
+    else
+      res_with_error("Failed to add points", :bad_request)
     end
   end
 

@@ -61,19 +61,21 @@ class BattlesController < ApplicationController
     end
   end
 
+
   def resolve_battle
-    if params[:id] == @current_user.id.to_s
-      battle = Battle.where(user1_id: @current_user.id, user2_id: params[:id]).first
-      inverse_battle = Battle.where(user1_id: params[:id], user2_id: @current_user.id).first
-    else
-      battle = Battle.where(user1_id: params[:id], user2_id: @current_user.id).first
-      inverse_battle = Battle.where(user1_id: @current_user.id, user2_id: params[:id]).first
-    end
-    handle_points(battle.user1_id)
+    winner_id = params[:winner_id]
+    loser_id = params[:loser_id]
+    battle = Battle.where(user1_id: winner_id, user2_id: loser_id).first
+    inverse_battle = Battle.where(user1_id: loser_id, user2_id: winner_id).first
+    battle.user1.guild.active_war.g1_points += 1
+    battle.user1.guild.active_war.save
+    battle.user2.guild.active_war.g2_points += 1
+    battle.user2.guild.active_war.save
     battle.finished = true
-    inverse_battle.finished = true
     battle.save
+    inverse_battle.finished = true
     inverse_battle.save
+
     respond_to do |format|
       format.html { redirect_to "/#guilds", notice: 'Battle resolved' }
       format.json { render json: { msg: "Battle resolved" }, status: :ok }
