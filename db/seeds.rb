@@ -36,7 +36,7 @@ User.create([{
 Guild.create([{
                name: "Ants",
                anagram: "ant",
-               points: 55
+               points: 66
              },
               {
                 name: "Lion",

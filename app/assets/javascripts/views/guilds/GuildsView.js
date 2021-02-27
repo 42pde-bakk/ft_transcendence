@@ -128,6 +128,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
                 users: App.collections.available_for_guild.toJSON(),
                 all_users: App.collections.users_no_self.toJSON(),
                 guild: App.models.user.toJSON().guild,
+                all_guilds: App.collections.guilds.toJSON(),
                 token: $('meta[name="csrf-token"]').attr('content')}));
         }
         return (this);

@@ -13,6 +13,7 @@ class GuildsController < ApplicationController
 
   def index
     @guilds = Guild.all
+    @guilds = @guilds.sort_by(&:points).reverse
     render json: @guilds
   end
 
