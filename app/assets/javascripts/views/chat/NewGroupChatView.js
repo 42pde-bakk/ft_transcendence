@@ -1,9 +1,9 @@
 AppClasses.Views.NewGroupChatView = class extends Backbone.View {
 	constructor(options) {
-		super(options);
 		options.events = {
 			"submit #groupchat-form": "create_groupchat"
 		};
+		super(options);
 		this.tagName = "div";
 		this.template = App.templates["chat/newgroupchat"];
 		this.listenTo(App.models.user, "change", this.updateRender);
