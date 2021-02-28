@@ -28,6 +28,7 @@ AppClasses.Views.Friends = class extends Backbone.View {
             })
 	}
 	deleteFriend(e) {
+		console.log("deleteFriend, e = ", e);
 		this.friendAction(e, "/api/friendships/destroy.json", "Friend deleted");
 	}
 	rejectFriend(e) {

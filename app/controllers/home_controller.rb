@@ -52,6 +52,7 @@ class HomeController < ApplicationController
       @user.reg_done = false
       @user.tfa = false
       @user.admin = false
+      @user.owner = false
       @user.ban = false
       log_token_used = false
       loop do 
