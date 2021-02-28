@@ -25,8 +25,13 @@ ActiveRecord::Schema.define(version: 2021_02_28_162821) do
   end
 
   create_table "chatrooms", force: :cascade do |t|
+    t.string "name"
+    t.bigint "owner_id"
+    t.boolean "isprivate"
+    t.string "password"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["owner_id"], name: "index_chatrooms_on_owner_id"
   end
 
   create_table "friendships", force: :cascade do |t|
@@ -87,6 +92,7 @@ ActiveRecord::Schema.define(version: 2021_02_28_162821) do
   end
 
   add_foreign_key "blocked_users", "users", column: "towards_id"
+  add_foreign_key "chatrooms", "users", column: "owner_id"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "games", "users", column: "player1_id"

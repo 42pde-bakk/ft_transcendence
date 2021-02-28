@@ -56,7 +56,7 @@
 		if (!App.collections.groupchats) {
 			App.collections.groupchats = new AppClasses.Collections.Groupchats();
 		}
-		App.collections.groupchats.fetch();
+		App.collections.groupchats.myFetch();
 
 		if(!Backbone.History.started)  {
 			console.log("Backbone history started");

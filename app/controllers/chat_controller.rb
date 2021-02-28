@@ -1,11 +1,47 @@
 class ChatController < ApplicationController
 	# before_action set_users_please
 	skip_before_action :verify_authenticity_token
-	def index
+
+	def groupchat_before
+		STDERR.puts("in groupchat_before, params is #{params} and cookies is #{cookies}")
+		@current_user = User.find_by(log_token: encrypt(cookies[:log_token])) rescue nil
 	end
 
-	def create # Lets create a groupchat, shall we?
+	def index # responds to jQuery.get("/api/chat")
+		puts "in chat_controller#index"
+		respond_to do |format|
+			# format.html { }
+			format.html { redirect_to "/", notice: '^^' }
+			format.json { render json: Chatroom.all, status: :ok }
+		end
+	end
+
+	def create # responds to jQuery.post("/api/chat")
+		groupchat_before
 		puts "in chatcontroller, create"
+		name = params[:groupchat_name]
+		password = params[:groupchat_password]
+		if Chatroom.find_by(name: name)
+			render json: { error: "This groupchat name has already been taken"}, status: :conflict
+		else
+			if password == nil
+				myChatroom = Chatroom.create(name: name, owner: @current_user, isprivate: false)
+			else
+				myChatroom = Chatroom.create(name: name, owner: @current_user, isprivate: true, password: password)
+			end
+			if myChatroom.save #success
+				puts " saving chatroom was a success!"
+				respond_to do |format|
+					format.html { }
+					format.json { head :no_content }
+				end
+			else
+				respond_to do |format|
+					format.html { }
+					format.json { head :no_content }
+				end
+			end
+		end
 	end
 
 	def block_user
@@ -87,6 +123,6 @@ class ChatController < ApplicationController
 		if @target_user != nil and @current_user != nil
 			STDERR.puts("current_user is #{@current_user.name}, target_user is #{@target_user.name}")
 		end
-
 	end
+
 end
