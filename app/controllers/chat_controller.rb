@@ -1,6 +1,6 @@
 class ChatController < ApplicationController
-	skip_before_action :verify_authenticity_token
 	# before_action set_users_please
+	skip_before_action :verify_authenticity_token
 	def index
 	end
 
@@ -59,7 +59,7 @@ class ChatController < ApplicationController
 			return false
 		end
 
-		@message = PrivateMessage.create(message: params[:chat_message], from: @current_user)
+		@message = Message.create(msg: params[:chat_message], from: @current_user)
 		respond_to do |format|
 			if @message.save
 				ChatChannel.broadcast_to(@current_user, {

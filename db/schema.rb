@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_24_220951) do
+ActiveRecord::Schema.define(version: 2021_02_28_162821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,11 @@ ActiveRecord::Schema.define(version: 2021_02_24_220951) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["towards_id"], name: "index_blocked_users_on_towards_id"
     t.index ["user_id"], name: "index_blocked_users_on_user_id"
+  end
+
+  create_table "chatrooms", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "friendships", force: :cascade do |t|
@@ -52,12 +57,12 @@ ActiveRecord::Schema.define(version: 2021_02_24_220951) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "private_messages", force: :cascade do |t|
+  create_table "messages", force: :cascade do |t|
     t.bigint "from_id"
-    t.text "message"
+    t.text "msg"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["from_id"], name: "index_private_messages_on_from_id"
+    t.index ["from_id"], name: "index_messages_on_from_id"
   end
 
   create_table "users", force: :cascade do |t|
