@@ -4,23 +4,9 @@ class ChatController < ApplicationController
 	def index
 	end
 
-	# def find_or_create_chat
-	# 	dm_room = PrivateChat.find_by(user1: @current_user, user2: @target_user)
-	# 	STDERR.puts("After the first find_by, dm_room is #{dm_room}")
-	# 	if dm_room == nil
-	# 		dm_room = PrivateChat.find_by(user1: @target_user, user2: @current_user)
-	# 		STDERR.puts("And after the second find_by, dm_room is #{dm_room}")
-	# 	end
-	# 	if dm_room == nil
-	# 		dm_room = PrivateChat.create(user1: @current_user, user2: @target_user)
-	# 		saveret = dm_room.save
-	# 		STDERR.puts("After creating it, dm_room is #{dm_room}, and dmroom saveret is #{saveret}")
-	# 	else
-	# 		STDERR.puts("found dm_room")
-	# 	end
-	# 	PrivateChat.puts(dm_room)
-	# 	dm_room
-	# end
+	def create # Lets create a groupchat, shall we?
+		puts "in chatcontroller, create"
+	end
 
 	def block_user
 		set_users_please
@@ -77,11 +63,11 @@ class ChatController < ApplicationController
 		respond_to do |format|
 			if @message.save
 				ChatChannel.broadcast_to(@current_user, {
-					title: @target_user.id,
+					title: "dm_#{@target_user.id}",
 					body: @message.str(@current_user)
 				})
 				ChatChannel.broadcast_to(@target_user, {
-					title: @current_user.id,
+					title: "dm_#{@current_user.id}",
 					body: @message.str(@target_user)
 				})
 				format.html { }

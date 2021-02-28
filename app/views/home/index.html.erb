@@ -53,6 +53,11 @@
     }
     App.collections.guilds.fetch();
 
+		if (!App.collections.groupchats) {
+			App.collections.groupchats = new AppClasses.Collections.Groupchats();
+		}
+		App.collections.groupchats.fetch();
+
 		if(!Backbone.History.started)  {
 			console.log("Backbone history started");
 			Backbone.history.start(); // using anchor for routing

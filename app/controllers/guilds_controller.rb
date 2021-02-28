@@ -33,7 +33,7 @@ class GuildsController < ApplicationController
   end
 
   def create
-
+    puts "creating guild!"
     g_params = guild_params()
     if (!g_params)
       return false

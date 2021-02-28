@@ -1,6 +1,5 @@
 AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	constructor(options) {
-		console.log("in chatindexview.constructor");
 		super(options);
 		this.tagName = "div";
 		this.template = App.templates["chat/index"];
@@ -9,12 +8,14 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	}
 
 	updateRender() {
+		console.log("rendering chatindexview");
 		App.models.user.fetch();
 		App.collections.users_no_self.myFetch();
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
-			allUsers: App.collections.users_no_self.toJSON()
+			allUsers: App.collections.users_no_self.toJSON(),
+			groupChats: App.collections.groupchats.toJSON()
 		}));
 		this.delegateEvents();
 		return (this);
