@@ -15,8 +15,11 @@ class TournamentsController < ApplicationController
     end
   end
 
-  
-  
+ def startTournament 
+   @tourn = Tournament.find(params[:id].to_i)
+   @tourn.started = true
+   @tourn.save
+ end 
   def create
 
     @tournament = Tournament.new

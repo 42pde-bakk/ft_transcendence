@@ -2,7 +2,8 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
 	constructor(opts) {
 		opts.events = {
 			"click .clickToCreateTournament": "createTournament",
-			"click .clickToRegister": "register"
+			"click .clickToRegister": "register",
+			"click .clickToStartTournament": "startTournament"
 		};
 		super(opts);
 		this.tagName = "div";
@@ -24,12 +25,28 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
                 App.collections.upcoming_tournaments.myFetch();
             })
             .fail(e => {
-                console.log("Error in friendship");
-                alert("Could not add friend...");
+                alert("Could not create tournament...");
             })
 	}
 	}
 
+	startTournament(event)
+	{
+		
+		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
+        	let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), tournament_name: name, id: userID};
+                jQuery.post("/api/tournaments/startTournament", data)
+            .done(usersData => {
+                App.models.user.fetch();
+		App.collections.upcoming_tournaments.myFetch();
+                App.collections.ongoing_tournaments.myFetch();
+            	updateRender();
+	    })
+            .fail(e => {
+                alert("Could not start tournament...");
+            })
+
+	}
 	updateRender() {
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),

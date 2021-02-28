@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     post '/admin/removeAdmin'
     # tournaments actions
     resources :tournaments
-    post '/tournaments/create_tournament'
+    post '/tournaments/startTournament'
     post '/tournaments/index_upcoming_tournaments'
     post '/tournaments/index_ongoing_tournaments'
   end
