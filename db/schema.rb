@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_28_162821) do
+ActiveRecord::Schema.define(version: 2021_03_01_011458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,11 +24,21 @@ ActiveRecord::Schema.define(version: 2021_02_28_162821) do
     t.index ["user_id"], name: "index_blocked_users_on_user_id"
   end
 
+  create_table "chatroom_members", force: :cascade do |t|
+    t.bigint "chatroom_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["chatroom_id"], name: "index_chatroom_members_on_chatroom_id"
+    t.index ["user_id"], name: "index_chatroom_members_on_user_id"
+  end
+
   create_table "chatrooms", force: :cascade do |t|
     t.string "name"
     t.bigint "owner_id"
     t.boolean "isprivate"
     t.string "password"
+    t.bigint "amount_members"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["owner_id"], name: "index_chatrooms_on_owner_id"

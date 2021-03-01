@@ -7,17 +7,10 @@ function receive_data(data, chat_div) {
 		return;
 	let chat_target_id = chat_div.getAttribute("data-chat-target-id");
 	if (data !== null && chat_target_id !== "0" && last_message !== data) {
-		console.log(`I have received "${data["body"]}" from ChatChannel_${data["title"]}`);
+		console.log(`I have received "${data["body"]}" from ChatChannel_${data["title"]} (${typeof data["title"]}) AND chat_target_id is ${chat_target_id} (${typeof chat_target_id})`);
 		last_message = data;
-		if (data["title"].includes("dm")) {
-			let res = data["title"].replace(/\D/g, '');
-			if (parseInt(res) === parseInt(chat_target_id)) {
-				$('chat_log').append("<br>" + data["body"]);
-			}
-			// console.log("after replacing non-digits, title is " + res + " and its of type " + typeof(res));
-		} else if (data["title"].includes("group")) {
-
-		}
+		if (data["title"] === chat_target_id)
+			$('chat_log').append("<br>" + data["body"]);
 	}
 }
 

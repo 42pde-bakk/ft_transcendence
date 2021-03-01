@@ -45,9 +45,9 @@ Rails.application.routes.draw do
 
     resources :chat
     post '/chat/send_dm'
+    post '/chat/send_groupmessage'
     post '/chat/block_user'
     post '/chat/unblock_user'
-    post '/chat/send_groupmessage'
   end
   # map.resources :friendships
 end

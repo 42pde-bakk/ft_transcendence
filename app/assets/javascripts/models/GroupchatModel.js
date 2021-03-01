@@ -4,7 +4,9 @@ AppClasses.Models.Groupchat = Backbone.Model.extend({
 		authenticity_token: "",
 		id: 0,
 		name: "GroupChat",
-		privacy: "off"
+		isprivate: false,
+		password: "",
+		amount_members: 0
 	}
 });
 
@@ -13,6 +15,27 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 		super(opts);
 		this.model = AppClasses.Models.Groupchat;
 		this.url = '/api/chat';
+	}
+
+	subscribe_to_groupchat(groupchat_id) {
+		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
+		console.log("before jquery patch");
+		$.ajax({
+			url: `/api/chat/${groupchat_id}.json`,
+			type: 'PATCH',
+			data: data,
+			success: function(response) {
+				//
+			}
+		})
+		// jQuery.patch(`/api/chat/${groupchat_id}.json`, data)
+		// jQuery.put(`/api/chat/${groupchat_id}.json`, data)
+		// 	.done(u => {
+		// 		this.set(u);
+		// 	})
+		// 	.fail(e => {
+		// 		console.error(e);
+		// 	})
 	}
 
 	myFetch() {

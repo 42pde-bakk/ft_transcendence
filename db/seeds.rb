@@ -40,3 +40,18 @@ Guild.create([{
                anagram: "ant",
                points: 55
              }])
+
+Chatroom.create([
+	                {
+	                 name: "Global",
+	                 owner: User.first,
+	                 isprivate: false,
+	                 amount_members: 0
+                 }, {
+	                 name: "passwordistaco",
+	                 owner: User.second,
+	                 isprivate: true,
+	                 password: "taco",
+	                 amount_members: 0
+                 }
+                ])
