@@ -45,13 +45,16 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 	}
 
 	group_chat(groupchat_id) {
-		App.collections.groupchats.join_groupchat(groupchat_id);
-		const data = {
-			chat_type: 'groupchat',
-			target_id: groupchat_id,
-			target_name: this.get_chatchannel_name(parseInt(groupchat_id))
+		if (App.collections.groupchats.join_groupchat(groupchat_id) === false) {
+			this.location.hash = "/chat";
+		} else {
+			const data = {
+				chat_type: 'groupchat',
+				target_id: groupchat_id,
+				target_name: this.get_chatchannel_name(parseInt(groupchat_id))
+			}
+			this.renderViewWithParamsBitch("ConversationView", data);
 		}
-		this.renderViewWithParamsBitch("ConversationView", data);
 	}
 
 }

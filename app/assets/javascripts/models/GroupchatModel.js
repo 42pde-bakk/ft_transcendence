@@ -17,30 +17,41 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 		this.url = '/api/chat';
 	}
 
+	is_private_channel(groupchat_id) {
+		let ret = false;
+		this.collections.groupchats.forEach ( gc => {
+			if (groupchat_id === gc.attributes.id && gc.attributes.isprivate === true) {
+				ret = true;
+			}
+		})
+		return (ret);
+	}
+
 	join_groupchat(groupchat_id) {
-		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
-		console.log("before jquery patch");
+		let ret = true;
+		let data = {
+			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			chatroom_password: $(`#chatroom_${groupchat_id}_password`).val()
+		};
+		// if (this.is_private_channel(groupchat_id))
+		// 	data["password"] = prompt("Please submit the password for this private channel");
 		$.ajax({
 			url: `/api/chat/${groupchat_id}.json`,
 			type: 'PATCH',
 			data: data,
 			success: function(response) {
 				//
+			},
+			error: function(err) {
+				console.log("something went wrong in joining the groupchat");
+				ret = false;
 			}
 		})
-		// jQuery.patch(`/api/chat/${groupchat_id}.json`, data)
-		// jQuery.put(`/api/chat/${groupchat_id}.json`, data)
-		// 	.done(u => {
-		// 		this.set(u);
-		// 	})
-		// 	.fail(e => {
-		// 		console.error(e);
-		// 	})
+		return (ret);
 	}
 
 	myFetch() {
 		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
-		console.log("before jquery get");
 		jQuery.get("/api/chat.json", data)
 			.done(u => {
 				this.set(u);

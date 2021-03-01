@@ -6,9 +6,11 @@ function receive_data(data, chat_div) {
 	if (!chat_div)
 		return;
 	let chat_target_id = chat_div.getAttribute("data-chat-target-id");
-	if (data !== null && chat_target_id !== "0" && last_message !== data) {
-		console.log(`I have received "${data["body"]}" from ChatChannel_${data["title"]} (${typeof data["title"]}) AND chat_target_id is ${chat_target_id} (${typeof chat_target_id})`);
+	if (data !== null && chat_target_id !== "0") {
+		if (last_message !== null && data["title"] === last_message["title"] && data["body"] === last_message["body"])
+			return;
 		last_message = data;
+		// console.log(`I have received "${data["body"]}" from ChatChannel_${data["title"]} (${typeof data["title"]}) AND chat_target_id is ${chat_target_id} (${typeof chat_target_id})`);
 		if (data["title"] === chat_target_id)
 			$('chat_log').append("<br>" + data["body"]);
 	}
@@ -25,7 +27,6 @@ function manageChatChannels() {
 				console.log("Disconnected from " + ChatSub.identifier);
 			},
 			received: (data) => { // Called when there's incoming data on the websocket for this channel
-				console.log(`in receive, data is ${data}`);
 				receive_data(data, document.getElementById("chat-target"));
 			}
 		});

@@ -12,11 +12,17 @@ class ChatController < ApplicationController
 	end
 
 	def update # responds to a Patch/Put request to '/api/chat'
-		#using this function to add a new user to an existing groupchat
+		# I use this function to add a new user to an existing groupchat
 		groupchat_before
-		# puts "in chatcontroller#update, params is #{params}"
+		puts "in chatcontroller#update, params is #{params}"
 		chatroom = Chatroom.find(params[:id])
 		if chatroom != nil and ChatroomMember.find_by(user: @current_user) == nil
+			# puts "chatroom password is #{chatroom.password}, given password is #{params[:chatroom_password]}, do they match? #{chatroom.password == params[:chatroom_password]}"
+			if chatroom.password != nil and chatroom.password != params[:chatroom_password]
+				puts "Wrong password, fuckface"
+				render json: { error: "Wrong password"}, status: :conflict
+				return false
+			end
 			newmember = ChatroomMember.create(chatroom: chatroom, user: @current_user)
 			if newmember.save
 				chatroom_members = ChatroomMember.where(chatroom: chatroom)

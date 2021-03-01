@@ -134,8 +134,11 @@
 													</div>
 												</td>
 												<td class="px-6 py-4 whitespace-nowrap">
-													<!--													<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{print_color}}">{{print_status}}</span>-->
+												{{#if isprivate}}
+													<label for="chatroom_{{id}}_password" class="block text-lg w-full text-gray-700 pb-2">Password</label>
+													<input type="password" value="" name="chatroom_{{id}}_password" id="chatroom_{{id}}_password" class="border py-2 px-3 w-1/2 focus:ring-indigo-500 focus:border-indigo-500 shadow-inner rounded-md" required>
 												</td>
+												{{/if}}
 												<td>
 													<a href="#chat/groupchat/{{id}}">
 														<span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Chat</span>
@@ -143,6 +146,7 @@
 												</td>
 											</tr>
 										{{/each}}
+
 										</tbody>
 									</table>
 								</div>
