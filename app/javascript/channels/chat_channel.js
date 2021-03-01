@@ -25,6 +25,7 @@ function manageChatChannels() {
 				console.log("Disconnected from " + ChatSub.identifier);
 			},
 			received: (data) => { // Called when there's incoming data on the websocket for this channel
+				console.log(`in receive, data is ${data}`);
 				receive_data(data, document.getElementById("chat-target"));
 			}
 		});

@@ -45,7 +45,7 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 	}
 
 	group_chat(groupchat_id) {
-		App.collections.groupchats.subscribe_to_groupchat(groupchat_id);
+		App.collections.groupchats.join_groupchat(groupchat_id);
 		const data = {
 			chat_type: 'groupchat',
 			target_id: groupchat_id,

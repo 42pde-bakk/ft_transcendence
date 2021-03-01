@@ -17,7 +17,7 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 		this.url = '/api/chat';
 	}
 
-	subscribe_to_groupchat(groupchat_id) {
+	join_groupchat(groupchat_id) {
 		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
 		console.log("before jquery patch");
 		$.ajax({
