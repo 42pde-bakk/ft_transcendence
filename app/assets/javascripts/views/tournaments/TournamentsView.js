@@ -29,7 +29,25 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
             })
 	}
 	}
+	register(event)
+	{
+		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
+        	alert("Registered for this tournament, good luck !")
+		let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: userID};
+		 jQuery.post("/api/tournaments/registerUser", data)
+            .done(usersData => {
+                App.models.user.fetch();
+		App.collections.upcoming_tournaments.myFetch();
+                App.collections.ongoing_tournaments.myFetch();
+	    })
+            .fail(e => {
+                alert("Could not register you to tournament...");
+            })
 
+
+
+	}
+	
 	startTournament(event)
 	{
 		

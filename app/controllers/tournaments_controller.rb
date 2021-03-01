@@ -1,3 +1,10 @@
+def encrypt(log_token)
+  return ((log_token.to_i + 420 - 69).to_s)
+end
+def decrypt(log_token)
+  return ((log_token.to_i - 420 + 69).to_s)
+end
+
 class TournamentsController < ApplicationController
   def index_upcoming_tournaments
     @tournaments = Tournament.all.where.not(:started => true)
@@ -19,8 +26,15 @@ class TournamentsController < ApplicationController
    @tourn = Tournament.find(params[:id].to_i)
    @tourn.started = true
    @tourn.save
+ end
+
+ def  registerUser
+  @tourn = Tournament.find(params[:id].to_i)
+  @tuser =  User.find_by log_token: encrypt(cookies[:log_token])
+  @tourn.update(users: @tourn.users + [@tuser])
  end 
-  def create
+ 
+ def create
 
     @tournament = Tournament.new
     @tournament.name = params[:name]
