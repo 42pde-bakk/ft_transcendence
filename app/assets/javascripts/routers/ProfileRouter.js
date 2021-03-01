@@ -6,7 +6,7 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
         // routes
         this.route("profile", "profile");
         this.route("profile/edit", "edit");
-	this.route("profile/tfa", "tfa")
+        this.route("profile/tfa", "tfa")
         this.mainDiv = $("#app");
     };
 

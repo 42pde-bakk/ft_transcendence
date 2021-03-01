@@ -13,10 +13,8 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 
 	lets_chat(e) {
 		let targetId = $(e.currentTarget).data('targetid');
-		console.log(`targetId is ${targetId} (${typeof(targetId)})`);
 		if (App.collections.groupchats.join_groupchat(parseInt(targetId)) === true) {
-			App.routers.chats.navigate(`/chat/${targetId}`, {trigger: true});
-			// this.location.hash = `/chat/${targetId}`;
+			App.routers.chats.navigate(`/chat/groupchat/${targetId}`, { trigger: true } );
 			console.log("changed hash! with trigger (chatindexview)");
 		}
 	}
@@ -38,7 +36,7 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 			},
 			success: function() {
 				App.models.user.fetch();
-				App.routers.profile.navigate("/chat", {trigger: true})
+				App.routers.chats.navigate("/chat", {trigger: true});
 			}
 		});
 	}

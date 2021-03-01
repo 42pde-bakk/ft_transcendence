@@ -19,6 +19,7 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 	}
 
 	updateRender() {
+		console.log(`rendering conversationView with targetid = ${this.targetUserID}`);
 		App.models.user.fetch();
 		App.collections.users_no_self.myFetch();
 		App.collections.groupchats.myFetch();
@@ -50,10 +51,8 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 
 	lets_chat(e) {
 		let targetId = $(e.currentTarget).data('targetid');
-		console.log(`targetId is ${targetId} (${typeof(targetId)})`);
 		if (App.collections.groupchats.join_groupchat(parseInt(targetId)) === false) {
-			App.routers.chats.navigate(`/chat/${targetId}`, {trigger: true});
-			console.log("changed hash! with trigger (conversationview)");
+			App.routers.chats.navigate(`/chat/groupchat/${targetId}`, {trigger: true});
 		}
 	}
 
