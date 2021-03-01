@@ -44,9 +44,11 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 			},
 			error: function(err) {
 				console.log("something went wrong in joining the groupchat");
+				alert(`Wrong password.\nThis incident will be reported.`);
 				ret = false;
 			}
 		})
+		$(`#chatroom_${groupchat_id}_pasword`).val('');
 		return (ret);
 	}
 

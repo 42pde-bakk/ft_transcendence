@@ -1,13 +1,24 @@
 AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	constructor(options) {
 		options.events = {
-			"submit #groupchat-form": "create_groupchat"
+			"submit #groupchat-form": "create_groupchat",
+			"click .lets_chat": "lets_chat"
 		};
 		super(options);
 		this.tagName = "div";
 		this.template = App.templates["chat/index"];
 		this.listenTo(App.models.user, "change", this.updateRender);
 		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
+	}
+
+	lets_chat(e) {
+		let targetId = $(e.currentTarget).data('targetid');
+		console.log(`targetId is ${targetId} (${typeof(targetId)})`);
+		if (App.collections.groupchats.join_groupchat(parseInt(targetId)) === true) {
+			App.routers.chats.navigate(`/chat/${targetId}`, {trigger: true});
+			// this.location.hash = `/chat/${targetId}`;
+			console.log("changed hash! with trigger (chatindexview)");
+		}
 	}
 
 	create_groupchat(e) {
