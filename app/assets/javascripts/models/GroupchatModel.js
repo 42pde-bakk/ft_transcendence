@@ -28,6 +28,7 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 			type: 'DELETE',
 			data: data,
 			success: function(response) {
+				App.routers.chats.navigate(); // Doing this because the next line wont actually trigger a refresh if the hash hasnt changed (so in my case i go from "#chat" to "#chat" )
 				App.routers.chats.navigate("/chat", { trigger: true } );
 			},
 			error: function(err) {
@@ -47,10 +48,9 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 			type: 'PATCH',
 			data: data,
 			success: function(response) {
-				App.routers.chats.navigate(`/chat/groupchat/${groupchat_id}`, { trigger: true } );
+				let ret = App.routers.chats.navigate(`/chat/groupchat/${groupchat_id}`, { trigger: true } );
 			},
 			error: function(err) {
-				console.log("something went wrong in joining the groupchat");
 				alert(`Wrong password.\nThis incident will be reported.`);
 			}
 		})

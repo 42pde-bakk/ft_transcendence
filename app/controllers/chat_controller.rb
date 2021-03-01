@@ -1,10 +1,8 @@
 class ChatController < ApplicationController
-	# before_action set_users_please
+	before_action :set_users_please
 	skip_before_action :verify_authenticity_token
 
 	def block_user
-		set_users_please
-
 		if @current_user == nil or @target_user == nil
 			puts "Oopsie, something went wrong"
 			return false
@@ -27,7 +25,6 @@ class ChatController < ApplicationController
 	end
 
 	def unblock_user
-		set_users_please
 		if @current_user == nil or @target_user == nil
 			puts "Oopsie, something went wrong"
 			return false
@@ -46,8 +43,6 @@ class ChatController < ApplicationController
 	end
 
 	def send_groupmessage
-		groupchat_before
-		@groupchat = Chatroom.find(params[:chatroom_id])
 		if @current_user == nil or @groupchat == nil
 			if @current_user == nil then puts "Oopsie, something went wrong" else puts "Sorry, that groupchat doesn't exist" end
 			return false
@@ -64,7 +59,6 @@ class ChatController < ApplicationController
 				body: @message.str(@current_user)
 		})
 		respond_to do |format|
-			# Either, I send it to each of the users, or I send it to the channel (this will require reworking the JS channel subscriptions)
 			if @message.save
 				groupchat_members.each do |member|
 					puts "title: groupchat_#{@groupchat.id}"
@@ -85,8 +79,6 @@ class ChatController < ApplicationController
 	end
 
 	def send_dm
-		set_users_please
-
 		if @current_user == nil or @target_user == nil
 			puts "Oopsie, something went wrong"
 			return false
@@ -113,18 +105,13 @@ class ChatController < ApplicationController
 		end
 	end
 
-	def groupchat_before
-		STDERR.puts("in groupchat_before, params is #{params} and cookies is #{cookies}")
-		@current_user = User.find_by(log_token: encrypt(cookies[:log_token])) rescue nil
-	end
-
 	def set_users_please
 		STDERR.puts("in ChatController::new, params is #{params} and cookies is #{cookies}")
 		@current_user = User.find_by(log_token: encrypt(cookies[:log_token])) rescue nil
-		@target_user = User.find_by(id: params[:other_user_id]) rescue nil
-		if @target_user != nil and @current_user != nil
-			STDERR.puts("current_user is #{@current_user.name}, target_user is #{@target_user.name}")
+		if params[:action] == "send_groupmessage"
+			@groupchat = Chatroom.find(params[:chatroom_id])
+		else
+			@target_user = User.find_by(id: params[:other_user_id]) rescue nil
 		end
 	end
-
 end
