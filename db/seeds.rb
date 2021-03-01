@@ -45,12 +45,12 @@ Chatroom.create([
 	                {
 	                 name: "Global",
 	                 owner: User.first,
-	                 isprivate: false,
+	                 is_private: false,
 	                 amount_members: 0
                  }, {
 	                 name: "passwordistaco",
 	                 owner: User.second,
-	                 isprivate: true,
+	                 is_private: true,
 	                 password: "taco",
 	                 amount_members: 0
                  }

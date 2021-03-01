@@ -1,12 +1,13 @@
 AppClasses.Models.Groupchat = Backbone.Model.extend({
-	urlRoot: "/api/chat",
+	urlRoot: "/api/chatroom",
 	defaults: {
 		authenticity_token: "",
 		id: 0,
 		name: "GroupChat",
-		isprivate: false,
+		is_private: false,
 		password: "",
-		amount_members: 0
+		amount_members: 0,
+		is_subscribed: false
 	}
 });
 
@@ -14,47 +15,51 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 	constructor(opts) {
 		super(opts);
 		this.model = AppClasses.Models.Groupchat;
-		this.url = '/api/chat';
+		this.url = '/api/chatroom';
 	}
 
-	is_private_channel(groupchat_id) {
-		let ret = false;
-		this.collections.groupchats.forEach ( gc => {
-			if (groupchat_id === gc.attributes.id && gc.attributes.isprivate === true) {
-				ret = true;
+	leave_groupchat(groupchat_id) {
+		let data = {
+			authenticity_token: $('meta[name="csrf-token"]').attr('content')
+		}
+
+		$.ajax( {
+			url: `/api/chatroom/${groupchat_id}.json`,
+			type: 'DELETE',
+			data: data,
+			success: function(response) {
+				App.routers.chats.navigate("/chat", { trigger: true } );
+			},
+			error: function(err) {
+				console.log("delete request failed");
 			}
 		})
-		return (ret);
 	}
 
 	join_groupchat(groupchat_id) {
-		let ret = true;
 		let data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
 			chatroom_password: $(`#chatroom_${groupchat_id}_password`).val()
 		};
-		// if (this.is_private_channel(groupchat_id))
-		// 	data["password"] = prompt("Please submit the password for this private channel");
+
 		$.ajax({
-			url: `/api/chat/${groupchat_id}.json`,
+			url: `/api/chatroom/${groupchat_id}.json`,
 			type: 'PATCH',
 			data: data,
 			success: function(response) {
-				//
+				App.routers.chats.navigate(`/chat/groupchat/${groupchat_id}`, { trigger: true } );
 			},
 			error: function(err) {
 				console.log("something went wrong in joining the groupchat");
 				alert(`Wrong password.\nThis incident will be reported.`);
-				ret = false;
 			}
 		})
 		$(`#chatroom_${groupchat_id}_pasword`).val('');
-		return (ret);
 	}
 
 	myFetch() {
 		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
-		jQuery.get("/api/chat.json", data)
+		jQuery.get("/api/chatroom.json", data)
 			.done(u => {
 				this.set(u);
 			})

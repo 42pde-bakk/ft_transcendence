@@ -36,8 +36,9 @@ ActiveRecord::Schema.define(version: 2021_03_01_011458) do
   create_table "chatrooms", force: :cascade do |t|
     t.string "name"
     t.bigint "owner_id"
-    t.boolean "isprivate"
+    t.boolean "is_private"
     t.string "password"
+    t.boolean "is_subscribed"
     t.bigint "amount_members"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

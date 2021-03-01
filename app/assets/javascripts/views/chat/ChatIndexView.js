@@ -2,21 +2,27 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	constructor(options) {
 		options.events = {
 			"submit #groupchat-form": "create_groupchat",
-			"click .lets_chat": "lets_chat"
+			"click .join_groupchat": "join_groupchat",
+			"click .leave_groupchat": "leave_groupchat"
 		};
 		super(options);
 		this.tagName = "div";
 		this.template = App.templates["chat/index"];
 		this.listenTo(App.models.user, "change", this.updateRender);
 		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
+		this.listenTo(App.collections.groupchats, "change reset add remove", this.updateRender);
 	}
 
-	lets_chat(e) {
+	leave_groupchat(e) {
 		let targetId = $(e.currentTarget).data('targetid');
-		if (App.collections.groupchats.join_groupchat(parseInt(targetId)) === true) {
-			App.routers.chats.navigate(`/chat/groupchat/${targetId}`, { trigger: true } );
-			console.log("changed hash! with trigger (chatindexview)");
-		}
+		App.collections.groupchats.leave_groupchat(parseInt(targetId));
+		App.collections.groupchats.myFetch();
+	}
+
+	join_groupchat(e) {
+		let targetId = $(e.currentTarget).data('targetid');
+		App.collections.groupchats.join_groupchat(parseInt(targetId));
+		App.collections.groupchats.myFetch();
 	}
 
 	create_groupchat(e) {
@@ -36,7 +42,7 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 			},
 			success: function() {
 				App.models.user.fetch();
-				App.routers.chats.navigate("/chat", {trigger: true});
+				App.routers.chats.navigate("/chat", { trigger: true });
 			}
 		});
 	}

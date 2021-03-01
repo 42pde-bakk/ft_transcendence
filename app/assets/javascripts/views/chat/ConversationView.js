@@ -6,7 +6,8 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 			"click .cancel": "cancel",
 			"click .block_user": "block_user",
 			"click .unblock_user": "unblock_user",
-			"click .lets_chat": "lets_chat"
+			"click .join_groupchat": "join_groupchat",
+			"click .leave_groupchat": "leave_groupchat"
 		};
 		super(options);
 		this.tagName = "div";
@@ -16,6 +17,7 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 		this.chat_type = 'chat_type';
 		this.listenTo(App.models.user, "change", this.updateRender);
 		this.listenTo(App.collections.users_no_self, "change reset add remove", this.updateRender);
+		this.listenTo(App.collections.groupchats, "change reset add remove", this.updateRender);
 	}
 
 	updateRender() {
@@ -49,11 +51,16 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 		return (this);
 	}
 
-	lets_chat(e) {
+	leave_groupchat(e) {
 		let targetId = $(e.currentTarget).data('targetid');
-		if (App.collections.groupchats.join_groupchat(parseInt(targetId)) === false) {
-			App.routers.chats.navigate(`/chat/groupchat/${targetId}`, {trigger: true});
-		}
+		App.collections.groupchats.leave_groupchat(parseInt(targetId));
+		App.collections.groupchats.myFetch();
+	}
+
+	join_groupchat(e) {
+		let targetId = $(e.currentTarget).data('targetid');
+		App.collections.groupchats.join_groupchat(parseInt(targetId));
+		App.collections.groupchats.myFetch();
 	}
 
 	clearInput() {

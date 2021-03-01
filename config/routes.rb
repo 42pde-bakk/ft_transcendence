@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     resources :game
     post '/game/join'
 
-    resources :chat
+    resources :chatroom
     post '/chat/send_dm'
     post '/chat/send_groupmessage'
     post '/chat/block_user'
