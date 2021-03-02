@@ -136,9 +136,11 @@
 											<td class="px-6 py-4 whitespace-nowrap">
 												{{#if is_subscribed}}
 													<td>
+														{{#ifNotEquals ../target_id id }}
 														<a href="#chat/groupchat/{{id}}">
 															<span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-targetid="{{id}}">Chat</span>
 														</a>
+														{{/ifNotEquals}}
 														<span class="leave_groupchat cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-targetid="{{id}}">Leave Channel</span>
 													</td>
 												{{else}}

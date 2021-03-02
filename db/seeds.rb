@@ -51,7 +51,7 @@ Chatroom.create([
 	                 name: "passwordistaco",
 	                 owner: User.second,
 	                 is_private: true,
-	                 password: "taco",
+	                 password: Base64.strict_encode64("taco"),
 	                 amount_members: 0
                  }
                 ])

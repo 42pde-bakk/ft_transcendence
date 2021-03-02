@@ -22,7 +22,9 @@ class ChatroomController < ApplicationController
 	def update # responds to a PATCH/PUT request to "/api/chatroom/:id"
 		if ChatroomMember.find_by(chatroom: @chatroom, user: @current_user) == nil #This user is not yet subscribed to this channel
 			if @chatroom.is_private
-				if @chatroom.password != @chatroom_pw
+				puts "password is #{@chatroom_pw}, encrypted it is #{Base64.strict_encode64(@chatroom_pw)}"
+
+				if @chatroom.password != Base64.strict_encode64(@chatroom_pw)
 					render json: {error: "Wrong password" }, status: :conflict
 					return false
 				end
@@ -69,7 +71,8 @@ class ChatroomController < ApplicationController
 			if @chatroom_pw == nil
 				myChatroom = Chatroom.create(name: name, owner: @current_user, isprivate: false)
 			else
-				myChatroom = Chatroom.create(name: name, owner: @current_user, isprivate: true, password: @chatroom_pw)
+				puts "password is #{@chatroom_pw}, encrypted it is #{Base64.strict_encode64(@chatroom_pw)}"
+				myChatroom = Chatroom.create(name: name, owner: @current_user, isprivate: true, password: Base64.strict_encode64(@chatroom_pw))
 			end
 			if myChatroom.save #success
 				newMember = ChatroomMember.create(chatroom: myChatroom, user: @current_user)
@@ -86,4 +89,5 @@ class ChatroomController < ApplicationController
 			end
 		end
 	end
+
 end

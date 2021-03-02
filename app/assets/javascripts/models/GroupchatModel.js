@@ -54,7 +54,7 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 				alert(`Wrong password.\nThis incident will be reported.`);
 			}
 		})
-		$(`#chatroom_${groupchat_id}_pasword`).val('');
+		$(`#chatroom_${groupchat_id}_password`).val('');
 	}
 
 	myFetch() {
