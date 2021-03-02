@@ -69,39 +69,50 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 
 	cancel() {
 		this.clearInput();
-		location.hash = "#chat";
+		App.routers.chats.navigate("/chat", { trigger: true } );
 	}
 
 	send_dm(event) {
+		let this_copy = this;
 		const msg = $("textarea").val();
 		const data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
 			other_user_id: this.targetUserID,
 			chat_message: msg
 		};
-		jQuery.post("/api/chat/send_dm", data)
-			.done(usersData => {
-				this.clearInput();
-			})
-			.fail(e => {
-				alert("Could not send message to chat...");
-			})
+		$.ajax({
+			url: '/api/chat/send_dm',
+			type: 'POST',
+			data: data,
+			success: function(response) {
+				this_copy.clearInput();
+			},
+			error: function(error) {
+				alert(error["responseJSON"]["error"]);
+			}
+		})
 	}
 
 	send_groupmessage(event) {
+		let this_copy = this;
 		const msg = $("textarea").val();
 		const data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
 			chatroom_id: this.targetUserID,
 			chat_message: msg
 		};
-		jQuery.post("/api/chat/send_groupmessage", data)
-			.done(usersData => {
-				this.clearInput();
-			})
-			.fail(e => {
-				alert("Could not send message to chat...");
-			})
+
+		$.ajax({
+			url: '/api/chat/send_groupmessage',
+			type: 'POST',
+			data: data,
+			success: function(response) {
+				this_copy.clearInput();
+			},
+			error: function(error) {
+				alert(error["responseJSON"]["error"]);
+			}
+		})
 	}
 
 	block_user(event) {

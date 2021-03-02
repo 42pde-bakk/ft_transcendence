@@ -74,11 +74,13 @@ ActiveRecord::Schema.define(version: 2021_03_01_011458) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.bigint "from_id"
+    t.bigint "user_id"
+    t.bigint "chatroom_id"
     t.text "msg"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["from_id"], name: "index_messages_on_from_id"
+    t.index ["chatroom_id"], name: "index_messages_on_chatroom_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

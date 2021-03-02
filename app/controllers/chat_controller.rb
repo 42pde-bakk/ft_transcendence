@@ -8,18 +8,14 @@ class ChatController < ApplicationController
 			return false
 		end
 
-		if BlockedUser.find_by(user: @current_user, towards: @target_user) != nil
+		if @current_user.blocked_users.find_by(towards: @target_user) != nil
 			render json: {alert: "Cant block someone multiple times"}, status: :unprocessable_entity
 		else
 			newblock = BlockedUser.create(user: @current_user, towards: @target_user)
-			respond_to do |format|
-				if newblock.save
-					format.html { }
-					format.json { head :no_content }
-				else
-					format.html { }
-					format.json { render json: newblock.errors, status: :unprocessable_entity }
-				end
+			if newblock.save
+				render json: { status: "Succesfully blocked #{@target_user.name}" }, status: :ok
+			else
+				render json: { alert: "Error saving new BlockedUser" }, status: :unprocessable_entity
 			end
 		end
 	end
@@ -29,16 +25,12 @@ class ChatController < ApplicationController
 			puts "Oopsie, something went wrong"
 			return false
 		end
-
-		block = BlockedUser.find_by(user: @current_user, towards: @target_user)
+		block = @current_user.blocked_users.find_by(towards: @target_user)
 		if block == nil
-			render json: {alert: "Cant unblock someone you haven't blocked"}, status: :unprocessable_entity
+			render json: { alert: "Cant unblock someone you haven't blocked"}, status: :unprocessable_entity
 		else
 			block.destroy
-			respond_to do |format|
-				format.html { }
-				format.json { head :no_content }
-			end
+			render json: { status: "Succesfully unblocked #{@target_user.name}" }, status: :ok
 		end
 	end
 
@@ -49,15 +41,15 @@ class ChatController < ApplicationController
 				render json: { error: "If you want to remove the password, please type '/password remove'"}, status: :bad_request
 				return
 			else
-				@chatroom.is_private = true
-				@chatroom.password = Base64.strict_encode64(arr[2])
-				@chatroom.save
+				@groupchat.is_private = true
+				@groupchat.password = Base64.strict_encode64(arr[2])
+				@groupchat.save
 				render json: { status: "Succesfully set new channel password" }, status: :created
 			end
 		elsif arr[1] == "remove"
-			@chatroom.is_private = false
-			@chatroom.password = nil
-			@chatroom.save
+			@groupchat.is_private = false
+			@groupchat.password = nil
+			@groupchat.save
 			render json: { status: "Succesfully removed channel password" }, status: :ok
 		end
 	end
@@ -66,11 +58,11 @@ class ChatController < ApplicationController
 	end
 
 	def handle_ban_mute_kick_command(arr)
-		if arr[1] == nil or arr[1].empty? or ChatroomMember.find_by(chatroom: @chatroom, user: User.find_by(name: arr[1])) == nil
+		if arr[1] == nil or arr[1].empty? or ChatroomMember.find_by(chatroom: @groupchat, user: User.find_by(name: arr[1])) == nil
 			render json: { error: "Please supply a valid name to #{arr[0][1..]}" }
 		end
 		if arr[0] == "/kick"
-			ChatroomMember.find_by(chatroom: @chatroom, user: User.find_by(name: arr[1])).destroy
+			ChatroomMember.find_by(chatroom: @groupchat, user: User.find_by(name: arr[1])).destroy
 		end
 
 	end
@@ -87,6 +79,10 @@ class ChatController < ApplicationController
 		end
 	end
 
+	def invalid_message
+		render json: { error: "Please send a valid message." }, status: :not_acceptable
+	end
+
 	public
 
 	def send_groupmessage
@@ -98,14 +94,13 @@ class ChatController < ApplicationController
 			puts "Sorry, but you're not subscribed to this chatroom, it would seem"
 			return false
 		end
-		if msg == nil or msg.empty?
-			return
+		if @raw_message == nil or @raw_message.empty?
+			return invalid_message
 		end
-		msg = params[:chat_message]
-		if msg[0] == '/'
+		if @raw_message[0] == '/'
 			return handle_commands(msg)
 		end
-		@message = Message.create(msg: params[:chat_message], from: @current_user) # Maybe add the channel as optional here too?
+		@message = Message.create(msg: @raw_message, user: @current_user, chatroom: @groupchat) # Maybe add the channel as optional here too?
 
 		groupchat_members = ChatroomMember.where(chatroom: @groupchat)
 		ChatChannel.broadcast_to(@current_user, {
@@ -132,25 +127,23 @@ class ChatController < ApplicationController
 			puts "Oopsie, something went wrong"
 			return false
 		end
-
-		@message = Message.create(msg: params[:chat_message], from: @current_user)
-		respond_to do |format|
-			if @message.save
-				ChatChannel.broadcast_to(@current_user, {
-					title: "dm_#{@target_user.id}",
-					body: @message.str(@current_user)
-				})
-				ChatChannel.broadcast_to(@target_user, {
-					title: "dm_#{@current_user.id}",
-					body: @message.str(@target_user)
-				})
-				format.html { }
-				format.json { head :no_content }
-			else
-				puts "saving message failed, not pogchamp"
-				format.html { }
-				format.json { render json: @message.errors, status: :unprocessable_entity}
-			end
+		if @raw_message == nil or @raw_message.empty?
+			return invalid_message
+		end
+		@message = Message.create(msg: @raw_message, user: @current_user)
+		if @message.save
+			ChatChannel.broadcast_to(@current_user, {
+				title: "dm_#{@target_user.id}",
+				body: @message.str(@current_user)
+			})
+			ChatChannel.broadcast_to(@target_user, {
+				title: "dm_#{@current_user.id}",
+				body: @message.str(@target_user)
+			})
+			render json: { status: "Succesfully sent message to dm" }, status: :ok
+		else
+			puts "saving message failed, not pogchamp"
+			render json: { error: "Error saving message, not pogchamp" }, status: :unprocessable_entity
 		end
 	end
 
@@ -161,6 +154,9 @@ class ChatController < ApplicationController
 			@groupchat = Chatroom.find(params[:chatroom_id])
 		else
 			@target_user = User.find_by(id: params[:other_user_id]) rescue nil
+		end
+		if params[:action].include?("send_")
+			@raw_message = params[:chat_message]
 		end
 	end
 end

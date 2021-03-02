@@ -7,6 +7,7 @@ class User < ApplicationRecord
   # get the users that sent me a friend request
   has_many :invites, :through => :invitations, class_name: 'User', :source => :user
   has_many :blocked_users, class_name: "BlockedUser", dependent: :destroy
+  has_many :messages, class_name: "Message", dependent: :destroy
 
   belongs_to :guild, required: false
   has_one :game, class_name: "Game", foreign_key: "player1_id"
