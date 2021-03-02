@@ -19,3 +19,17 @@ Handlebars.registerHelper('print_color', function () {
     }
     return ("bg-green-100 text-green-800");
 });
+
+Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+	if (arg1 == arg2) {
+		return (options.fn(this));
+	}
+	return options.inverse(this);
+});
+
+Handlebars.registerHelper('ifNotEquals', function(arg1, arg2, options) {
+	if (arg1 != arg2) {
+		return options.inverse(this);
+	}
+	return (options.fn(this));
+});
