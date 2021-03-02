@@ -27,24 +27,24 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 
 	create_groupchat(e) {
 		e.preventDefault();
-		let gc = new AppClasses.Models.Groupchat();
-		let attr = {
-			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			chatroom_name: $('#chatroom_name').val(),
-			chatroom_password: $('#chatroom_password').val()
-		};
-		$('#chatroom_name').val('');
-		$('#chatroom_password').val('');
-		gc.save(attr, {
-			patch: true,
-			error: function(gc, response) {
-				alert("Could not create gc");
-			},
-			success: function() {
-				App.models.user.fetch();
-				App.routers.chats.navigate("/chat", { trigger: true });
-			}
-		});
+		// let gc = new AppClasses.Models.Groupchat();
+		// let attr = {
+		// 	authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+		// 	chatroom_name: $('#chatroom_name').val(),
+		// 	chatroom_password: $('#chatroom_password').val()
+		// };
+		// $('#chatroom_name').val('');
+		// $('#chatroom_password').val('');
+		// gc.save(attr, {
+		// 	// patch: true,
+		// 	error: function(gc, response) {
+		// 		alert("Could not create gc");
+		// 	},
+		// 	success: function() {
+		// 		App.models.user.fetch();
+		// 		App.routers.chats.navigate("/chat", { trigger: true });
+		// 	}
+		// });
 	}
 
 	updateRender() {

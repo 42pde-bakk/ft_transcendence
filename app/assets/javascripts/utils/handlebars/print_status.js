@@ -29,7 +29,7 @@ Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
 
 Handlebars.registerHelper('ifNotEquals', function(arg1, arg2, options) {
 	if (arg1 != arg2) {
-		return options.inverse(this);
+		return options.fn(this);
 	}
-	return (options.fn(this));
+	return (options.inverse(this));
 });
