@@ -18,10 +18,32 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 		this.url = '/api/chatroom';
 	}
 
+	create_groupchat() {
+		let data = {
+			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			chatroom_name: $(`#chatroom_name`).val(),
+			chatroom_password: $(`#chatroom_password`).val()
+		};
+
+		$.ajax({
+			url: this.url,
+			type: 'POST',
+			data: data,
+
+			success: function(response) {
+				console.log(`creating chatroom ${data["chatroom_name"]} was a success, response: ${JSON.stringify(response)}`);
+				App.routers.chat.navigate(`/chat/${response["id"]}`, { trigger: true } );
+			},
+			error: function(err) {
+				console.log(`error creating groupchat`);
+			}
+		})
+	}
+
 	leave_groupchat(groupchat_id) {
 		let data = {
-			authenticity_token: $('meta[name="csrf-token"]').attr('content')
-		}
+			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+		};
 
 		$.ajax( {
 			url: `/api/chatroom/${groupchat_id}.json`,

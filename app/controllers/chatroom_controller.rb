@@ -7,16 +7,15 @@ class ChatroomController < ApplicationController
 		@current_user = User.find_by(log_token: encrypt(cookies[:log_token])) rescue nil
 		if params[:action] == "index" then return end
 
-		@chatroom = Chatroom.find(params[:id])
-		@chatroom_pw = params[:chatroom_password]
 		@chatroom_name = params[:chatroom_name]
+		@chatroom_pw = params[:chatroom_password]
+		if params[:action] != "create"
+			@chatroom = Chatroom.find(params[:id])
+		end
 	end
 
 	def index # responds to a GET request on "/chatroom"
-		respond_to do |format|
-			format.html { redirect_to "/", notice: '^^' } #idk man, i just copied this and im leaving it in, I dont think this route will ever be called with a html format
-			format.json { render json: Chatroom.all_with_subscription_status(@current_user), status: :ok }
-		end
+			render json: Chatroom.all_with_subscription_status(@current_user), status: :ok
 	end
 
 	def update # responds to a PATCH/PUT request to "/api/chatroom/:id"
@@ -25,13 +24,14 @@ class ChatroomController < ApplicationController
 				puts "password is #{@chatroom_pw}, encrypted it is #{Base64.strict_encode64(@chatroom_pw)}"
 
 				if @chatroom.password != Base64.strict_encode64(@chatroom_pw)
-					render json: {error: "Wrong password" }, status: :conflict
+					render json: {error: "Wrong password" }, status: :unauthorized
 					return false
 				end
 			end
 			newmember = ChatroomMember.create(chatroom: @chatroom, user: @current_user)
 			if newmember.save
 				@chatroom.amount_members += 1
+				@chatroom.save
 				 ChatroomMember.where(chatroom: @chatroom).each do |m|
 					 if m != newmember
 						 ChatChannel.broadcast_to(m.user, {
@@ -54,9 +54,10 @@ class ChatroomController < ApplicationController
 		if myChatroomMember != nil
 			myChatroomMember.destroy
 			@chatroom.amount_members -= 1
+			@chatroom.save
 			render json: {status: "Nice" }, status: :ok
 		else
-			render json: {error: "Cant leave a channel you've not joined" }, status: :conflict
+			render json: {error: "Cant leave a channel you've not joined" }, status: :bad_request
 		end
 	end
 
@@ -65,27 +66,25 @@ class ChatroomController < ApplicationController
 	end
 
 	def create # responds to a POST request on "/api/chatroom"
+		if @chatroom_name == nil or @chatroom_name.empty?
+			render json: { error: "You need to specify a valid name" }, status: :bad_request
+			return
+		end
 		if Chatroom.find_by(name: @chatroom_name)
 			render json: { error: "This groupchat name has already been taken"}, status: :conflict
 		else
-			if @chatroom_pw == nil
-				myChatroom = Chatroom.create(name: name, owner: @current_user, isprivate: false)
+			if @chatroom_pw.empty?
+				myChatroom = Chatroom.create(name: @chatroom_name, owner: @current_user, is_private: false, amount_members: 1)
 			else
 				puts "password is #{@chatroom_pw}, encrypted it is #{Base64.strict_encode64(@chatroom_pw)}"
-				myChatroom = Chatroom.create(name: name, owner: @current_user, isprivate: true, password: Base64.strict_encode64(@chatroom_pw))
+				myChatroom = Chatroom.create(name: @chatroom_name, owner: @current_user, is_private: true, password: Base64.strict_encode64(@chatroom_pw), amount_members: 1)
 			end
 			if myChatroom.save #success
 				newMember = ChatroomMember.create(chatroom: myChatroom, user: @current_user)
 				newMember.save
-				respond_to do |format|
-					format.html { }
-					format.json { head :no_content }
-				end
+				render json: { status: "Succesfully created groupchat", id: myChatroom.id }, status: :ok
 			else
-				respond_to do |format|
-					format.html { }
-					format.json { head :no_content }
-				end
+				render json: { error: "error saving chatroom" }, status: :internal_server_error
 			end
 		end
 	end
