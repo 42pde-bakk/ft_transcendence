@@ -120,13 +120,17 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
 			other_user_id: this.targetUserID
 		};
-		jQuery.post("/api/chat/block_user", data)
-			.done(usersData => {
-				alert(`Succesfully blocked ${this.targetUserName}`);
-			})
-			.fail(e => {
-				alert(`Wtf dude, you can't just block ${this.targetUserName} more than once.`);
-			})
+		$.ajax({
+			url: '/api/chat/block_user',
+			type: 'POST',
+			data: data,
+			success: function(response) {
+				alert(response["status"]);
+			},
+			error: function(error) {
+				alert(error["responseJSON"]["error"]);
+			}
+		})
 	}
 
 	unblock_user(event) {
@@ -135,12 +139,17 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
 			other_user_id: this.targetUserID
 		};
-		jQuery.post("/api/chat/unblock_user", data)
-			.done(usersData => {
-				alert(`Succesfully unblocked ${this.targetUserName}`);
-			})
-			.fail(e => {
-				alert(`What are you doing? You can't unblock someone you haven't blocked.`);
-			})
+		$.ajax({
+			url: '/api/chat/unblock_user',
+			type: 'POST',
+			data: data,
+			success: function(response) {
+				alert(response["status"]);
+			},
+			error: function(error) {
+				alert(error["responseJSON"]["error"]);
+			}
+		})
+
 	}
 }

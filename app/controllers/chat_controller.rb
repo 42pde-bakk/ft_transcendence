@@ -4,30 +4,30 @@ class ChatController < ApplicationController
 
 	def block_user
 		if @current_user == nil or @target_user == nil
-			puts "Oopsie, something went wrong"
+			render json: { error: "Couldnt find targets" }, status: :bad_request
 			return false
 		end
 
 		if @current_user.blocked_users.find_by(towards: @target_user) != nil
-			render json: {alert: "Cant block someone multiple times"}, status: :unprocessable_entity
+			render json: { error: "Cant block someone multiple times" }, status: :bad_request
 		else
 			newblock = BlockedUser.create(user: @current_user, towards: @target_user)
 			if newblock.save
 				render json: { status: "Succesfully blocked #{@target_user.name}" }, status: :ok
 			else
-				render json: { alert: "Error saving new BlockedUser" }, status: :unprocessable_entity
+				render json: { error: "Error saving new BlockedUser" }, status: :unprocessable_entity
 			end
 		end
 	end
 
 	def unblock_user
 		if @current_user == nil or @target_user == nil
-			puts "Oopsie, something went wrong"
+			render json: { error: "Couldnt find targets" }, status: :bad_request
 			return false
 		end
 		block = @current_user.blocked_users.find_by(towards: @target_user)
 		if block == nil
-			render json: { alert: "Cant unblock someone you haven't blocked"}, status: :unprocessable_entity
+			render json: { error: "Cant unblock someone you haven't blocked"} , status: :bad_request
 		else
 			block.destroy
 			render json: { status: "Succesfully unblocked #{@target_user.name}" }, status: :ok
@@ -38,7 +38,7 @@ class ChatController < ApplicationController
 	def handle_password_command(arr)
 		if arr[1] == "set"
 			if arr[2] == nil or arr[2].empty?
-				render json: { error: "If you want to remove the password, please type '/password remove'"}, status: :bad_request
+				render json: { error: "If you want to remove the password, please type '/password remove'" }, status: :bad_request
 				return
 			else
 				@groupchat.is_private = true
