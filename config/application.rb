@@ -11,6 +11,12 @@ module FtTranscendence
 		# Initialize configuration defaults for originally generated Rails version.
 		config.load_defaults 6.1
     config.time_zone = 'Amsterdam'
+
+		if defined?(Rails::Server)
+			config.after_initialize do
+				SetupWarJob.set(wait: 5.seconds).perform_later
+			end
+		end
 		# Configuration for the application, engines, and railties goes here.
 		#
 		# These settings can be overridden in specific environments using the files
