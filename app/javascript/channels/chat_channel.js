@@ -7,7 +7,10 @@ function receive_data(data, chat_div) {
 		return;
 	let chat_target_id = chat_div.getAttribute("data-chat-target-id");
 	if (data !== null && chat_target_id !== "0") {
-		if (last_message !== null && data["title"] === last_message["title"] && data["body"] === last_message["body"])
+		// I still have a weird bug where message are being received twice, I believe it has to do with us having a SPA, not sure
+		// My fix is checking whether the new message is the same as the previous one and if thats true, dont render it...
+		// Fuck ft_transcendence, all my homies hate ft_transcendence
+		if (last_message && JSON.stringify(data) === JSON.stringify(last_message))
 			return;
 		last_message = data;
 		// console.log(`I have received "${data["body"]}" from ChatChannel_${data["title"]} (${typeof data["title"]}) AND chat_target_id is ${chat_target_id} (${typeof chat_target_id})`);

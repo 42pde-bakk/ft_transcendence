@@ -20,12 +20,24 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 		this.listenTo(App.collections.groupchats, "change reset add remove", this.updateRender);
 	}
 
+	get_chatchannel_name(groupchat_id) {
+		let ret = "GenericChannelName";
+		App.collections.groupchats.forEach ( gc => {
+			if (groupchat_id === gc.attributes.id) {
+				ret = gc.attributes.name;
+			}
+		})
+		return (ret);
+	}
+
 	updateRender() {
-		console.log(`rendering conversationView with targetid = ${this.targetUserID}`);
 		App.models.user.fetch();
 		App.collections.users_no_self.myFetch();
 		App.collections.groupchats.myFetch();
 		const is_groupchat = (this.chat_type === 'groupchat');
+		if (is_groupchat) {
+			this.targetUserName = this.get_chatchannel_name(parseInt(this.targetUserID));
+		}
 		this.$el.html(this.template({
 			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
@@ -73,83 +85,20 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 	}
 
 	send_dm(event) {
-		let this_copy = this;
-		const msg = $("textarea").val();
-		const data = {
-			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			other_user_id: this.targetUserID,
-			chat_message: msg
-		};
-		$.ajax({
-			url: '/api/chat/send_dm',
-			type: 'POST',
-			data: data,
-			success: function(response) {
-				this_copy.clearInput();
-			},
-			error: function(error) {
-				alert(error["responseJSON"]["error"]);
-			}
-		})
+		App.collections.groupchats.send_dm(this.targetUserID);
+		this.clearInput();
 	}
 
 	send_groupmessage(event) {
-		let this_copy = this;
-		const msg = $("textarea").val();
-		const data = {
-			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			chatroom_id: this.targetUserID,
-			chat_message: msg
-		};
-
-		$.ajax({
-			url: '/api/chat/send_groupmessage',
-			type: 'POST',
-			data: data,
-			success: function(response) {
-				this_copy.clearInput();
-			},
-			error: function(error) {
-				alert(error["responseJSON"]["error"]);
-			}
-		})
+		App.collections.groupchats.send_groupmessage(this.targetUserID);
+		this.clearInput();
 	}
 
 	block_user(event) {
-		const data = {
-			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			other_user_id: this.targetUserID
-		};
-		$.ajax({
-			url: '/api/chat/block_user',
-			type: 'POST',
-			data: data,
-			success: function(response) {
-				alert(response["status"]);
-			},
-			error: function(error) {
-				alert(error["responseJSON"]["error"]);
-			}
-		})
+		App.collections.groupchats.block_user(this.targetUserID);
 	}
 
 	unblock_user(event) {
-		console.log("in ChatIndexView.unblock_user");
-		const data = {
-			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			other_user_id: this.targetUserID
-		};
-		$.ajax({
-			url: '/api/chat/unblock_user',
-			type: 'POST',
-			data: data,
-			success: function(response) {
-				alert(response["status"]);
-			},
-			error: function(error) {
-				alert(error["responseJSON"]["error"]);
-			}
-		})
-
+		App.collections.groupchats.unblock_user(this.targetUserID);
 	}
 }

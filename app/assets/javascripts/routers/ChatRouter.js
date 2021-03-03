@@ -25,16 +25,6 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 		return (ret);
 	}
 
-	get_chatchannel_name(groupchat_id) {
-		let ret = "GenericChannelName";
-		this.collections.groupchats.forEach ( gc => {
-			if (groupchat_id === gc.attributes.id) {
-				ret = gc.attributes.name;
-			}
-		})
-		return (ret);
-	}
-
 	direct_message(user_id) {
 		const data = {
 			chat_type: 'dm',
@@ -48,7 +38,7 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 		const data = {
 			chat_type: 'groupchat',
 			target_id: groupchat_id,
-			target_name: this.get_chatchannel_name(parseInt(groupchat_id))
+			target_name: "GenericChannelName"
 		}
 		this.renderViewWithParamsBitch("ConversationView", data);
 	}

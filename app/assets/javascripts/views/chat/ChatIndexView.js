@@ -28,7 +28,7 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	create_groupchat(e) {
 		e.preventDefault();
 		App.collections.groupchats.create_groupchat();
-		App.collections.groupchats.myFetch();
+		// App.collections.groupchats.myFetch();
 	}
 
 	updateRender() {
