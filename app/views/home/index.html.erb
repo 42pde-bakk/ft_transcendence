@@ -15,6 +15,12 @@
     }
     App.models.user.fetch();
 
+    if (!App.collections.tournament_users) {
+        App.collections.tournament_users = new AppClasses.Collections.TournamentUsers();
+    }
+    App.collections.tournament_users.myFetch();
+
+
     if (!App.collections.users_no_self) {
         App.collections.users_no_self = new AppClasses.Collections.UsersNoSelf();
     }

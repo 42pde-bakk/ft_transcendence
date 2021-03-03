@@ -54,6 +54,7 @@ class HomeController < ApplicationController
       @user.admin = false
       @user.owner = false
       @user.ban = false
+      @user.tourn_score = 0
       log_token_used = false
       loop do 
         @n = ((rand() * 100000000).to_i).to_s

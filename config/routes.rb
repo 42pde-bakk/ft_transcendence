@@ -37,9 +37,11 @@ Rails.application.routes.draw do
     # tournaments actions
     resources :tournaments
     post '/tournaments/startTournament'
+    post '/tournaments/checkAuthTournament'
     post '/tournaments/registerUser'
     post '/tournaments/index_upcoming_tournaments'
     post '/tournaments/index_ongoing_tournaments'
+    post '/tournaments/index_tournament_users'
   end
   # map.resources :friendships
 end

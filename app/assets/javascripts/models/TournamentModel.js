@@ -40,4 +40,22 @@ AppClasses.Collections.OngoingTournaments = class extends Backbone.Collection {
             })
     }
 };
+AppClasses.Collections.TournamentUsers = class extends Backbone.Collection {
+    constructor(opts) {
+        super(opts);
+        this.myFetch();
+    }
+    myFetch() {
+        let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+        jQuery.post("/api/tournaments/index_tournament_users.json", data)
+            .done(usersData => {
+                this.set(usersData);
+            })
+            .fail(e => {
+                console.error(e);
+            })
+    }
+};
+
+
 

@@ -22,6 +22,19 @@ class TournamentsController < ApplicationController
     end
   end
 
+  def index_tournament_users
+    tourn_id = cookies[:tourn_id].to_i
+    if (cookies[:tourn_id].present?)
+     @users = Tournament.all.find(tourn_id).users
+    else
+      @users = nil
+    end 
+     respond_to do |format|
+      format.html {redirect_to "/", notice: '^' }
+      format.json {render json: @users, status: :ok }
+    end
+  end
+
  def startTournament 
    @tourn = Tournament.find(params[:id].to_i)
    @tourn.started = true
@@ -31,9 +44,21 @@ class TournamentsController < ApplicationController
  def  registerUser
   @tourn = Tournament.find(params[:id].to_i)
   @tuser =  User.find_by log_token: encrypt(cookies[:log_token])
-  @tourn.update(users: @tourn.users + [@tuser])
- end 
- 
+  if (@tuser.tournament_id == nil)
+   @tourn.update(users: @tourn.users + [@tuser])
+      render json: {alert: "yup"}, status: :ok
+  else
+      render json: {alert: "Nope"}, status: :unauthorized
+  end 
+end 
+def checkAuthTournament
+  @tuser =  User.find_by log_token: encrypt(cookies[:log_token])
+  if (params[:id] != @tuser.tournament_id.to_s)
+      render json: {alert: "Nope"}, status: :unauthorized
+  else 
+    cookies[:tourn_id] = params[:id]
+  end 
+end
  def create
 
     @tournament = Tournament.new

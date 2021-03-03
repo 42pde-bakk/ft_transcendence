@@ -3,7 +3,8 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
 		opts.events = {
 			"click .clickToCreateTournament": "createTournament",
 			"click .clickToRegister": "register",
-			"click .clickToStartTournament": "startTournament"
+			"click .clickToStartTournament": "startTournament",
+			"click .clickToOpenTournament": "openTournament"
 		};
 		super(opts);
 		this.tagName = "div";
@@ -13,6 +14,22 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
 		this.listenTo(App.collections.upcoming_tournaments, "change reset add remove", this.updateRender);
 		this.listenTo(App.collections.ongoing_tournaments, "change reset add remove", this.updateRender);
 	}
+	openTournament(event)
+	{
+		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
+	 let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: userID};
+        jQuery.post("/api/tournaments/checkAuthTournament", data)
+            .done(usersData => {
+               // App.models.user.fetch();
+               // App.collections.upcoming_tournaments.myFetch();
+                App.routers.tournaments.navigate("/tournaments/page", {trigger: true})
+	    })
+            .fail(e => {
+                alert("You're not registred for this tournament");
+            })
+
+	}
+
 	createTournament(event) {
 	//because of additional features might wanna render a new form page
 	let name = prompt("Enter tournament's name:", "A tournament");
@@ -32,16 +49,16 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
 	register(event)
 	{
 		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
-        	alert("Registered for this tournament, good luck !")
 		let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: userID};
 		 jQuery.post("/api/tournaments/registerUser", data)
             .done(usersData => {
+        	alert("Registered for this tournament, good luck !")
                 App.models.user.fetch();
 		App.collections.upcoming_tournaments.myFetch();
                 App.collections.ongoing_tournaments.myFetch();
 	    })
             .fail(e => {
-                alert("Could not register you to tournament...");
+                alert("You're already registered to another tournament.");
             })
 
 

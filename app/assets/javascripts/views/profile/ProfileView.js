@@ -21,7 +21,7 @@ AppClasses.Views.Profile = class extends Backbone.View {
 	var tok = prompt("Enter a login token: ", "424242");
        if (tok != null && tok != "")
 	{
-	let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), new_logtoken : tok};
+	let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), new_logtoken : tok, bypass_tfa: false};
        jQuery.post("/api/profile/changeAccount", data)
            .done(usersData => {
                this.updateRender(); // or fetch the new data from server
