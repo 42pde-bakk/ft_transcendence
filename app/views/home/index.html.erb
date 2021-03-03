@@ -8,6 +8,8 @@
 		App.routers.friends = new AppClasses.Routers.FriendsRouter();
 		App.routers.admin = new AppClasses.Routers.AdminRouter();
 		App.routers.guilds = new AppClasses.Routers.GuildsRouter();
+		App.routers.games = new AppClasses.Routers.GameRouter();
+		App.routers.chats = new AppClasses.Routers.ChatRouter();
 
     if (!App.models.user) {
         App.models.user = new AppClasses.Models.User(App.data.user);
@@ -25,6 +27,17 @@
     }
     App.collections.users_not_banned.myFetch();
 
+    if (!App.collections.users_not_admin) {
+        App.collections.users_not_admin = new AppClasses.Collections.UsersNotAdmin();
+    }
+    App.collections.users_not_admin.myFetch();
+    
+  
+    if (!App.collections.users_admin_only) {
+        App.collections.users_admin_only = new AppClasses.Collections.UsersAdminOnly();
+    }
+    App.collections.users_admin_only.myFetch();
+
     if (!App.collections.available_for_guild) {
         App.collections.available_for_guild = new AppClasses.Collections.AvailableForGuild();
     }
@@ -41,7 +54,7 @@
     App.collections.guilds.fetch();
 
 		if(!Backbone.History.started)  {
-			console.log("Backbone history started")
+			console.log("Backbone history started");
 			Backbone.history.start(); // using anchor for routing
 		}
 

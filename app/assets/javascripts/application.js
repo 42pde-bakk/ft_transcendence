@@ -4,3 +4,5 @@
 //= require utils/handlebars/check_equal.js
 //= require ./structure
 //= require moment
+
+console.log("app/assets/javascripts/application.js ran");
