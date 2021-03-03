@@ -97,10 +97,12 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 			type: 'POST',
 			data: data,
 			success: function(response) {
-				console.log(`send_dm#success: response is ${JSON.stringify(response)}`);
+				// console.log(`send_dm#success: response is ${JSON.stringify(response)}`);
+				if (response["alert"])
+					alert(response["alert"]);
 			},
 			error: function(error) {
-				console.log(`error is ${JSON.stringify(error)}`);
+				// console.log(`error is ${JSON.stringify(error)}`);
 				alert(error["responseJSON"]["error"]);
 			}
 		})
@@ -118,10 +120,12 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 			type: 'POST',
 			data: data,
 			success: function(response) {
-				console.log(`send_groupmessage#success: response is ${JSON.stringify(response)}`);
+				// console.log(`send_groupmessage#success: response is ${JSON.stringify(response)}`);
+				if (response["alert"])
+					alert(response["alert"]);
 			},
 			error: function(error) {
-				console.log(`error is ${JSON.stringify(error)}`);
+				// console.log(`error is ${JSON.stringify(error)}`);
 				alert(error["responseJSON"]["error"]);
 			}
 		})

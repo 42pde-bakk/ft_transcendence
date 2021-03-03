@@ -20,6 +20,7 @@ class Chatroom < ApplicationRecord
 			else
 				o.is_subscribed = false
 			end
+			o.amount_members = o.members.length
 		end
 		return obj
 	end
