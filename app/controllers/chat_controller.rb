@@ -132,13 +132,13 @@ class ChatController < ApplicationController
 				end
 			elsif arr[0] == "/unban"
 				if (@groupchat.bans.find_by(user: target_user)&.destroy rescue nil)
-					render json: { alert: "Succesfully  unbanned #{target_user.name}." }, status: :ok
+					render json: { alert: "Succesfully unbanned #{target_user.name}." }, status: :ok
 				else
 					render json: { error: "Error. #{target_user.name} is not banned, so unbanning them won't do anything." }, status: :bad_request
 				end
 			elsif arr[0] == "/mute"
 				if @groupchat.mutes.find_by(user: target_user)
-					render json: { error: "Can't mute someone who's already muted." }, status: :bad_request
+					render json: { error: "Error. #{target_user.name} is already muted, so you can't mute them again." }, status: :bad_request
 				else
 					ChatroomMute.create(chatroom: @groupchat, user: target_user).save
 					render json: { alert: "Succesfully muted #{target_user.name}, they must have been very annoying." }, status: :ok
@@ -163,7 +163,7 @@ class ChatController < ApplicationController
 			handle_password_command(arr)
 		elsif arr[0] == "/admin"
 			return handle_admin_command(arr)
-		elsif arr[0] == "/ban" or arr[0] == "/mute" or arr[0] == "/kick"
+		elsif arr[0] == "/ban" or arr[0] == "/mute" or arr[0] == "/kick" or arr[0] == "/unban" or arr[0] == "/unmute"
 			handle_ban_mute_kick_command(arr)
 		elsif arr[0] == "/help"
 			render json: { error: "The channel owner and channel admins can perform a number of commands:
