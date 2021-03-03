@@ -19,21 +19,17 @@ class CheckIfWarEndedJob < ApplicationJob
     war.guild2.save
   end
 
-  def perform(*args)
-    War.all.each do |war|
-      puts "In first loop"
-      if war.end < Time.now && war.finished == false
-        puts "flag 2"
-        if war.g1_points == war.g2_points
-          puts "flag =="
-          war.finished = true
-          war.save
-        elsif war.g1_points > war.g2_points
-          puts "flag >"
-          resolve_war(war.guild1_id, war.guild2_id)
-        end
+  def perform(war)
+    if war.end <= Time.now && war.finished == false
+      if war.g1_points == war.g2_points
+        inverse_war = War.where(guild1_id: war.guild2_id, guild2_id: war.guild1_id).first
+        war.finished = true
+        war.save
+        inverse_war.finished = true
+        inverse_war.save
+      elsif war.g1_points > war.g2_points
+        resolve_war(war.guild1_id, war.guild2_id)
       end
     end
-    CheckIfWarEndedJob.set(wait: 1.minute).perform_later
   end
 end
