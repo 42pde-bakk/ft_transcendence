@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     post '/admin/getAdmin'
     post '/admin/removeAdmin'
 
-
+    resources :notification
     resources :game
     post '/game/join'
 
