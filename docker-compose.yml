@@ -2,6 +2,7 @@ version: "3.5"
 services:
   redis:
     image: redis:latest
+    restart: always
   db:
     image: postgres:12.1
     volumes:
@@ -10,6 +11,7 @@ services:
       - "5555:5432"
     environment:
       POSTGRES_PASSWORD: password
+    restart: always
   web:
     build: .
     volumes:
@@ -26,3 +28,4 @@ services:
       REDIS_DB: 0
       REDIS_URL: redis://redis
       REDIS_PORT: 6379
+    restart: always

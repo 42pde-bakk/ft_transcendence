@@ -101,8 +101,9 @@ Please respect the following rules:
 - User can enable/disable 2 factor authentification (2FA) and, if enabled, must use it to connect to the website.
 - 2FA must use google authentificator, SMS, mail...
 
-### Chat interface
-- Joining/leaving channels
+## Chat interface
+
+#### Joining/leaving channels
 - A logged in user can access the website chat service.
 - Joining/leaving channels is a manual action, and must not be done on logout (user must click something like "Leave channel")
 - User can access already created channels, and can discuss in it. If a password is needed, it must be provided to access the channel.
@@ -142,7 +143,7 @@ Please respect the following rules:
 #### Website owner/moderators
 - There is a website owner. He can appoint moderators who will have the same rights as him (besides removing him from owner)
 
-#### Through an administration page, moderators & owner can:
+Through an administration page, moderators & owner can:
 - Destroy channels
 - Ban users from the website
 - See all chat channels (without joining)
