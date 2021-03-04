@@ -192,9 +192,6 @@ end
 class Game < ApplicationRecord # This is a wrapper class
 	belongs_to :player1, :class_name => "User", required: true
 	belongs_to :player2, :class_name => "User", required: false
-	# has_one  :player1, :class_name => "User"
-	# has_one  :player2, :class_name => "User"
-	# has_many    :spectators, :class_name => "User"
 
 	@@Gamelogics = Hash.new
 

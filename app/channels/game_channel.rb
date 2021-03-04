@@ -28,9 +28,10 @@ class GameChannel < ApplicationCable::Channel
 		# user = User.find_by()
 		# STDERR.puts("inputting #{data}, game is #{@game}, params is #{params}, current_user is #{current_user.id}")
 		if @game
-			if current_user == @game.player1 then id = 0 elsif current_user == @game.player2 then id = 1 else return end
+			if current_user == @game.player1 then id = 0 elsif current_user == @game.player2 then id = 1 else return false end
 			@game.add_input(data["type"], id)
 		end
+		true
 	end
 
 	def unsubscribed
