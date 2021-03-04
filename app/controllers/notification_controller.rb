@@ -7,7 +7,6 @@ class NotificationController < ApplicationController
 		@current_user = User.find_by(log_token: encrypt(cookies[:log_token])) rescue nil
 		@target_user = User.find(params[:targetuser_id]) rescue nil
 		@notification = Notification.find(params[:id]) rescue nil
-		puts "@current_user is #{@current_user}, target_user is #{@target_user}, notificiaton is #{@notification}"
 	end
 
 	def index # Get /api/notification.json
@@ -32,12 +31,16 @@ class NotificationController < ApplicationController
 		# The game invite has been accepted, now to create a new game to matchmake our users into
 		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
 		unless @notification then return render json: { error: "Can't find the notification you're accepting, my man. Did it expire?" }, status: :bad_request end
+		if Game.where(player2: @current_user).or(Game.where(player1: @current_user)) then return render json: { error: "Error accepting invite, you must not already be in agame" }, status: :not_acceptable end
+		if Game.where(player2: @target_user).or(Game.where(player1: @target_user)) then return render json: { error: "Error accepting invite, opponent must not already be in agame" }, status: :not_acceptable end
 
 		@notification.is_accepted = true
 		@notification.save
 		NotificationChannel.broadcast_to(@notification.sender, {
 			message: "Your game invite to #{@notification.receiver.name} has been accepted"
 		})
+		# Game.create(player1: @current_user, player2: @target_user).save
+		GameController.create_game(@notification.sender, @notification.receiver)
 		render json: { status: "Updated the notif to say is_accepted = true" }, status: :ok
 	end
 

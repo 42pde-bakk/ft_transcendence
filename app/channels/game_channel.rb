@@ -5,15 +5,6 @@
 class GameChannel < ApplicationCable::Channel
 	@@subscribers = Hash.new
 
-	def find_game(game_id)
-		i = 0
-		until @game != nil or i > 5
-			@game = Game.find_by(room_nb: game_id)
-			i += 1
-			if @game == nil then sleep(0.5) end
-		end
-	end
-
 	def subscribed
 		STDERR.puts("In gamechannel::subscribed, params is #{params}")
 		game_id = params[:game_id]
@@ -21,10 +12,11 @@ class GameChannel < ApplicationCable::Channel
 		@@subscribers[game_id] ||= 0 # if it's nil, it'll be set to be 0, poggers
 		@@subscribers[game_id] += 1
 
-		find_game(game_id)
-		@game.send_config
-		if @@subscribers[game_id] > 0
-			GameJob.perform_later(game_id)
+		@game = Game.find(game_id) rescue nil
+		if @game
+			@game.send_config
+		else
+			puts "Someting wrong"
 		end
 	end
 
@@ -33,9 +25,11 @@ class GameChannel < ApplicationCable::Channel
 	end
 
 	def input(data)
-		STDERR.puts("inputting #{data}, game is #{@game}")
+		# user = User.find_by()
+		# STDERR.puts("inputting #{data}, game is #{@game}, params is #{params}, current_user is #{current_user.id}")
 		if @game
-			@game.add_input(data["type"], data["id"])
+			if current_user == @game.player1 then id = 0 elsif current_user == @game.player2 then id = 1 else return end
+			@game.add_input(data["type"], id)
 		end
 	end
 
@@ -44,4 +38,5 @@ class GameChannel < ApplicationCable::Channel
 		@@subscribers[params[:game_id]] -= 1
 		# stop_stream_from "game_channel_#{params[:game_id]}"
 	end
+
 end

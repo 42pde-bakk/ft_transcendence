@@ -1,15 +1,7 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <script>
-	function myFunction() {
+	function openNotificationsDropdownMenu() {
 		document.getElementById("notifications").classList.toggle("show");
-	}
-
-	function accept_notification(id) {
-		App.collections.notifications.accept_invite(id);
-	}
-
-	function decline_notification(id) {
-		App.collections.notifications.decline_invite(id);
 	}
 
 	// Close the dropdown menu if the user clicks outside of it
@@ -50,12 +42,12 @@
 	                        <a href="/logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
 
 	                        <div class="dropdown">
-		                        <button onclick="myFunction()" id="NotificationsButton" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Notifications</button>
+		                        <button onclick="openNotificationsDropdownMenu()" id="NotificationsButton" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Notifications</button>
 		                        <div id="notifications" class="dropdown-content">
 			                        {{#each notifications}}
 				                       {{kind}} from {{name_sender}}
-				                        <button onclick="accept_notification({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Accept</button>
-				                        <button onclick="decline_notification({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">X</button>
+				                        <button onclick="App.collections.notifications.accept_invite({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Accept</button>
+				                        <button onclick="App.collections.notifications.decline_invite({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">X</button>
 <!--				                        <span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Accept</span>-->
 <!--				                        <span class="cursor-pointer h-10 px-5 text-red-700 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">X</span>-->
 			                        {{/each}}

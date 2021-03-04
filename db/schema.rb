@@ -83,8 +83,10 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
   end
 
   create_table "games", force: :cascade do |t|
-    t.bigint "player1_id", null: false
+    t.bigint "player1_id"
     t.bigint "player2_id"
+    t.string "name_player1"
+    t.string "name_player2"
     t.integer "room_nb"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -131,7 +133,6 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.boolean "guild_owner", default: false
     t.boolean "guild_officer", default: false
     t.boolean "guild_validated", default: false
-    t.boolean "is_ingame"
     t.boolean "tfa"
     t.boolean "reg_done"
     t.boolean "current"
@@ -149,6 +150,4 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
   add_foreign_key "chatrooms", "users", column: "owner_id"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
-  add_foreign_key "games", "users", column: "player1_id"
-  add_foreign_key "games", "users", column: "player2_id"
 end

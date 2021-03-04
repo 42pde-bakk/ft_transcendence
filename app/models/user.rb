@@ -10,7 +10,8 @@ class User < ApplicationRecord
   has_many :messages, class_name: "Message", dependent: :destroy
 
   belongs_to :guild, required: false
-  has_one :game, class_name: "Game", foreign_key: "player1_id"
+  has_one :game, class_name: "Game", required: false
+  # has_one :game, class_name: "Game", foreign_key: "player1_id"
   # has_one :game_invite, class_name: "Game", foreign_key: "player2_id"
   has_many :notifications, class_name: "Notification"
 

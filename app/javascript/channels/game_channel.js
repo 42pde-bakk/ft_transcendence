@@ -26,17 +26,25 @@ function manageGameChannel() {
 
   let inputs_id = 0;
 
-  logKey = function(e) {
+	logKey = function(e) {
 		e.preventDefault();
-		let input = null, keyType = "paddle_up";
+		let keyType = "paddle_up";
 		if (e.keyCode === ARROW_UP || e.keyCode === ARROW_DOWN || e.keyCode === KEY_S || e.keyCode === KEY_W) {
 		  if (e.keyCode === ARROW_DOWN || e.keyCode === KEY_S)
-			keyType = "paddle_down";
-		  input = {type: keyType, id: inputs_id};
-		  let ret = sub.perform('input', input);
+				keyType = "paddle_down";
+		  let data = {
+		  	authenticity_token: $('meta[name="csrf-token"]').attr('content') ,
+				type: keyType
+		  };
+		  let ret = sub.perform('input', data);
+		  console.log(`adding move returned ${ret}`);
 		} else if (e.keyCode === KEY_SPACE) {
-				input = { type: "toggleReady", id: inputs_id};
-				let ret = sub.perform('input', input);
+			let data = {
+				authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+				type: "toggleReady"
+			};
+			let ret = sub.perform('input', data);
+			console.log("togglingReady returned " + ret);
 		}
   }
 

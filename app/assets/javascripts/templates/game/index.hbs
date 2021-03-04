@@ -24,10 +24,11 @@
 			</div>
 		</div>
 	</nav>
-<!--    <div id="game_page_id"></div>-->
+	<span class="setup_practice_game cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Practice against Feskir</span>
+
+	<!--    <div id="game_page_id"></div>-->
     Hello I am index.hbs <br>
-	<a href="#game/1" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Lobby 1</a><br>
-	<a href="#game/2" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Lobby 2</a><br>
-	<a href="#game/3" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Lobby 3</a><br>
-	<a href="#game/4" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Lobby 4</a><br>
+	{{#each allGames}}
+		<a href="#game/{{id}}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Lobby {{id}} features a game between {{name_player1}} and {{name_player2}} </a><br>
+	{{/each}}
 </div>

@@ -53,13 +53,9 @@
     }
     App.collections.guilds.fetch();
 
-		if (!App.collections.groupchats) {
-			App.collections.groupchats = new AppClasses.Collections.Groupchats();
-		}
-		// App.collections.groupchats.myFetch();
-
-		if (!App.collections.notifications)
-			App.collections.notifications = new AppClasses.Collections.Notifications();
+    App.collections.groupchats ||= new AppClasses.Collections.Groupchats();
+    App.collections.notifications ||= new AppClasses.Collections.Notifications();
+    App.collections.games ||= new AppClasses.Collections.Games();
 
 		if(!Backbone.History.started)  {
 			console.log("Backbone history started");

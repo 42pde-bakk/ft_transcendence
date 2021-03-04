@@ -13,7 +13,6 @@ consumer.subscriptions.create("NotificationChannel", {
 
   received(data) {
   	console.log(`I received ${JSON.stringify(data)} from the NotificationChannel`);
-		document.getElementById("NotificationsButton").backgroundColor = "red";
     // Called when there's incoming data on the websocket for this channel
   }
 });
