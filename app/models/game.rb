@@ -127,6 +127,7 @@ class Gamelogic
 				@msg = "#{@winner} wins!"
 			end
 		end
+		send_config
 	end
 
 	def send_config
@@ -198,26 +199,26 @@ class Game < ApplicationRecord # This is a wrapper class
 	@@Gamelogics = Hash.new
 
 	def mysetup
-		@@Gamelogics[room_nb] = Gamelogic.new(self)
+		@@Gamelogics[id] = Gamelogic.new(self)
 	end
 
 	def send_config
-		if @@Gamelogics[room_nb]
-			@@Gamelogics[room_nb].send_config
+		if @@Gamelogics[id]
+			@@Gamelogics[id].send_config
 		end
 	end
 
 	def get_gamelogic
-		@@Gamelogics[room_nb]
+		@@Gamelogics[id]
 	end
 
-	def add_input(type, id)
-		if @@Gamelogics[room_nb]
-			@@Gamelogics[room_nb].add_input(type, id)
+	def add_input(type, user_id)
+		if @@Gamelogics[id]
+			@@Gamelogics[id].add_input(type, user_id)
 		end
 	end
 
 	def mydestructor
-		@@Gamelogics[room_nb] = nil
+		@@Gamelogics[id] = nil
 	end
 end

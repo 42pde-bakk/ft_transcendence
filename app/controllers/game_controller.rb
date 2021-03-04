@@ -20,7 +20,7 @@ class GameController < ApplicationController
 		game.mysetup
 		game.save
 		@user.save
-		GameJob.perform_later(game)
+		GameJob.perform_later(game.id)
 		render json: { alert: "Please navigate to your gamepage", page: "#game/#{game.id}" }, status: :ok
 		# redirect_to "#game/#{game.id}"
 	end

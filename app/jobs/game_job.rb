@@ -15,12 +15,13 @@ class GameJob < ApplicationJob
 	end
 
 	def play_game
-		puts "Start of play_game"
+		STDERR.puts "Start of play_game"
+		STDERR.puts "@game = #{@game}, @gamestate = #{@gamestate}"
 		while @game and @gamestate and @gamestate.status != "finished"
 			@gamestate.sim_turn
-			@gamestate.send_config
+			# @gamestate.send_config
 			sleep(0.05)
 		end
-		puts "Job done"
+		STDERR.puts "Job done"
 	end
 end
