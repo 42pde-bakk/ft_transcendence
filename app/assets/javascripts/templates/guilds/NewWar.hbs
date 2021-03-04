@@ -1,0 +1,127 @@
+<div class="bg-gray-100 h-auto">
+    <div>
+        <nav class="bg-gray-800">
+            <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+                <div class="relative flex items-center justify-between h-16">
+                    <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+                        <div class="flex-shrink-0 flex items-center">
+                            <img class="block lg:hidden h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow">
+                            <img class="hidden lg:block h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg" alt="Workflow">
+                        </div>
+                        <div class="hidden sm:block sm:ml-6">
+                            <div class="flex space-x-4">
+                                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                                <a href="#profile" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+                                <a href="#friends" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Friends</a>
+                                <a href="#guilds" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Guilds</a>
+                                <a href="/logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div>
+        <div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                    <div class="px-4 py-5 sm:px-6">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                            New War Details
+                        </h3>
+                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                            Fill out the form to create a new guild
+                        </p>
+                    </div>
+                    <form id="createWarForm" action="api/guilds"
+                          accept-charset="UTF-8" method="post">
+                        <input type="hidden"
+                               name="authenticity_token"
+                               value="{{token}}">
+                        <div class="shadow overflow-hidden sm:rounded-md">
+                            <div class="px-4 py-5 bg-white sm:p-6">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label for="opponent_id" class="text-gray-700">Opponent</label>
+                                        <select id="opponent_id" name="opponent" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                            {{#each guilds_available}}
+                                                {{#unless active_war}}
+                                                    <option value="{{id}}">{{name}}</option>
+                                                {{/unless}}
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label class="block">
+                                            <span class="text-gray-700">When do you want the war to start?</span>
+                                            <input type="date" id="start_date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </label>
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label class="block">
+                                            <span class="text-gray-700">When do you want the war to end?</span>
+                                            <input type="date" id="end_date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </label>
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label class="block">
+                                            <span class="text-gray-700">What should be the daily wartime start?</span>
+                                            <input type="time" id="start_wt" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </label>
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label class="block">
+                                            <span class="text-gray-700">What should be the daily wartime end?</span>
+                                            <input type="time" id="end_wt" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </label>
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label class="block">
+                                            <span class="text-gray-700">Minutes to answer to challenge</span>
+                                            <input type="number" id="resp_time" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </label>
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label class="block">
+                                            <span class="text-gray-700">What should be the prize?</span>
+                                            <input type="number" id="prize" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </label>
+                                    </div>
+
+                                    <div class="flex flex-col">
+                                        <span class="text-gray-700 mb-1">Which types of battles should count towards the war?</span>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" id="ladder" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <span class="ml-2">Ladder</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" id="tournament" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <span class="ml-2">Tournament</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" id="duel" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <span class="ml-2">Duel</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                <a href="#guilds" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cancel</a>
+                                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,6 +15,19 @@ ActiveRecord::Schema.define(version: 2021_02_24_220951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "battles", force: :cascade do |t|
+    t.bigint "user1_id", null: false
+    t.bigint "user2_id", null: false
+    t.boolean "finished", default: false
+    t.boolean "accepted", default: false
+    t.integer "winner_id"
+    t.integer "time_to_accept"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user1_id"], name: "index_battles_on_user1_id"
+    t.index ["user2_id"], name: "index_battles_on_user2_id"
+  end
+
   create_table "blocked_users", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "towards_id"
@@ -81,9 +94,36 @@ ActiveRecord::Schema.define(version: 2021_02_24_220951) do
     t.boolean "owner"
   end
 
+  create_table "wars", force: :cascade do |t|
+    t.bigint "guild1_id", null: false
+    t.bigint "guild2_id", null: false
+    t.boolean "finished", default: false
+    t.boolean "accepted", default: false
+    t.datetime "start"
+    t.datetime "end"
+    t.integer "prize"
+    t.integer "g1_points", default: 0
+    t.integer "g2_points", default: 0
+    t.datetime "wt_begin"
+    t.datetime "wt_end"
+    t.integer "time_to_answer", default: 10
+    t.boolean "ladder", default: false
+    t.boolean "tournament", default: false
+    t.boolean "duel", default: false
+    t.integer "winning_guild_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["guild1_id"], name: "index_wars_on_guild1_id"
+    t.index ["guild2_id"], name: "index_wars_on_guild2_id"
+  end
+
+  add_foreign_key "battles", "users", column: "user1_id"
+  add_foreign_key "battles", "users", column: "user2_id"
   add_foreign_key "blocked_users", "users", column: "towards_id"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "games", "users", column: "player1_id"
   add_foreign_key "games", "users", column: "player2_id"
+  add_foreign_key "wars", "guilds", column: "guild1_id"
+  add_foreign_key "wars", "guilds", column: "guild2_id"
 end

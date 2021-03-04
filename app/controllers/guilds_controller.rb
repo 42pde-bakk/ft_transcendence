@@ -8,11 +8,12 @@ end
 class GuildsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :connect_user
-  before_action :set_guild, only: [:show, :edit, :update, :destroy, :join]
+  before_action :set_guild, only: [:show, :edit, :update, :destroy, :join, :add_points]
   before_action :has_guild, only: [:create, :join]
 
   def index
     @guilds = Guild.all
+    @guilds = @guilds.sort_by(&:points).reverse
     render json: @guilds
   end
 
@@ -79,9 +80,16 @@ class GuildsController < ApplicationController
   # DELETE /guilds/1
   # DELETE /guilds/1.json
   def destroy
+    if @guild.active_war
+      res_with_error("You can't destroy the guild while in a war!", :bad_request)
+      return
+    end
     unless @guild.owner == @current_user
       res_with_error("You can't destroy it if you don't own it!", :unauthorized)
       return
+    end
+    @guild.war_invites.each do |war|
+      war.destroy
     end
     # remove all associations with this guild
     User.where("guild_id = #{@guild.id}").each do |user|
@@ -170,6 +178,18 @@ class GuildsController < ApplicationController
       end
     else
       res_with_error("Failed to set new user state", :unauthorized)
+    end
+  end
+
+  def add_points
+    @guild.points += params[:points]
+    if @guild.save
+      respond_to do |format|
+        format.html { redirect_to "/#guilds", notice: 'Guild points updated' }
+        format.json { render json: {msg: "Guild points updated"}, status: :ok }
+      end
+    else
+      res_with_error("Failed to add points", :bad_request)
     end
   end
 
