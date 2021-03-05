@@ -3,8 +3,8 @@ AppClasses.Views.Index = class extends Backbone.View {
 		super(opts);
 		// this.tagName = "div";
 		this.template = App.templates["home/index"];
-		this.listenTo(App.collections.notifications, "change reset remove", this.updateRender);
 		this.listenTo(App.collections.notifications, "add", this.newNotification);
+		this.listenTo(App.collections.notifications, "change reset remove", this.updateRender);
 		this.updateRender();
 	}
 

@@ -17,6 +17,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 	}
 
 	myFetch() {
+		console.log("fetching notifications");
 		let this_copy = this;
 		let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
 
