@@ -1,10 +1,3 @@
-def encrypt(log_token)
-  return ((log_token.to_i + 420 - 69).to_s)
-end
-def decrypt(log_token)
-  return ((log_token.to_i - 420 + 69).to_s)
-end
-
 class ProfileController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :connect_user

@@ -35,23 +35,28 @@ User.create([{
                email: "42@transcendence.com"
              }])
 
+Chatroom.create([
+	                {
+		                name: "Global",
+		                owner: User.first,
+		                is_private: false,
+		                amount_members: 0
+	                }, {
+		                name: "passwordistaco",
+		                owner: User.second,
+		                is_private: true,
+		                password: Base64.strict_encode64("taco"),
+		                amount_members: 0
+	                }
+                ])
+
 Guild.create([{
                name: "Ants",
                anagram: "ant",
-               points: 55
-             }])
-
-Chatroom.create([
-	                {
-	                 name: "Global",
-	                 owner: User.first,
-	                 is_private: false,
-	                 amount_members: 0
-                 }, {
-	                 name: "passwordistaco",
-	                 owner: User.second,
-	                 is_private: true,
-	                 password: Base64.strict_encode64("taco"),
-	                 amount_members: 0
-                 }
-                ])
+               points: 66
+              },
+              {
+                name: "Lions",
+                anagram: "lio",
+                points: 55
+              }])

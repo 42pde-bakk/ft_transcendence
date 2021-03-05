@@ -31,8 +31,21 @@ Rails.application.routes.draw do
     post '/guilds/remove'
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
+    post '/guilds/add_points'
+    # War actions
+    resources :wars
+    post '/wars/create'
+    post '/wars/accept_war'
+    post '/wars/reject_war'
+    post '/wars/check_if_ended'
     post '/guilds/set_officer'
     post '/guilds/unset_officer'
+    # Battle actions
+    resources :battles
+    post '/battles/create'
+    post '/battles/accept_battle'
+    post '/battles/reject_battle'
+    post '/battles/resolve_battle'
     # admin actions
     resources :admin
     post '/admin/ban'
