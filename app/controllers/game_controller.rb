@@ -16,7 +16,7 @@ class GameController < ApplicationController
 	end
 
 	def create # Set up a game against a bot
-		game = Game.create(player1: @user, name_player1: @user.name, name_player2: "Feskir")
+		game = Game.create(player1: @user, name_player1: @user.name, name_player2: "Feskir", gametype: "casual")
 		game.save
 		GameJob.perform_later(game.id)
 		NotificationChannel.broadcast_to(@user.sender, {
@@ -26,8 +26,8 @@ class GameController < ApplicationController
 		render json: { status: "Succesfully created a practice game against the AI" }, status: :ok
 	end
 
-	def create_game(usr1, usr2)
-		game = Game.create(player1: usr1, player2: usr2, name_player1: usr1.name, name_player2: usr2.name)
+	def create_game(usr1, usr2, gametype)
+		game = Game.create(player1: usr1, player2: usr2, name_player1: usr1.name, name_player2: usr2.name, gametype: gametype)
 		game.save
 		GameJob.perform_later(game.id)
 		if usr1

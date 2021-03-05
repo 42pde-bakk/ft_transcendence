@@ -39,7 +39,7 @@ class NotificationController < ApplicationController
 		NotificationChannel.broadcast_to(@notification.sender, {
 			message: "Your game invite to #{@notification.receiver.name} has been accepted"
 		})
-		GameController.new.create_game(@notification.sender, @notification.receiver)
+		GameController.new.create_game(@notification.sender, @notification.receiver, "casual")
 		@notification.destroy
 		render json: { status: "Succesfully accepted notification" }, status: :ok
 	end
