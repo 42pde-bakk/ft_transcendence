@@ -39,10 +39,9 @@ class NotificationController < ApplicationController
 		NotificationChannel.broadcast_to(@notification.sender, {
 			message: "Your game invite to #{@notification.receiver.name} has been accepted"
 		})
-		# Game.create(player1: @current_user, player2: @target_user).save
 		GameController.new.create_game(@notification.sender, @notification.receiver)
 		@notification.destroy
-		render json: { status: "Updated the notif to say is_accepted = true" }, status: :ok
+		render json: { status: "Succesfully accepted notification" }, status: :ok
 	end
 
 	def destroy # Delete /api/notification/:id.json

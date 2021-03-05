@@ -15,17 +15,33 @@ class GameController < ApplicationController
 		end
 	end
 
-	def create
+	def create # Set up a game against a bot
 		game = Game.create(player1: @user, name_player1: @user.name, name_player2: "Feskir")
 		game.save
 		GameJob.perform_later(game.id)
-		render json: { alert: "Please navigate to your gamepage", page: "#game/#{game.id}" }, status: :ok
+		NotificationChannel.broadcast_to(@user.sender, {
+			message: "Game has been set up for you",
+			redirection: "#game/#{game.id}"
+		})
+		render json: { status: "Succesfully created a practice game against the AI" }, status: :ok
 	end
 
 	def create_game(usr1, usr2)
 		game = Game.create(player1: usr1, player2: usr2, name_player1: usr1.name, name_player2: usr2.name)
 		game.save
 		GameJob.perform_later(game.id)
+		if usr1
+			NotificationChannel.broadcast_to(usr1, {
+				message: "Game has been set up for you",
+				redirection: "#game/#{game.id}"
+			})
+		end
+		if usr2
+			NotificationChannel.broadcast_to(usr2, {
+				message: "Game has been set up for you",
+				redirection: "#game/#{game.id}"
+			})
+		end
 	end
 
 	def set_params

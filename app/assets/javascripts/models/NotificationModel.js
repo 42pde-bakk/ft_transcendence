@@ -28,7 +28,8 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 				this_copy.set(response);
 			},
 			error: function (error) {
-				alert(error["responseJSON"]["error"]);
+				console.log(`fetching notifications returned error: ${JSON.stringify(error)}`);
+				// alert(error["responseJSON"]["error"]);
 			}
 		})
 	}
@@ -50,7 +51,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 			},
 			error: function (error) {
 				console.log(`creating notification returned error: ${JSON.stringify(error)}`);
-				alert(error["responseJSON"]["error"]);
+				// alert(error["responseJSON"]["error"]);
 			}
 		})
 	}
@@ -72,7 +73,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 			},
 			error: function (error) {
 				console.log(`accepting notification returned error: ${JSON.stringify(error)}`);
-				alert(error["responseJSON"]["error"]);
+				// alert(error["responseJSON"]["error"]);
 			}
 		})
 	}
@@ -94,7 +95,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 			},
 			error: function (error) {
 				console.log(`declining notification returned error: ${JSON.stringify(error)}`);
-				alert(error["responseJSON"]["error"]);
+				// alert(error["responseJSON"]["error"]);
 			}
 		})
 	}

@@ -48,7 +48,6 @@ AppClasses.Collections.Games = class extends Backbone.Collection {
 			success: function (response) {
 				if (response["alert"]) {
 					console.log(JSON.stringify(response["alert"]));
-					App.routers.chats.navigate(response["page"], { trigger: true } );
 				}
 				else {
 					console.log(`play_against_ai returned: ${JSON.stringify(response)}`);

@@ -12,8 +12,6 @@ class Ball
 			@xvelocity *= -1
 		end
 		@yvelocity = [2.5, 2.5 * rand(1..3) / 2].max
-		# @yvelocity = 2.5 * (rand(1..3) / 2)
-		STDERR.puts "RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa\nball velocity is #{@xvelocity}, #{@yvelocity}"
 	end
 
 	def updatepos(players)
