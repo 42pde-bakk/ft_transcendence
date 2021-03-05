@@ -1,11 +1,4 @@
 #noinspection RubyResolve
-def encrypt(log_token)
-  return ((log_token.to_i + 420 - 69).to_s)
-end
-def decrypt(log_token)
-  return ((log_token.to_i - 420 + 69).to_s)
-end
-
 class WarsController < ApplicationController
   before_action :connect_user
   before_action :set_opponent_guild, only: [:create]

@@ -52,15 +52,15 @@ Rails.application.routes.draw do
     post '/admin/getAdmin'
     post '/admin/removeAdmin'
 
-
+    resources :notification
     resources :game
     post '/game/join'
 
-    resources :chat
+    resources :chatroom
     post '/chat/send_dm'
+    post '/chat/send_groupmessage'
     post '/chat/block_user'
     post '/chat/unblock_user'
-    post '/chat/send_groupmessage'
   end
   # map.resources :friendships
 end

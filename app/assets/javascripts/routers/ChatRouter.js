@@ -2,19 +2,17 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 	constructor(options) {
 		super(options);
 		// routes
-		this.route('chat/:chat_id', 'chat_shit');
+		this.route('chat/dm/:id', 'direct_message');
+		this.route('chat/groupchat/:id', 'group_chat');
 		this.route('chat', 'index');
 	};
 
-	renderViewWithParamsBitch(viewname, target_id, target_name, viewoptions = {}) { // should overwrite the base method
-		console.log("target_name is " + target_name);
+	renderViewWithParamsBitch(viewname, data, viewoptions = {}) {
 		this.createView(viewname, viewoptions);
-		this.mainDiv.html(this.views[viewname].render(target_id, target_name).el);
+		this.mainDiv.html(this.views[viewname].render(data).el);
 	}
 
 	index() {
-		const user = this.models.user;
-		const users = this.collections.users_no_self;
 		this.renderView("ChatIndexView");
 	}
 
@@ -27,7 +25,22 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 		return (ret);
 	}
 
-	chat_shit(chat_id) {
-		this.renderViewWithParamsBitch("ConversationView", chat_id, this.get_target_name(parseInt(chat_id)));
+	direct_message(user_id) {
+		const data = {
+			chat_type: 'dm',
+			target_id: user_id,
+			target_name: this.get_target_name(parseInt(user_id))
+		}
+		this.renderViewWithParamsBitch("ConversationView", data);
 	}
+
+	group_chat(groupchat_id) {
+		const data = {
+			chat_type: 'groupchat',
+			target_id: groupchat_id,
+			target_name: "GenericChannelName"
+		}
+		this.renderViewWithParamsBitch("ConversationView", data);
+	}
+
 }

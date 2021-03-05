@@ -1,10 +1,3 @@
-def encrypt(log_token)
-  return ((log_token.to_i + 420 - 69).to_s)
-end
-def decrypt(log_token)
-  return ((log_token.to_i - 420 + 69).to_s)
-end
-
 class GuildsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :connect_user
@@ -34,7 +27,7 @@ class GuildsController < ApplicationController
   end
 
   def create
-
+    puts "creating guild!"
     g_params = guild_params()
     if (!g_params)
       return false
