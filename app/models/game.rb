@@ -102,6 +102,48 @@ class Gamelogic
 		@ball.reset
 	end
 
+	def distribute_points(winner, loser)
+		return if winner == nil or loser == nil or @game.type == "casual"
+
+		if @game.type == "ranked"
+			winner.points += 1
+			loser.points -= 1
+			winner.save
+			loser.save
+		elsif @game.type == "wartime"
+			g1 = winner.guild.active_war.guild1
+			g2 = winner.guild.active_war.guild2
+			return if g1 == nil or g2 == nil
+			if g1 == winner.guild
+				winner.guild.active_war.g1_points += 1
+			elsif g2 == winner.guild
+				winner.guild.active_war.g2_points += 1
+			end
+			winner.guild.active_war.save
+		end
+	end
+
+	def finish_game
+		@status = "finished"
+
+		if @players[0].score.to_i == @players[1].score.to_i
+			@winner = "DRAW"
+			@msg = "The game has ended in a draw, PepeHands"
+		else
+			if @players[0].score.to_i > @players[1].score.to_i
+				@winner = @players[0].name
+				winner_id = @players[0].id
+				loser_id = @players[1].id
+			else
+				@winner = @players[1].name
+				winner_id = @players[1].id
+				loser_id = @players[0].id
+			end
+			@msg = "#{@winner} wins!"
+			distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id))
+		end
+	end
+
 	def sim_turn
 		if @players[0].status == "waiting" or @players[1].status == "waiting"
 			@status = "waiting"
@@ -118,14 +160,7 @@ class Gamelogic
 		end
 
 		if @players.any? {|p| p.score.to_i == 5} or @turn.to_i >= 100
-			@status = "finished"
-			if @players[0].score.to_i == @players[1].score.to_i
-				@winner = "DRAW"
-				@msg = "The game has ended in a draw, PepeHands"
-			else
-				if @players[0].score.to_i > @players[1].score.to_i then @winner = @players[0].name else @winner = @players[1].name end
-				@msg = "#{@winner} wins!"
-			end
+			finish_game
 		end
 		send_config
 	end
@@ -203,6 +238,12 @@ class Gamelogic
 		@status = "running"
 		@msg = nil
 	end
+	def winner_id
+		@winner_id
+	end
+	def loser_id
+		@loser_id
+	end
 end
 
 #noinspection RubyClassVariableNamingConvention
@@ -230,13 +271,6 @@ class Game < ApplicationRecord # This is a wrapper class
 	def add_input(type, user_id)
 		if @@Gamelogics[id]
 			@@Gamelogics[id].add_input(type, user_id, id)
-		end
-	end
-
-	def resolve_battle
-		if gametype == "ranked"
-
-			elsif gametype == "war"
 		end
 	end
 
