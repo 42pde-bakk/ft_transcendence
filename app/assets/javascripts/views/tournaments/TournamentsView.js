@@ -78,7 +78,7 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
             	updateRender();
 	    })
             .fail(e => {
-                alert("Could not start tournament...");
+                alert("Not enough player registred to start tournament !");
             })
 
 	}

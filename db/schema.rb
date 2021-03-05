@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_24_220951) do
+ActiveRecord::Schema.define(version: 2021_03_05_005322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,8 +40,10 @@ ActiveRecord::Schema.define(version: 2021_02_24_220951) do
     t.integer "room_nb"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "tournament_id"
     t.index ["player1_id"], name: "index_games_on_player1_id"
     t.index ["player2_id"], name: "index_games_on_player2_id"
+    t.index ["tournament_id"], name: "index_games_on_tournament_id"
   end
 
   create_table "guilds", force: :cascade do |t|
@@ -52,6 +54,13 @@ ActiveRecord::Schema.define(version: 2021_02_24_220951) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "private_messages", force: :cascade do |t|
+    t.bigint "from_id"
+    t.text "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_id"], name: "index_private_messages_on_from_id"
+  end
 
   create_table "tournaments", force: :cascade do |t|
     t.string "name"
@@ -59,13 +68,7 @@ ActiveRecord::Schema.define(version: 2021_02_24_220951) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "started"
   end
-    create_table "private_messages", force: :cascade do |t|
-    t.bigint "from_id"
-    t.text "message"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["from_id"], name: "index_private_messages_on_from_id"
-    end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "img_path", default: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"

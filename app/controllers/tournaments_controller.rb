@@ -37,7 +37,24 @@ class TournamentsController < ApplicationController
 
  def startTournament 
    @tourn = Tournament.find(params[:id].to_i)
-   @tourn.started = true
+   if (@tourn.users.count < 2)
+      render json: {alert: "Not enough player in tournament"}, status: :unauthorized
+   end
+    @tourn.started = true
+   #Prepare tournament match list 
+   @user_list = @tourn.users
+   x = 0
+   while x < @user_list.count - 1
+    y = x + 1
+    while y < @user_list.count
+      #peer has player1_name && player2_name, might need to add that after next merge ! 
+      new_game = Game.new(player1_id: @user_list[x].id, player2_id: @user_list[y].id)
+      new_game.save
+      @tourn.update(games: @tourn.games + [new_game])
+      y += 1
+    end 
+   x += 1
+   end 
    @tourn.save
  end
 
