@@ -58,14 +58,13 @@ class Render {
 		this.drawBall();
 	}
 
-	Finish(winner, msg) {
+	Finish(msg) {
 		this.resetCanvas();
 		this.drawScores();
 		this.context.font = "30px Comic Sans MS";
 		this.context.fillStyle = "white";
 		// this.context.textBaseline = "middle";
 		this.context.textAlign = "center";
-		// console.log(`message is '${msg}'`);
 		this.context.fillText(msg, this.canvas.width / 2, this.canvas.height / 2);
 	}
 
@@ -74,8 +73,8 @@ class Render {
 		this.ball.set_config(config.ball, config.canvas, this.canvas);
 		this.players[0].set_config(config.players[0], config.canvas, this.canvas);
 		this.players[1].set_config(config.players[1], config.canvas, this.canvas);
-		if (config.status && config.status === "finished")
-			this.Finish(config.winner, config.message);
+		if (config.status && (config.status === "finished" || config.status === "countdown") && config.message != null)
+			this.Finish(config.message);
 		else
 			this.drawWorld();
 		// console.log("after printing to screen");

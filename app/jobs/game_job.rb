@@ -6,7 +6,6 @@ class GameJob < ApplicationJob
 		if @game == nil then return end
 
 		@gamestate = @game.get_gamelogic
-		@gamestate.status = "running"
 		play_game
 		if @gamestate.status == "finished"
 			@game.mydestructor
@@ -15,6 +14,7 @@ class GameJob < ApplicationJob
 	end
 
 	def play_game
+		@gamestate.countdown
 		while @gamestate.status == "running"
 			@gamestate.sim_turn
 			sleep(0.05)

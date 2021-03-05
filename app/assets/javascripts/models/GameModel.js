@@ -46,15 +46,10 @@ AppClasses.Collections.Games = class extends Backbone.Collection {
 			type: 'POST',
 			data: data,
 			success: function (response) {
-				if (response["alert"]) {
+				if (response["alert"])
 					console.log(JSON.stringify(response["alert"]));
-				}
-				else {
-					console.log(`play_against_ai returned: ${JSON.stringify(response)}`);
-				}
 			},
 			error: function (e) {
-				console.error(e);
 				alert(e["responseJSON"]["error"]);
 			}
 		})

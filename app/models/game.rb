@@ -181,9 +181,6 @@ class Gamelogic
 			"running"
 		end
 	end
-	def status=(incoming_status)
-		@status = incoming_status
-	end
 
 	def add_input(type, id, game_id)
 		STDERR.puts "adding input, id is #{id}, type is #{type}"
@@ -194,6 +191,18 @@ class Gamelogic
 			end
 		end
 		@players[id].add_move({type: type, id: id})
+	end
+
+	def countdown
+		@status = "countdown"
+		3.downto(0) do |n|
+			if n == 0 then @msg = nil else @msg = "Game starting in #{n}" end
+			send_config
+			sleep(1)
+		end
+		@status = "running"
+		@msg = nil
+
 	end
 end
 

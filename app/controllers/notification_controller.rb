@@ -31,8 +31,8 @@ class NotificationController < ApplicationController
 		# The game invite has been accepted, now to create a new game to matchmake our users into
 		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
 		unless @notification then return render json: { error: "Can't find the notification you're accepting, my man. Did it expire?" }, status: :bad_request end
-		if Game.find_by(player2: @current_user) or Game.find_by(player1: @current_user) then return render json: { error: "Error accepting invite, you must not already be in agame" }, status: :not_acceptable end
-		if Game.find_by(player2: @target_user) or Game.find_by(player1: @target_user) then return render json: { error: "Error accepting invite, opponent must not already be in agame" }, status: :not_acceptable end
+		if Game.find_by(player2: @current_user) or Game.find_by(player1: @current_user) then return render json: { error: "Error accepting invite, you must not already be in a game" }, status: :not_acceptable end
+		if Game.find_by(player2: @target_user) or Game.find_by(player1: @target_user) then return render json: { error: "Error accepting invite, opponent must not already be in a game" }, status: :not_acceptable end
 
 		@notification.is_accepted = true
 		@notification.save

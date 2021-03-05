@@ -16,11 +16,12 @@ class GameController < ApplicationController
 	end
 
 	def create # Set up a game against a bot
+		if Game.find_by(player2: @user) or Game.find_by(player1: @user) then return render json: { error: "Error creating game, you must not already be in a game" }, status: :not_acceptable end
 		game = Game.create(player1: @user, name_player1: @user.name, name_player2: "Feskir", gametype: "casual")
 		game.mysetup
 		game.save
 		# GameJob.perform_later(game.id)
-		NotificationChannel.broadcast_to(@user.sender, {
+		NotificationChannel.broadcast_to(@user, {
 			message: "Game has been set up for you",
 			redirection: "#game/#{game.id}"
 		})
