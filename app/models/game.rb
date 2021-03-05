@@ -202,12 +202,12 @@ class Gamelogic
 		end
 		@status = "running"
 		@msg = nil
-
 	end
 end
 
 #noinspection RubyClassVariableNamingConvention
 class Game < ApplicationRecord # This is a wrapper class
+	belongs_to :war, :class_name => "War", required: false
 	belongs_to :player1, :class_name => "User", required: true
 	belongs_to :player2, :class_name => "User", required: false
 
@@ -230,6 +230,13 @@ class Game < ApplicationRecord # This is a wrapper class
 	def add_input(type, user_id)
 		if @@Gamelogics[id]
 			@@Gamelogics[id].add_input(type, user_id, id)
+		end
+	end
+
+	def resolve_battle
+		if gametype == "ranked"
+
+			elsif gametype == "war"
 		end
 	end
 

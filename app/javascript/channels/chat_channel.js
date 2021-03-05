@@ -47,3 +47,7 @@ function manageChatChannels() {
 window.addEventListener("hashchange", e => {
 	setTimeout(manageChatChannels, 250);
 })
+
+window.addEventListener('load', (event) => {
+	setTimeout(manageChatChannels, 250);
+})

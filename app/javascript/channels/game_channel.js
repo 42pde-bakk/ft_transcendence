@@ -7,7 +7,7 @@ let KEY_SPACE = 32,
 	KEY_S = 83,
 	KEY_W = 87;
 
-function removeStaleConnections() {
+function removeStaleGameConnections() {
 	consumer.subscriptions.subscriptions.forEach(sub => {
 		if (sub.identifier && sub.identifier.includes("GameChannel")) {
 			sub.disconnected();
@@ -19,7 +19,7 @@ function removeStaleConnections() {
 function manageGameChannel() {
 	let game_div_elem = document.getElementById("game-id");
 	if (game_div_elem === null)
-		return removeStaleConnections();
+		return removeStaleGameConnections();
 	let game_id = game_div_elem.getAttribute("data-game-id");
   let render = new Render(document.getElementById("PongCanvas"));
   let GameSub;
@@ -64,5 +64,9 @@ function manageGameChannel() {
 }
 
 window.addEventListener("hashchange", e => {
+	setTimeout(manageGameChannel, 250);
+})
+
+window.addEventListener('load', (event) => {
 	setTimeout(manageGameChannel, 250);
 })
