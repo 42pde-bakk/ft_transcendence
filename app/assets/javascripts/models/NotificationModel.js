@@ -35,10 +35,11 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 		})
 	}
 
-	create_notification(id) {
+	create_notification(id, notification_type) {
 		let data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			targetuser_id: id
+			targetuser_id: id,
+			notification_type: notification_type
 		};
 
 		$.ajax({

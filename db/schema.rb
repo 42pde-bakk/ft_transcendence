@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
   create_table "guilds", force: :cascade do |t|
     t.string "name"
     t.string "anagram"
-    t.integer "points", default: 0
+    t.integer "points", default: 50
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

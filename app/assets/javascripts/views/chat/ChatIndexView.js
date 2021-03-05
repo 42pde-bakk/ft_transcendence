@@ -35,7 +35,7 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	send_duel_invite(e) {
 		let targetId = $(e.currentTarget).data('target-id');
 		console.log("You wanted to duel user with id " + targetId);
-		App.collections.notifications.create_notification(parseInt(targetId));
+		App.collections.notifications.create_notification(parseInt(targetId), "casual");
 	}
 
 	updateRender() {

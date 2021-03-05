@@ -104,7 +104,9 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     }
 
     invite_battle(e) {
-        this.battleAction(e, "/api/battles/create.json", "battle", "Sent battle invite");
+	    let battleTargetId = $(e.currentTarget).data('battleTargetId');
+	    App.collections.notifications.create_notification(parseInt(battleTargetId), "wartime")
+        // this.battleAction(e, "/api/battles/create.json", "battle", "Sent battle invite");
     }
 
     accept_battle(e) {
@@ -114,7 +116,6 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     reject_battle(e) {
         this.battleAction(e, "/api/battles/reject_battle.json", "battle", "Rejected battle invite");
     }
-
 
     updateRender() {
         this.$el.html(this.template({current_user: App.models.user.toJSON()}));
