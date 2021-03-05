@@ -5,6 +5,7 @@ class CreateGames < ActiveRecord::Migration[6.1]
       t.references :player2, references: :users
       t.string :name_player1
       t.string :name_player2
+      t.string :gametype
       t.integer :room_nb
 
       t.timestamps

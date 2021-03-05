@@ -1,9 +1,10 @@
 AppClasses.Models.Game = Backbone.Model.extend({
-	urlRoot: "/api/guilds",
+	urlRoot: "/api/game",
 	defaults: {
 		id: 0,
-		name_player1: "",
-		name_player2: ""
+		name_player1: "Nerd",
+		name_player2: "Even bigger nerd",
+		gametype: "casual"
 	}
 });
 
@@ -11,6 +12,7 @@ AppClasses.Collections.Games = class extends Backbone.Collection {
 	constructor(opts) {
 		super(opts);
 		this.model = AppClasses.Models.Game;
+		this.url = "/api/game";
 		this.myFetch();
 	}
 
@@ -26,7 +28,7 @@ AppClasses.Collections.Games = class extends Backbone.Collection {
 				if (response["alert"])
 					alert(response["alert"]);
 				else {
-					console.log(`GameModel.myFetch returned: ${JSON.stringify(response)}`);
+					// console.log(`GameModel.myFetch returned: ${JSON.stringify(response)}`);
 					this_copy.set(response);
 				}
 			},

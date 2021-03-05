@@ -12,7 +12,6 @@ AppClasses.Routers.GameRouter = class extends AppClasses.Routers.AbstractRouter 
 	}
 
 	play(room_id) {
-		console.log(`in GameRouter.play(${room_id}`);
 		room_id = parseInt(room_id);
 		if (!Number.isInteger(room_id) || isNaN(room_id)) {
 			console.log(`room_id '${room_id}' is not an integer apparently`);

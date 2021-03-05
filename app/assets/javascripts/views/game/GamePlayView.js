@@ -7,7 +7,6 @@ AppClasses.Views.GamePlayView = class extends Backbone.View {
 	}
 
 	updateRender(room_id) {
-		console.log(`In GamePlayView.updateRender(${room_id})`);
 		this.$el.html(this.template({
 			token: $('meta[name="csrf-token"]').attr('content'),
 			room_id: room_id

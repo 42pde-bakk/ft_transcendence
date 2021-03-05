@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.bigint "player2_id"
     t.string "name_player1"
     t.string "name_player2"
+    t.string "gametype"
     t.integer "room_nb"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -42,18 +42,19 @@
 	                        <a href="/logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
 
 	                        <div class="dropdown">
-		                        <button onclick="openNotificationsDropdownMenu()" id="NotificationsButton" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Notifications</button>
+		                        {{#if newNotification}}
+			                        <button onclick="openNotificationsDropdownMenu()" id="NotificationsButton" class="dropbtn text-gray-300 bg-red-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Notifications</button>
+		                        {{else}}
+			                        <button onclick="openNotificationsDropdownMenu()" id="NotificationsButton" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Notifications</button>
+		                        {{/if}}
 		                        <div id="notifications" class="dropdown-content">
 			                        {{#each notifications}}
-				                       {{kind}} from {{name_sender}}
-				                        <button onclick="App.collections.notifications.accept_invite({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Accept</button>
-				                        <button onclick="App.collections.notifications.decline_invite({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">X</button>
-<!--				                        <span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Accept</span>-->
-<!--				                        <span class="cursor-pointer h-10 px-5 text-red-700 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">X</span>-->
+				                        <div class="bg-blue-300 rounded-md text-sm font-small">
+					                       {{kind}} from {{name_sender}}
+					                        <button onclick="App.collections.notifications.decline_invite({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-small">X</button>
+					                        <button onclick="App.collections.notifications.accept_invite({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-small">Accept</button>
+				                        </div>
 			                        {{/each}}
-<!--			                        <a href="#">Link 1</a>-->
-<!--			                        <a href="#">Link 2</a>-->
-<!--			                        <a href="#">Link 3</a>-->
 		                        </div>
 	                        </div>
                         </div>

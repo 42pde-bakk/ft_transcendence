@@ -10,17 +10,14 @@ AppClasses.Views.GameIndexView = class extends Backbone.View {
 	}
 
 	setup_practice_game(e) {
-		console.log("In setup_practice_game(e)");
 		App.collections.games.play_against_ai();
-		// App.routers.games.navigate(`/chat`, { trigger: true } );
 	}
 
 	updateRender() {
-		console.log("In GameIndexView.updateRender");
 		App.collections.games.myFetch();
 		this.$el.html(this.template({
 			token: $('meta[name="csrf-token"]').attr('content'),
-			allGames: App.collections.games
+			allGames: App.collections.games.toJSON()
 			}
 		));
 		this.delegateEvents();

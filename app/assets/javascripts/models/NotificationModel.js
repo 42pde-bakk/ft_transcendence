@@ -17,7 +17,6 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 	}
 
 	myFetch() {
-		console.log("In MYFETCH");
 		let this_copy = this;
 		let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
 
@@ -50,6 +49,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 					alert(response["alert"]);
 			},
 			error: function (error) {
+				console.log(`creating notification returned error: ${JSON.stringify(error)}`);
 				alert(error["responseJSON"]["error"]);
 			}
 		})
@@ -68,8 +68,10 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 				console.log(response["status"]);
 				if (response["alert"])
 					alert(response["alert"]);
+				App.collections.notifications.myFetch();
 			},
 			error: function (error) {
+				console.log(`accepting notification returned error: ${JSON.stringify(error)}`);
 				alert(error["responseJSON"]["error"]);
 			}
 		})
@@ -88,8 +90,10 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 				console.log(response["status"]);
 				if (response["alert"])
 					alert(response["alert"]);
+				App.collections.notifications.myFetch();
 			},
 			error: function (error) {
+				console.log(`declining notification returned error: ${JSON.stringify(error)}`);
 				alert(error["responseJSON"]["error"]);
 			}
 		})
