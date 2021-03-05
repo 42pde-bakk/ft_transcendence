@@ -7,15 +7,6 @@ class Paddle {
 		this.colour = "white";
 	}
 
-	// goUp() {
-	// 	if (this.y - this.velocity > 0)
-	// 		this.y -= this.velocity;
-	// }
-	// goDown() {
-	// 	if (this.y + this.velocity < this.maxY)
-	// 		this.y += this.velocity;
-	// }
-
 	set_config(data, configCanvas, MyCanvas) {
 		this.x = data.x * MyCanvas.width / configCanvas.width;
 		this.y = data.y * MyCanvas.height / configCanvas.height;
@@ -26,4 +17,3 @@ class Paddle {
 }
 
 export default Paddle;
-// module.exports = Paddle;

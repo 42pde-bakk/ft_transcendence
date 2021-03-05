@@ -11,8 +11,9 @@ class Ball
 		if rand(1..2) == 1
 			@xvelocity *= -1
 		end
-		@yvelocity = 2.5 * (rand(1..3) / 2)
-		STDERR.puts "ball velocity is #{@xvelocity}, #{@yvelocity}"
+		@yvelocity = [2.5, 2.5 * rand(1..3) / 2].max
+		# @yvelocity = 2.5 * (rand(1..3) / 2)
+		STDERR.puts "RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa\nball velocity is #{@xvelocity}, #{@yvelocity}"
 	end
 
 	def updatepos(players)
@@ -32,10 +33,11 @@ class Ball
 	def reset
 		@posx = @canvas_width / 2
 		@posy = @canvas_height / 2
+		@xvelocity = 5
 		if rand(1..2) == 1
 			@xvelocity *= -1
 		end
-		@yvelocity = 2.5 * (rand(1..3) / 2)
+		@yvelocity = [2.5, 2.5 * rand(1..3) / 2].max
 	end
 
 	def posx

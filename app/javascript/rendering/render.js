@@ -22,7 +22,7 @@ class Render {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.context.fillStyle = this.background_colour;
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-		console.log(`resetCanvas: width=${this.canvas.width}, height=${this.canvas.height}, fillStyle = ${this.context.fillStyle}`);
+		// console.log(`resetCanvas: width=${this.canvas.width}, height=${this.canvas.height}, fillStyle = ${this.context.fillStyle}`);
 	}
 
 	drawBall() {

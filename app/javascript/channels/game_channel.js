@@ -23,26 +23,21 @@ function manageGameChannel() {
 	let game_id = game_div_elem.getAttribute("data-game-id");
   let render = new Render(document.getElementById("PongCanvas"));
   let GameSub;
+  let data = {
+	  authenticity_token: $('meta[name="csrf-token"]').attr('content') ,
+	  type: "commandstring"
+  };
 
   logKey = function(e) {
 		e.preventDefault();
-		let keyType = "paddle_up";
-		if (e.keyCode === ARROW_UP || e.keyCode === ARROW_DOWN || e.keyCode === KEY_S || e.keyCode === KEY_W) {
+		if (e.keyCode === ARROW_UP || e.keyCode === ARROW_DOWN || e.keyCode === KEY_S || e.keyCode === KEY_W || e.keyCode === KEY_SPACE) {
 			if (e.keyCode === ARROW_DOWN || e.keyCode === KEY_S)
-				keyType = "paddle_down";
-			let data = {
-				authenticity_token: $('meta[name="csrf-token"]').attr('content') ,
-				type: keyType
-			};
-			let ret = GameSub.perform('input', data);
-			console.log(`adding move returned ${ret}`);
-		} else if (e.keyCode === KEY_SPACE) {
-			let data = {
-				authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-				type: "toggleReady"
-			};
-			let ret = GameSub.perform('input', data);
-			console.log("togglingReady returned " + ret);
+				data["type"] = "paddle_down";
+			else if (e.keyCode === ARROW_UP || e.keyCode === KEY_W)
+				data["type"] = "paddle_up";
+			else if (e.keyCode === KEY_SPACE)
+				data["type"] = "toggleReady";
+			GameSub.perform('input', data);
 		}
 }
 
