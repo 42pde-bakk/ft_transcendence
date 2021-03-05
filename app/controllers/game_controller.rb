@@ -17,8 +17,9 @@ class GameController < ApplicationController
 
 	def create # Set up a game against a bot
 		game = Game.create(player1: @user, name_player1: @user.name, name_player2: "Feskir", gametype: "casual")
+		game.mysetup
 		game.save
-		GameJob.perform_later(game.id)
+		# GameJob.perform_later(game.id)
 		NotificationChannel.broadcast_to(@user.sender, {
 			message: "Game has been set up for you",
 			redirection: "#game/#{game.id}"
@@ -28,8 +29,9 @@ class GameController < ApplicationController
 
 	def create_game(usr1, usr2, gametype)
 		game = Game.create(player1: usr1, player2: usr2, name_player1: usr1.name, name_player2: usr2.name, gametype: gametype)
+		game.mysetup
 		game.save
-		GameJob.perform_later(game.id)
+		# GameJob.perform_later(game.id)
 		if usr1
 			NotificationChannel.broadcast_to(usr1, {
 				message: "Game has been set up for you",

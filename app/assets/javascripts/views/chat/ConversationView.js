@@ -75,10 +75,6 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 		App.collections.groupchats.myFetch();
 	}
 
-	clearInput() {
-		$("textarea").val('');
-	}
-
 	cancel() {
 		this.clearInput();
 		App.routers.chats.navigate("/chat", { trigger: true } );
@@ -86,12 +82,10 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 
 	send_dm(event) {
 		App.collections.groupchats.send_dm(this.targetUserID);
-		this.clearInput();
 	}
 
 	send_groupmessage(event) {
 		App.collections.groupchats.send_groupmessage(this.targetUserID);
-		this.clearInput();
 	}
 
 	block_user(event) {

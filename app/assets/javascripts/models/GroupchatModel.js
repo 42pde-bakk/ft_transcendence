@@ -106,6 +106,7 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 				alert(error["responseJSON"]["error"]);
 			}
 		})
+		$("textarea").val('');
 	}
 
 	send_groupmessage(targetId) {
@@ -129,6 +130,7 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 				alert(error["responseJSON"]["error"]);
 			}
 		})
+		$("textarea").val('');
 	}
 
 	block_user(targetUserId) {

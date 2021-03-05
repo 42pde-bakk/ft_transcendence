@@ -167,33 +167,9 @@
 
 	{{#if is_groupchat }}
 		<script>
-			function send_groupmessage() {
-				const msg = $("textarea").val();
-				const data = {
-					authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-					chatroom_id: $(`#chatroom_id`).val(),
-					chat_message: msg
-				};
-				console.log(`in send_groupmsg, data is ${JSON.stringify(data)}`);
-				$.ajax({
-					url: '/api/chat/send_groupmessage',
-					type: 'POST',
-					data: data,
-					success: function(response) {
-						// console.log(`send_groupmessage#success: response is ${JSON.stringify(response)}`);
-						if (response["alert"])
-							alert(response["alert"]);
-					},
-					error: function(error) {
-						// console.log(`error is ${JSON.stringify(error)}`);
-						alert(error["responseJSON"]["error"]);
-					}
-				})
-				$("textarea").val('');
-			}
 			function submitOnEnter(e) {
 				if (e.which === 13 && !e.shiftKey) {
-					send_groupmessage();
+					App.collections.groupchats.send_groupmessage({{target_id}});
 					e.preventDefault();
 				}
 			}
@@ -221,32 +197,9 @@
 	{{else}}
 
 		<script>
-			function send_dm(targetUserId) {
-				const msg = $("textarea").val();
-				const data = {
-					authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-					other_user_id: $(`#target_user_id`).val(),
-					chat_message: msg
-				};
-				$.ajax({
-					url: '/api/chat/send_dm',
-					type: 'POST',
-					data: data,
-					success: function(response) {
-						// console.log(`send_dm#success: response is ${JSON.stringify(response)}`);
-						if (response["alert"])
-							alert(response["alert"]);
-					},
-					error: function(error) {
-						// console.log(`error is ${JSON.stringify(error)}`);
-						alert(error["responseJSON"]["error"]);
-					}
-				})
-				$("textarea").val('');
-			}
 			function submitOnEnter(e) {
 				if (e.which === 13 && !e.shiftKey) {
-					send_dm();
+					App.collections.groupchats.send_dm({{target_id}});
 					e.preventDefault();
 				}
 			}

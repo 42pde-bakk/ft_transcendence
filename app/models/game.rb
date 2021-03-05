@@ -105,7 +105,7 @@ class Gamelogic
 	def sim_turn
 		if @players[0].status == "waiting" or @players[1].status == "waiting"
 			@status = "waiting"
-			return sleep(2)
+			return
 		end
 
 		@players.each do |p|
@@ -173,16 +173,25 @@ class Gamelogic
 	end
 
 	def status # simple getter method
-		@status
+		if @status == "finished"
+			"finished"
+		elsif @players[0].status == "waiting" or @players[1].status == "waiting"
+			"waiting"
+		else
+			"running"
+		end
 	end
-	def status=(status) # simple setter method
-	@status = status
+	def status=(incoming_status)
+		@status = incoming_status
 	end
 
-	def add_input(type, id)
+	def add_input(type, id, game_id)
 		STDERR.puts "adding input, id is #{id}, type is #{type}"
 		if type == "toggleReady"
 			@players[id.to_i].toggle_ready
+			if @players[0].status == "ready" and @players[1].status == "ready"
+				GameJob.perform_later(game_id)
+			end
 		end
 		@players[id].add_move({type: type, id: id})
 	end
@@ -211,7 +220,7 @@ class Game < ApplicationRecord # This is a wrapper class
 
 	def add_input(type, user_id)
 		if @@Gamelogics[id]
-			@@Gamelogics[id].add_input(type, user_id)
+			@@Gamelogics[id].add_input(type, user_id, id)
 		end
 	end
 
