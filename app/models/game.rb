@@ -14,14 +14,12 @@ class Player
 			@user_id = user.id
 			@status = "waiting"
 		else
-			@name = "Bot Feskir"
+			@name = "Bot"
 			@user_id = 0
 		end
 		@left_right = id
 		@score = 0
-		@canvas_width = canvas_width
-		@canvas_height = canvas_height
-		@paddle = Paddle.new(x, @canvas_width, @canvas_height)
+		@paddle = Paddle.new(x, canvas_width, canvas_height)
 		@inputs = Array.new
 	end
 
@@ -45,11 +43,9 @@ class Player
 	def paddle
 		@paddle
 	end
-
 	def user_id
 		@user_id
 	end
-
 	def status
 		@status
 	end
@@ -112,8 +108,8 @@ class Gamelogic
 	end
 
 	def add_wartime_points(winner, loser)
-		winner.guild&.active_war&.add_war_points(winner.guild.id)
-		loser.guild&.active_war&.add_war_points(winner.guild.id)
+		winner.guild&.active_war&.add_war_points(winner.guild_id)
+		loser.guild&.active_war&.add_war_points(winner.guild_id)
 	end
 
 	def distribute_points(winner, loser)
