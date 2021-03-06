@@ -36,6 +36,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 	}
 
 	create_notification(id, notification_type) {
+		console.log(`lets create a '${notification_type}' notif for user ${id}`);
 		let data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
 			targetuser_id: id,

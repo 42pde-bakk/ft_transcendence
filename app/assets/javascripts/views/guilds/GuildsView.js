@@ -104,7 +104,8 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     }
 
     invite_battle(e) {
-	    let battleTargetId = $(e.currentTarget).data('battleTargetId');
+	    let battleTargetId = e.target.getElementsByClassName("battle")[0].innerText;
+	    console.log(`battleTargetId is ${battleTargetId}`);
 	    App.collections.notifications.create_notification(parseInt(battleTargetId), "wartime")
         // this.battleAction(e, "/api/battles/create.json", "battle", "Sent battle invite");
     }
@@ -118,6 +119,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     }
 
     updateRender() {
+    	App.collections.guilds.fetch();
         this.$el.html(this.template({current_user: App.models.user.toJSON()}));
         if (App.models.user.toJSON().guild_validated === false || !App.models.user.toJSON().guild_id) {
             this.$("#Guild").append(App.templates["guilds/NoGuild"]({

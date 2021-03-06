@@ -15,6 +15,7 @@ class NotificationController < ApplicationController
 	end
 
 	def create # Post /api/notification.json
+		STDERR.puts("in NotificationController#create, params is #{params}")
 		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
 		unless @target_user then return render json: { error: "Can't find the user you're trying to send a notification to, sorry bro" }, status: :bad_request end
 		unless @notification_type then return render json: { error: "Don't understand what type of notification you're trying to create" }, status: :bad_request end
@@ -54,6 +55,10 @@ class NotificationController < ApplicationController
 		NotificationChannel.broadcast_to(@notification.sender, {
 			message: "Your game invite to #{@notification.receiver.name} has been declined"
 		})
+
+		if @notification.kind == "wartime"
+			@notification.sender.guild&.active_war&.add_war_points(@notification.sender.guild)
+		end
 
 		@notification.destroy
 		render json: { status: "Succesfully destroyed notification" }, status: :ok

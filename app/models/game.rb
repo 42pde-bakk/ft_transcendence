@@ -103,14 +103,16 @@ class Gamelogic
 	end
 
 	def distribute_points(winner, loser)
-		return if winner == nil or loser == nil or @game.type == "casual"
+		return if winner == nil or loser == nil or @game.gametype == "casual"
 
-		if @game.type == "ranked"
-			winner.points += 1
-			loser.points -= 1
+		if @game.gametype == "ranked"
+			winner.elo += 1
+			loser.elo -= 1
 			winner.save
 			loser.save
-		elsif @game.type == "wartime"
+			winner.guild&.points += 1
+			winner.guild&.save
+		elsif @game.gametype == "wartime"
 			g1 = winner.guild.active_war.guild1
 			g2 = winner.guild.active_war.guild2
 			return if g1 == nil or g2 == nil
@@ -132,12 +134,12 @@ class Gamelogic
 		else
 			if @players[0].score.to_i > @players[1].score.to_i
 				@winner = @players[0].name
-				winner_id = @players[0].id
-				loser_id = @players[1].id
+				winner_id = @players[0].user_id
+				loser_id = @players[1].user_id
 			else
 				@winner = @players[1].name
-				winner_id = @players[1].id
-				loser_id = @players[0].id
+				winner_id = @players[1].user_id
+				loser_id = @players[0].user_id
 			end
 			@msg = "#{@winner} wins!"
 			distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id))
@@ -237,12 +239,6 @@ class Gamelogic
 		end
 		@status = "running"
 		@msg = nil
-	end
-	def winner_id
-		@winner_id
-	end
-	def loser_id
-		@loser_id
 	end
 end
 

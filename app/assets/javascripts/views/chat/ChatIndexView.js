@@ -4,7 +4,8 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 			"submit #groupchat-form": "create_groupchat",
 			"click .join_groupchat": "join_groupchat",
 			"click .leave_groupchat": "leave_groupchat",
-			"click .send_duel_invite": "send_duel_invite"
+			"click .send_casual_duel_invite": "send_casual_duel_invite",
+			"click .send_ranked_duel_invite": "send_ranked_duel_invite"
 		};
 		super(options);
 		this.tagName = "div";
@@ -29,13 +30,14 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	create_groupchat(e) {
 		e.preventDefault();
 		App.collections.groupchats.create_groupchat();
-		// App.collections.groupchats.myFetch();
 	}
 
-	send_duel_invite(e) {
-		let targetId = $(e.currentTarget).data('target-id');
-		console.log("You wanted to duel user with id " + targetId);
-		App.collections.notifications.create_notification(parseInt(targetId), "casual");
+	send_casual_duel_invite(e) {
+		App.collections.notifications.create_notification(parseInt($(e.currentTarget).data('target-id')), "casual");
+	}
+
+	send_ranked_duel_invite(e) {
+		App.collections.notifications.create_notification(parseInt($(e.currentTarget).data('target-id')), "ranked");
 	}
 
 	updateRender() {
