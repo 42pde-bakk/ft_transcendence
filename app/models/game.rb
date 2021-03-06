@@ -6,7 +6,7 @@
 class Player
 	attr_accessor :inputs
 
-	def initialize(id, x, canvas_width, canvas_height, user)
+	def initialize(id, x, canvas_width, canvas_height, user, long_paddles)
 		@status = "ready"
 		if user == nil or user.id < 3 then @ai = true else @ai = false end
 		if user
@@ -19,7 +19,7 @@ class Player
 		end
 		@left_right = id
 		@score = 0
-		@paddle = Paddle.new(x, canvas_width, canvas_height)
+		@paddle = Paddle.new(x, canvas_width, canvas_height, long_paddles)
 		@inputs = Array.new
 	end
 
@@ -65,7 +65,7 @@ class Player
 	end
 
 	def move(ball)
-		if @ai and rand(1..5) == 1
+		if @ai and rand(1..4) == 1
 			ai_sim(ball)
 		end
 		if @inputs.length > 0
@@ -81,13 +81,13 @@ class Gamelogic
 		@canvas_height = 100
 		@status = "running"
 		@players = [
-			Player.new(0, 5, @canvas_width, @canvas_height, game.player1),
-			Player.new(1, @canvas_width - 20, @canvas_width, @canvas_height, game.player2)
+			Player.new(0, 5, @canvas_width, @canvas_height, game.player1, game.long_paddles),
+			Player.new(1, @canvas_width - 20, @canvas_width, @canvas_height, game.player2, game.long_paddles)
 		]
 		@winner = "TBD"
 		@msg = nil
 		@turn = 0
-		@ball = Ball.new(@canvas_width, @canvas_height)
+		@ball = Ball.new(@canvas_width, @canvas_height, game.extra_speed)
 	end
 
 	def score

@@ -1,6 +1,7 @@
 class Paddle
-	def initialize(x, canvas_width, canvas_height)
+	def initialize(x, canvas_width, canvas_height, long_paddles)
 		@height = 30
+		@height *= 1.5 if long_paddles
 		@width = 15.0
 		@velocity = 10
 		@posx = x.to_i + (@width / 2)

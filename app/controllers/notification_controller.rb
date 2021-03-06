@@ -8,6 +8,7 @@ class NotificationController < ApplicationController
 		@target_user = User.find(params[:targetuser_id]) rescue nil
 		@notification = Notification.find(params[:id]) rescue nil
 		@notification_type = params[:notification_type]
+		@game_options = params[:game_options]
 		@target_guild = Guild.find(params[:targetguild_id]) rescue nil
 	end
 
@@ -33,11 +34,17 @@ class NotificationController < ApplicationController
 
 	def create # Post /api/notification.json
 		STDERR.puts("in NotificationController#create, params is #{params}")
+		long_paddles = false
+		extra_speed = false
+		if @game_options
+			extra_speed = @game_options[:extra_speed]
+			long_paddles = @game_options[:long_paddles]
+		end
 		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
 		unless @target_user then return render json: { error: "Can't find the user you're trying to send a notification to, sorry bro" }, status: :bad_request end
 		unless @notification_type then return render json: { error: "Don't understand what type of notification you're trying to create" }, status: :bad_request end
 
-		if Notification.create(sender: @current_user, receiver: @target_user, is_accepted: false, kind: @notification_type, name_sender: @current_user.name, name_receiver: @target_user.name).save
+		if Notification.create(sender: @current_user, receiver: @target_user, is_accepted: false, kind: @notification_type, name_sender: @current_user.name, name_receiver: @target_user.name, extra_speed: extra_speed, long_paddles: long_paddles).save
 			NotificationChannel.broadcast_to(@target_user, {
 				message: "new notification bro!"
 			})
@@ -59,7 +66,7 @@ class NotificationController < ApplicationController
 		NotificationChannel.broadcast_to(@notification.sender, {
 			message: "Your game invite to #{@notification.receiver.name} has been accepted"
 		})
-		GameController.new.create_game(@notification.sender, @notification.receiver, @notification.kind)
+		GameController.new.create_game(@notification.sender, @notification.receiver, @notification.kind, @notification.extra_speed, @notification.long_paddles)
 		if @notification.kind == "wartime"
 			Notification.where(sender: @notification.sender, kind: "wartime", is_accepted: false).destroy_all
 		else

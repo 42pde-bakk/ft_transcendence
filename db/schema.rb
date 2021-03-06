@@ -101,7 +101,8 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.string "name_player1"
     t.string "name_player2"
     t.string "gametype"
-    t.integer "room_nb"
+    t.boolean "long_paddles"
+    t.boolean "extra_speed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["player1_id"], name: "index_games_on_player1_id"
@@ -133,6 +134,8 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.string "name_receiver"
     t.bigint "sender_id"
     t.bigint "receiver_id"
+    t.boolean "extra_speed"
+    t.boolean "long_paddles"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
