@@ -56,11 +56,11 @@ class War < ApplicationRecord
     new_war_arr
   end
 
-  def add_war_points(to_guild)
-    if to_guild == guild1
-      g1_points += 1
-    elsif to_guild == guild2
-      g2_points += 1
+  def add_war_points(to_guild_id)
+    if to_guild_id == guild1_id
+      self.g1_points += 1
+    elsif to_guild_id == guild2_id
+      self.g2_points += 1
     end
     self.save!
   end

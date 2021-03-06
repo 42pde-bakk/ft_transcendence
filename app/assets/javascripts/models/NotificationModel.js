@@ -19,13 +19,14 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 	myFetch() {
 		console.log("fetching notifications");
 		let this_copy = this;
-		let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content')};
+		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
 
 		$.ajax({
 			url: '/api/notification.json',
 			type: 'GET',
 			data: data,
 			success: function (response) {
+				console.log(`fetching notifications returned: ${JSON.stringify(response)}`);
 				this_copy.set(response);
 			},
 			error: function (error) {

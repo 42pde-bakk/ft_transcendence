@@ -8,10 +8,27 @@ class NotificationController < ApplicationController
 		@target_user = User.find(params[:targetuser_id]) rescue nil
 		@notification = Notification.find(params[:id]) rescue nil
 		@notification_type = params[:notification_type]
+		@target_guild = Guild.find(params[:targetguild_id]) rescue nil
 	end
 
 	def index # Get /api/notification.json
-		render json: Notification.where(receiver: @current_user), status: :ok
+		render json: Notification.where(receiver: @current_user, is_accepted: false), status: :ok
+	end
+
+	def create_wartime_duel_request
+		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
+		unless @target_guild then return render json: { error: "Can't find the guild you're trying to fight" }, status: :bad_request end
+
+			User.where(guild: @target_guild).each do |user|
+				notif = Notification.create(sender: @current_user, receiver: user, is_accepted: false, kind: "wartime", name_sender: @current_user.name, name_receiver: user.name)
+				if notif.save
+					NotificationChannel.broadcast_to(user, {
+						message: "new wartime invite!"
+					})
+				end
+				CheckNotificationTimeoutJob.set(wait: @target_guild.active_war.time_to_answer).perform_later(@current_user, @target_guild)
+		end
+		render json: { status: "Succesfully sent notifications to each member of #{@target_guild.name}!"}, status: :ok
 	end
 
 	def create # Post /api/notification.json
@@ -43,7 +60,11 @@ class NotificationController < ApplicationController
 			message: "Your game invite to #{@notification.receiver.name} has been accepted"
 		})
 		GameController.new.create_game(@notification.sender, @notification.receiver, @notification.kind)
-		@notification.destroy
+		if @notification.kind == "wartime"
+			Notification.where(sender: @notification.sender, kind: "wartime", is_accepted: false).destroy_all
+		else
+			@notification.destroy
+		end
 		render json: { status: "Succesfully accepted notification" }, status: :ok
 	end
 
@@ -55,10 +76,6 @@ class NotificationController < ApplicationController
 		NotificationChannel.broadcast_to(@notification.sender, {
 			message: "Your game invite to #{@notification.receiver.name} has been declined"
 		})
-
-		if @notification.kind == "wartime"
-			@notification.sender.guild&.active_war&.add_war_points(@notification.sender.guild)
-		end
 
 		@notification.destroy
 		render json: { status: "Succesfully destroyed notification" }, status: :ok

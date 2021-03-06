@@ -113,15 +113,8 @@ class Gamelogic
 			winner.guild&.points += 1
 			winner.guild&.save
 		elsif @game.gametype == "wartime"
-			g1 = winner.guild.active_war.guild1
-			g2 = winner.guild.active_war.guild2
-			return if g1 == nil or g2 == nil
-			if g1 == winner.guild
-				winner.guild.active_war.g1_points += 1
-			elsif g2 == winner.guild
-				winner.guild.active_war.g2_points += 1
-			end
-			winner.guild.active_war.save
+			winner.guild&.active_war&.add_war_points(winner.guild.id)
+			loser.guild&.active_war&.add_war_points(winner.guild.id)
 		end
 	end
 
