@@ -3,33 +3,51 @@ class GameController < ApplicationController
 	skip_before_action :verify_authenticity_token
 
 	def index
+		render json: Game.all, status: :ok
 	end
 
-	def find_or_create_game
-		ant = User.find_by(name: "Ant-Man")
-		@game = Game.find_by(room_nb: @game_id)
-		if @game
-			STDERR.puts("Found game by room_nb: #{@game_id}")
-			@game.player2 = @user
+	def show
+		game = Game.find(params[:id]) rescue nil
+		if game
+			render json: game, status: :ok
 		else
-			if @user.game then @user.game.destroy end
-			@user.create_game(room_nb: @game_id, player2: ant)
-			@user.game.mysetup
-            @user.game.add_player(@user, 0) # 0 means as left player
-			saveret = @user.game.save
-			STDERR.puts("saveret = #{saveret}")
+			render json: { error: "Sorry, couldn't find a game with that id" }, status: :bad_request
 		end
 	end
 
-	def join
-		find_or_create_game
-		STDERR.puts("@game_id is #{@game_id}, game is #{@user.game}")
+	def create # Set up a game against a bot
+		if Game.find_by(player2: @user) or Game.find_by(player1: @user) then return render json: { error: "Error creating game, you must not already be in a game" }, status: :not_acceptable end
+		game = Game.create(player1: @user, name_player1: @user.name, name_player2: "Feskir", gametype: "casual")
+		game.mysetup
+		game.save
+		# GameJob.perform_later(game.id)
+		NotificationChannel.broadcast_to(@user, {
+			message: "Game has been set up for you",
+			redirection: "#game/#{game.id}"
+		})
+		render json: { status: "Succesfully created a practice game against the AI" }, status: :ok
+	end
+
+	def create_game(usr1, usr2, gametype)
+		game = Game.create(player1: usr1, player2: usr2, name_player1: usr1.name, name_player2: usr2.name, gametype: gametype)
+		game.mysetup
+		game.save
+		# GameJob.perform_later(game.id)
+		if usr1
+			NotificationChannel.broadcast_to(usr1, {
+				message: "Game has been set up for you",
+				redirection: "#game/#{game.id}"
+			})
+		end
+		if usr2
+			NotificationChannel.broadcast_to(usr2, {
+				message: "Game has been set up for you",
+				redirection: "#game/#{game.id}"
+			})
+		end
 	end
 
 	def set_params
-		@game_id = params[:room_nb]
-		STDERR.puts("in set_params")
-		@user = User.find_by(log_token: params[:authenticity_token]) 		# Set @user to be the current user
-		if @user then STDERR.puts("@user.log_token is #{@user.log_token}") end
+		@user = User.find_by(log_token: encrypt(cookies[:log_token])) rescue nil
 	end
 end

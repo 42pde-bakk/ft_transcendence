@@ -9,13 +9,6 @@ def get_auth_tok()
   uri = URI.parse('https://api.intra.42.fr/oauth/token')
   resp = Net::HTTP.post_form(uri, data)
   return (JSON.parse(resp.body)["access_token"])
-end 
-
-def encrypt(log_token)
-  return ((log_token.to_i + 420 - 69).to_s)
-end
-def decrypt(log_token)
-  return ((log_token.to_i - 420 + 69).to_s)
 end
 
 class HomeController < ApplicationController

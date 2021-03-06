@@ -1,8 +1,3 @@
-<form style="display: none;" id="friendsForm" method="POST">
-	<input type="hidden" name="authenticity_token" value="{{token}}">
-	<input type="text" name="id" id="friendIDField">
-</form>
-
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div class=" h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 ...">
 	<div>
@@ -76,7 +71,7 @@
 													<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{print_color}}">{{print_status}}</span>
 												</td>
 												<td>
-													<a href="#chat/{{id}}">
+													<a href="#chat/dm/{{id}}">
 														<span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Message</span>
 													</a>
 												</td>
@@ -92,11 +87,131 @@
 			</div>
 		</div>
 	</div>
+	<div>
+		<div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
+			<div class="max-w-4xl mx-auto">
+				<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+					<div class="md:flex px-4 py-5 sm:px-6">
+						<div class="md:w-48">
+							<h3 class="text-lg leading-6 font-medium text-gray-900">
+								All Groupchats
+							</h3>
+						</div>
+					</div>
+					<div class="flex flex-col">
+						<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+							<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+								<div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+									<table class="min-w-full divide-y divide-gray-200">
+										<thead class="bg-white">
+										<tr>
+											<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												Name
+											</th>
+											<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												Status
+											</th>
+										</tr>
+										</thead>
+										<tbody class="bg-white divide-y divide-gray-200">
+										{{#each groupChats}}
+											<tr>
+												<td class="px-6 py-4 whitespace-nowrap">
+													<div class="flex items-center">
+														<div class="flex-shrink-0 h-10 w-10">
+															<img class="h-10 w-10 rounded-full" src="https://cdn.betterttv.net/emote/5f12b05519a5bd0524ece33f/3x">
+														</div>
+														<div class="ml-4">
+															<div class="text-sm font-medium text-gray-900">
+																{{name}} ({{amount_members}} members)
+															</div>
+														</div>
+													</div>
+												</td>
+											<td class="px-6 py-4 whitespace-nowrap">
+												{{#if is_subscribed}}
+													<td>
+														{{#ifNotEquals ../target_id id }}
+														<a href="#chat/groupchat/{{id}}">
+															<span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-targetid="{{id}}">Chat</span>
+														</a>
+														{{/ifNotEquals}}
+														<span class="leave_groupchat cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-targetid="{{id}}">Leave Channel</span>
+													</td>
+												{{else}}
+													{{#if is_private}}
+														<td>
+															<label for="chatroom_{{id}}_password" class="block text-lg w-full text-gray-700 pb-2">Password</label>
+															<input type="password" value="" name="chatroom_{{id}}_password" id="chatroom_{{id}}_password" class="border py-2 px-3 w-1/2 focus:ring-indigo-500 focus:border-indigo-500 shadow-inner rounded-md" required>
+														</td>
+													{{/if}}
+													<td>
+														<span class="join_groupchat cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-targetid="{{id}}">Join Channel</span>
+													</td>
+												{{/if}}
+												<td>
+												</td>
+											</tr>
+										{{/each}}
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{#if is_groupchat }}
+		<script>
+			function submitOnEnter(e) {
+				if (e.which === 13 && !e.shiftKey) {
+					App.collections.groupchats.send_groupmessage({{target_id}});
+					e.preventDefault();
+				}
+			}
+			$("textarea").keypress( submitOnEnter );
+		</script>
+
+		<div id="ChatBox" class="bg-white bg-opacity-15 bg-right-bottom box-content w-64 border-4 " style="display: block">
+			<form name="ChatBoxContainer" class="form-container">
+				<input type="hidden" name="authenticity_token" value="{{token}}">
+				<input type="hidden" name="chatroom_id" id="chatroom_id" value="{{target_id}}">
+				<div id="chat-target" data-chat-target-id="{{ chattarget_type }}"></div>
+				<h1>Chat</h1>
+				<label for="msg"><b>Messaging {{ target_name }}</b></label>
+				<chat_log> . </chat_log>
+				<textarea placeholder="Type message.." style="color:black" name="msg" required></textarea>
+				<span class="send_groupmessage cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+				Send it!
+			</span>
+				<span class="cancel cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+				Cancel
+			</span>
+			</form>
+		</div>
+
+	{{else}}
+
+		<script>
+			function submitOnEnter(e) {
+				if (e.which === 13 && !e.shiftKey) {
+					App.collections.groupchats.send_dm({{target_id}});
+					e.preventDefault();
+				}
+			}
+			$("textarea").keypress( submitOnEnter );
+		</script>
+
 	<div id="ChatBox" class="bg-white bg-opacity-15 bg-right-bottom box-content w-64 border-4 " style="display: block">
 		<form name="ChatBoxContainer" class="form-container">
-			<div id="chat-target" data-chat-target-id="{{ target_user_id }}"></div>
+			<div id="chat-target" data-chat-target-id="{{ chattarget_type }}"></div>
 			<h1>Chat</h1>
-			<label for="msg"><b>Messaging {{target_user_name}}</b></label>
+			<input type="hidden" name="target_user_id" id="target_user_id" value="{{target_id}}">
+			<label for="msg"><b>Messaging {{ target_name }}</b></label>
 			<chat_log> . </chat_log>
 			<textarea placeholder="Type message.." style="color:black" name="msg" required></textarea>
 			<span class="send_dm cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -115,4 +230,5 @@
 		</form>
 	</div>
 
+	{{/if}}
 </div>

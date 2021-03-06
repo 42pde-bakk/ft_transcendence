@@ -1,4 +1,23 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
+<script>
+	function openNotificationsDropdownMenu() {
+		document.getElementById("notifications").classList.toggle("show");
+	}
+
+	// Close the dropdown menu if the user clicks outside of it
+	window.onclick = function(event) {
+		if (!event.target.matches('.dropbtn')) {
+			let dropdowns = document.getElementsByClassName("dropdown-content");
+			let i;
+			for (i = 0; i < dropdowns.length; i++) {
+				let openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
+</script>
 <div class="bg-gray-100 h-screen">
     <nav class="bg-gray-800">
         <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -18,10 +37,27 @@
                          	<a href="#tournaments" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tournaments</a>
                        <a href="#game" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Game</a>
                             <a href="#chat" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Chat</a>
-{{#if current_user.admin }}
-                            <a href="#admin" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
-{{/if}}                     
-       <a href="/logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+							{{#if current_user.admin }}
+								<a href="#admin" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
+							{{/if}}
+	                        <a href="/logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+
+	                        <div class="dropdown">
+		                        {{#if newNotification}}
+			                        <button onclick="openNotificationsDropdownMenu()" id="NotificationsButton" class="dropbtn text-gray-300 bg-red-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Notifications</button>
+		                        {{else}}
+			                        <button onclick="openNotificationsDropdownMenu()" id="NotificationsButton" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Notifications</button>
+		                        {{/if}}
+		                        <div id="notifications" class="dropdown-content">
+			                        {{#each notifications}}
+				                        <div class="bg-blue-300 rounded-md text-sm font-small">
+					                       {{kind}} from {{name_sender}}
+					                        <button onclick="App.collections.notifications.decline_invite({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-small">X</button>
+					                        <button onclick="App.collections.notifications.accept_invite({{id}})" class="dropbtn text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-small">Accept</button>
+				                        </div>
+			                        {{/each}}
+		                        </div>
+	                        </div>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class PrivateMessageTest < ActiveSupport::TestCase
+class CheckIfWarEndedJobTest < ActiveJob::TestCase
   # test "the truth" do
   #   assert true
   # end

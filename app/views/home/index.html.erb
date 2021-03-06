@@ -78,6 +78,12 @@
     }
     App.collections.guilds.fetch();
 
+    App.collections.groupchats ||= new AppClasses.Collections.Groupchats();
+    App.collections.notifications ||= new AppClasses.Collections.Notifications();
+    // App.collections.games ||= new AppClasses.Collections.Games();
+    if (!App.collections.games)
+    	App.collections.games = new AppClasses.Collections.Games();
+
 		if(!Backbone.History.started)  {
 			console.log("Backbone history started");
 			Backbone.history.start(); // using anchor for routing

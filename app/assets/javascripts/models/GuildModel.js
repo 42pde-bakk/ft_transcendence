@@ -14,3 +14,7 @@ AppClasses.Collections.Guilds = class extends Backbone.Collection {
         this.url = '/api/guilds';
     }
 }
+
+AppClasses.Models.War = Backbone.Model.extend({
+    urlRoot: "/api/wars"
+});

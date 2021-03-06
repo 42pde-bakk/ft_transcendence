@@ -1,36 +1,22 @@
 class GameJob < ApplicationJob
 	queue_as :default
 
-	def check
-		unless @game
-			@game.destroy
-			return false
-		end
-		@gamestate = @game.get_gamestate
-		unless @gamestate
-			@game.destroy
-			return false
-		end
-		true
-	end
-
 	def perform(gameid)
-		@game_channel = gameid
-		STDERR.puts("@game_channel is #{gameid}")
-		@game = Game.find_by(room_nb: @game_channel)
-		unless check
-			return
-		end
-		# @gamestate.status = "waiting"
+		@game = Game.find(gameid) rescue nil
+		if @game == nil then return end
+
+		@gamestate = @game.get_gamelogic
 		play_game
-		@game.mydestructor
-		@game.destroy
+		if @gamestate.status == "finished"
+			@game.mydestructor
+			@game.destroy
+		end
 	end
 
 	def play_game
-		while @game and @gamestate and @gamestate.status != "finished"
+		@gamestate.countdown
+		while @gamestate.status == "running"
 			@gamestate.sim_turn
-			@gamestate.send_config
 			sleep(0.05)
 		end
 	end

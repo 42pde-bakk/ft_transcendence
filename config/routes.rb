@@ -31,13 +31,27 @@ Rails.application.routes.draw do
     post '/guilds/remove'
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
+    post '/guilds/add_points'
+    # War actions
+    resources :wars
+    post '/wars/create'
+    post '/wars/accept_war'
+    post '/wars/reject_war'
+    post '/wars/check_if_ended'
     post '/guilds/set_officer'
     post '/guilds/unset_officer'
+    # Battle actions
+    resources :battles
+    post '/battles/create'
+    post '/battles/accept_battle'
+    post '/battles/reject_battle'
+    post '/battles/resolve_battle'
     # admin actions
     resources :admin
     post '/admin/ban'
     post '/admin/getAdmin'
     post '/admin/removeAdmin'
+
     # tournaments actions
     resources :tournaments
     post '/tournaments/startTournament'
@@ -47,14 +61,18 @@ Rails.application.routes.draw do
     post '/tournaments/index_ongoing_tournaments'
     post '/tournaments/index_tournament_users'
     post '/tournaments/index_tournament_current_game'
+
+
+    resources :notification
+
     resources :game
     post '/game/join'
 
-    resources :chat
+    resources :chatroom
     post '/chat/send_dm'
+    post '/chat/send_groupmessage'
     post '/chat/block_user'
     post '/chat/unblock_user'
-    post '/chat/send_groupmessage'
   end
   # map.resources :friendships
 end

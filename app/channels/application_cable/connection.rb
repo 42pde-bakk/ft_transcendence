@@ -1,3 +1,10 @@
+def encrypt(log_token)
+	((log_token.to_i + 420 - 69).to_s)
+end
+def decrypt(log_token)
+	((log_token.to_i - 420 + 69).to_s)
+end
+
 module ApplicationCable
 	class Connection < ActionCable::Connection::Base
 		identified_by :current_user

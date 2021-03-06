@@ -1,5 +1,4 @@
 //= require handlebars
-//= require utils/handlebars/print_status.js
+//= require_tree ./utils/handlebars
 //= require ./structure
-
-console.log("app/assets/javascripts/application.js ran");
+//= require moment

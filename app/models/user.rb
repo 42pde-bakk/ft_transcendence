@@ -7,12 +7,21 @@ class User < ApplicationRecord
   # get the users that sent me a friend request
   has_many :invites, :through => :invitations, class_name: 'User', :source => :user
   has_many :blocked_users, class_name: "BlockedUser", dependent: :destroy
+  has_many :messages, class_name: "Message", dependent: :destroy
 
   belongs_to :guild, required: false
 
   belongs_to :tournament, required: false
-  has_one :game, class_name: "Game", foreign_key: "player1_id"
-  has_one :game_invite, class_name: "Game", foreign_key: "player2_id"
+  has_one :game, class_name: "Game", required: false
+  # has_one :game, class_name: "Game", foreign_key: "player1_id"
+  # has_one :game_invite, class_name: "Game", foreign_key: "player2_id"
+  has_many :notifications, class_name: "Notification"
+
+  has_many :battles, class_name: "Battle", foreign_key: "user1_id"
+  has_one :active_battle, -> { where(finished: false, accepted: true) }, class_name: "Battle", foreign_key: "user1_id"
+  has_many :finished_battles, -> { where(finished: true) }, class_name: "Battle", foreign_key: "user1_id"
+  has_many :battle_invites, -> { where(finished: false, accepted: false) }, class_name: "Battle", foreign_key: "user2_id" # invites from other users
+
 
   validates :name, uniqueness: true
  # validates :token, uniqueness: true
@@ -37,8 +46,13 @@ class User < ApplicationRecord
       current: usr.current,
       friends: usr.friends,
       invites: usr.invites,
-      last_seen: usr.last_seen
+      last_seen: usr.last_seen,
+      finished_battles: usr.finished_battles,
+      battle_invites: Battle.clean_arr(usr.battle_invites)
     }
+    if usr.active_battle
+      new_user[:active_battle] = Battle.clean(usr.active_battle)
+    end
     if usr.guild_id
       new_user[:guild] = Guild.clean(usr.guild);
     end
