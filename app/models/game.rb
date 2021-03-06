@@ -102,7 +102,7 @@ class Gamelogic
 		@ball.reset
 	end
 
-	def personal_elo(winner, loser)
+	def readjust_personal_elo(winner, loser)
 		winner.elo += 1
 		loser.elo -= 1
 		winner.save
@@ -111,15 +111,24 @@ class Gamelogic
 		winner.guild&.save
 	end
 
-	def distribute_points(winner, loser)
-		return if winner == nil or loser == nil or @game.gametype == "casual"
+	def add_wartime_points(winner, loser)
+		winner.guild&.active_war&.add_war_points(winner.guild.id)
+		loser.guild&.active_war&.add_war_points(winner.guild.id)
+	end
 
-		if @game.gametype == "ranked"
-			personal_elo(winner, loser)
+	def distribute_points(winner, loser)
+		return if winner == nil or loser == nil or @game.gametype == "casual" or @game.gametype == "practice"
+
+		if @game.gametype == "duel"
+			add_wartime_points(winner, loser) if winner.guild&.active_war&.duel
+		elsif @game.gametype == "tournament"
+			# winner advances?
+			add_wartime_points(winner, loser) if winner.guild&.active_war&.tournament
+		elsif @game.gametype == "ranked"
+			readjust_personal_elo(winner, loser)
+			add_wartime_points(winner, loser) if winner.guild&.active_war&.ladder
 		elsif @game.gametype == "wartime"
-			personal_elo(winner, loser) if winner.guild&.active_war&.ladder
-			winner.guild&.active_war&.add_war_points(winner.guild.id)
-			loser.guild&.active_war&.add_war_points(winner.guild.id)
+			add_wartime_points(winner, loser)
 		end
 	end
 
