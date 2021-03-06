@@ -102,17 +102,22 @@ class Gamelogic
 		@ball.reset
 	end
 
+	def personal_elo(winner, loser)
+		winner.elo += 1
+		loser.elo -= 1
+		winner.save
+		loser.save
+		winner.guild&.points += 1
+		winner.guild&.save
+	end
+
 	def distribute_points(winner, loser)
 		return if winner == nil or loser == nil or @game.gametype == "casual"
 
 		if @game.gametype == "ranked"
-			winner.elo += 1
-			loser.elo -= 1
-			winner.save
-			loser.save
-			winner.guild&.points += 1
-			winner.guild&.save
+			personal_elo(winner, loser)
 		elsif @game.gametype == "wartime"
+			personal_elo(winner, loser) if winner.guild&.active_war&.ladder
 			winner.guild&.active_war&.add_war_points(winner.guild.id)
 			loser.guild&.active_war&.add_war_points(winner.guild.id)
 		end
