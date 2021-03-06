@@ -26,7 +26,7 @@ class NotificationController < ApplicationController
 						message: "new wartime invite!"
 					})
 				end
-				CheckNotificationTimeoutJob.set(wait: @target_guild.active_war.time_to_answer).perform_later(@current_user, @target_guild)
+				CheckNotificationTimeoutJob.set(wait: @target_guild.active_war.time_to_answer.minutes).perform_later(@current_user, @target_guild)
 		end
 		render json: { status: "Succesfully sent notifications to each member of #{@target_guild.name}!"}, status: :ok
 	end
