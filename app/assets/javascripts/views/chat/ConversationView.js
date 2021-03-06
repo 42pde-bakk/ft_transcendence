@@ -82,7 +82,7 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 	}
 
 	send_ranked_duel_invite(e) {
-		App.collections.notifications.create_notification(parseInt($(e.currentTarget).data('target-id')), "ranked");
+		App.collections.notifications.create_notification(parseInt($(e.currentTarget).data('target-id')), "duel");
 	}
 
 	cancel() {
