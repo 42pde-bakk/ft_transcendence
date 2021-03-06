@@ -22,6 +22,7 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
             .done(usersData => {
                // App.models.user.fetch();
                // App.collections.upcoming_tournaments.myFetch();
+		App.collections.tournament_current_game.myFetch();
                 App.routers.tournaments.navigate("/tournaments/page", {trigger: true})
 	    })
             .fail(e => {

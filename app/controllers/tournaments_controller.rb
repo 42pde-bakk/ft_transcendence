@@ -35,6 +35,25 @@ class TournamentsController < ApplicationController
     end
   end
 
+def index_tournament_current_game
+  tourn_id = cookies[:tourn_id].to_i
+    if (cookies[:tourn_id].present?)
+     @tourn = Tournament.all.find(tourn_id)
+     if (@tourn.game_index > @tourn.games.count)
+      @curr_game = nil
+     else
+       @curr_game = [@tourn.games[@tourn.game_index]]
+     end
+    else
+      @tourn = nil
+      @curr_game = nil
+    end
+   respond_to do |format|
+      format.html {redirect_to "/", notice: '^' }
+      format.json {render json: @curr_game, status: :ok }
+    end
+end
+
  def startTournament 
    @tourn = Tournament.find(params[:id].to_i)
    if (@tourn.users.count < 2)

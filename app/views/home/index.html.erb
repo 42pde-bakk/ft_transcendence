@@ -21,6 +21,12 @@
         App.collections.tournament_users = new AppClasses.Collections.TournamentUsers();
     }
     App.collections.tournament_users.myFetch();
+         
+    if (!App.collections.tournament_current_game) {
+        App.collections.tournament_current_game = new AppClasses.Collections.TournamentCurrentGame();
+    }
+    App.collections.tournament_current_game.myFetch();
+
 
 
     if (!App.collections.users_no_self) {
