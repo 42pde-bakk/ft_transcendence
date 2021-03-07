@@ -219,47 +219,52 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody class="bg-white divide-y divide-gray-200">
-                                                        {{#each all_users}}
-                                                            {{#if (check_equal guild_id ../guild.active_war.guild2_id)}}
-                                                                {{#if (check_timeframe ../guild.active_war.wt_begin ../guild.active_war.wt_end)}}
-                                                                    {{#unless active_battle}}
-                                                                        <tr>
-                                                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                                                <div class="flex items-center">
-                                                                                    <div class="flex-shrink-0 h-10 w-10">
-                                                                                        <img class="h-10 w-10 rounded-full"
-                                                                                             src={{img_path}}>
-                                                                                    </div>
-                                                                                    <div class="ml-4">
-                                                                                        <div class="text-sm font-medium text-gray-900">
-                                                                                            {{name}}
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
-                                                                                <p class="clickToInviteBattle cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">
-                                                                                    Invite for battle
-                                                                                    <span hidden class="battle">{{id}}</span>
-                                                                                </p>
-                                                                            </td>
-                                                                        </tr>
-                                                                    {{/unless}}
-                                                                {{else}}
-                                                                    <tr>
-                                                                        <td class="px-6 py-4 whitespace-nowrap">
-                                                                            <div class="flex items-center">
-                                                                                <div class="ml-4">
-                                                                                    <div class="text-sm font-medium text-gray-900">
-                                                                                        You have to wait until wartime starts...
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                {{/if}}
-                                                            {{/if}}
-                                                        {{/each}}
+                                                        <p class="clickToInviteBattle cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">
+                                                            Invite for battle
+<!--                                                            <span hidden class="battle">{{id}}</span>-->
+                                                        </p>
+
+		                                                        <!--                                                        {{#each all_users}}-->
+<!--                                                            {{#if (check_equal guild_id ../guild.active_war.guild2_id)}}-->
+<!--                                                                {{#if (check_timeframe ../guild.active_war.wt_begin ../guild.active_war.wt_end)}}-->
+<!--                                                                    {{#unless active_battle}}-->
+<!--                                                                        <tr>-->
+<!--                                                                            <td class="px-6 py-4 whitespace-nowrap">-->
+<!--                                                                                <div class="flex items-center">-->
+<!--                                                                                    <div class="flex-shrink-0 h-10 w-10">-->
+<!--                                                                                        <img class="h-10 w-10 rounded-full"-->
+<!--                                                                                             src={{img_path}}>-->
+<!--                                                                                    </div>-->
+<!--                                                                                    <div class="ml-4">-->
+<!--                                                                                        <div class="text-sm font-medium text-gray-900">-->
+<!--                                                                                            {{name}}-->
+<!--                                                                                        </div>-->
+<!--                                                                                    </div>-->
+<!--                                                                                </div>-->
+<!--                                                                            </td>-->
+<!--                                                                            <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">-->
+<!--                                                                                <p class="clickToInviteBattle cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">-->
+<!--                                                                                    Invite for battle-->
+<!--                                                                                    <span hidden class="battle">{{id}}</span>-->
+<!--                                                                                </p>-->
+<!--                                                                            </td>-->
+<!--                                                                        </tr>-->
+<!--                                                                    {{/unless}}-->
+<!--                                                                {{else}}-->
+<!--                                                                    <tr>-->
+<!--                                                                        <td class="px-6 py-4 whitespace-nowrap">-->
+<!--                                                                            <div class="flex items-center">-->
+<!--                                                                                <div class="ml-4">-->
+<!--                                                                                    <div class="text-sm font-medium text-gray-900">-->
+<!--                                                                                        You have to wait until wartime starts...-->
+<!--                                                                                    </div>-->
+<!--                                                                                </div>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
+<!--                                                                    </tr>-->
+<!--                                                                {{/if}}-->
+<!--                                                            {{/if}}-->
+<!--                                                        {{/each}}-->
                                                         </tbody>
                                                     </table>
                                                 </div>

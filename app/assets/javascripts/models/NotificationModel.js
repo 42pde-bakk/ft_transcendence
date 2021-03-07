@@ -61,6 +61,24 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 		})
 	}
 
+	create_wartime_duel_request() {
+		console.log(`lets create a wartime battle request notif`);
+		$.ajax({
+			url: '/api/notification/create_wartime_duel_request.json',
+			type: 'POST',
+			data: { authenticity_token: $('meta[name="csrf-token"]').attr('content')},
+			success: function (response) {
+				console.log(response["status"]);
+				if (response["alert"])
+					alert(response["alert"]);
+			},
+			error: function (error) {
+				console.log(`creating notification returned error: ${JSON.stringify(error)}`);
+				// alert(error["responseJSON"]["error"]);
+			}
+		})
+	}
+
 	accept_invite(id) {
 		let data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content')
