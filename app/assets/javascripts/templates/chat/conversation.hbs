@@ -1,4 +1,23 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
+<script>
+	function openDuelDropdownMenu(id) {
+		document.getElementById(`duelMenu_${id}`).classList.toggle("show");
+
+		// Close the dropdown menu if the user clicks outside of it
+		window.onclick = function(event) {
+			if (!event.target.matches('.dropbtn')) {
+				let dropdowns = document.getElementsByClassName(`dropdown-content`);
+				let i;
+				for (i = 0; i < dropdowns.length; i++) {
+					let openDropdown = dropdowns[i];
+					if (openDropdown.classList.contains('show')) {
+						openDropdown.classList.remove('show');
+					}
+				}
+			}
+		}
+	}
+</script>
 <div class=" h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 ...">
 	<div>
 		<nav class="bg-gray-800">
@@ -38,9 +57,9 @@
 						</div>
 					</div>
 					<div class="flex flex-col">
-						<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+						<div class="-my-2 sm:-mx-6 lg:-mx-8">
 							<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-								<div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+								<div class="shadow border-b border-gray-200 sm:rounded-lg">
 									<table class="min-w-full divide-y divide-gray-200">
 										<thead class="bg-white">
 										<tr>
@@ -71,10 +90,17 @@
 													<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{print_color}}">{{print_status}}</span>
 												</td>
 												<td>
-													<span class="send_casual_duel_invite cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-target-id={{id}}>Duel (Casual)</span>
-												</td>
-												<td>
-													<span class="send_ranked_duel_invite cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800" data-target-id={{id}}>Duel (on the ladder)</span>
+													<div class="dropdown">
+														<button onclick="openDuelDropdownMenu({{id}})" id="DuelButton_{{id}}" class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Duel</button>
+														<div id="duelMenu_{{id}}" class="dropdown-content">
+															<div class="bg-transparent rounded-md text-base font-medium">
+																<button onclick="App.collections.notifications.create_notification({{id}}, 'duel')" class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Basic ranked duel</button>
+																<button onclick="App.collections.notifications.create_notification({{id}}, 'duel', { extra_speed: true } )" class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Ranked duel with extra ball speed</button>
+																<button onclick="App.collections.notifications.create_notification({{id}}, 'duel', { long_paddles: true }) " class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Ranked duel with bigger paddles</button>
+																<button onclick="App.collections.notifications.create_notification({{id}}, 'duel', { extra_speed: true, long_paddles: true } )" class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Ranked duel with both additional options</button>
+															</div>
+														</div>
+													</div>
 												</td>
 												<td>
 													<a href="#chat/dm/{{id}}">
