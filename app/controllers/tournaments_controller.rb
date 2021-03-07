@@ -100,6 +100,7 @@ end
     @tournament = Tournament.new
     @tournament.name = params[:name]
     @tournament.started = false
+    @tournament.game_index
     if @tournament.save
       respond_to do |format|
         format.html { redirect_to "/#tournaments", notice: 'Tournament was successfully added.' }

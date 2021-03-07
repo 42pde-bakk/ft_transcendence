@@ -244,7 +244,3 @@ class Game < ApplicationRecord # This is a wrapper class
 		@@Gamelogics[id] = nil
 	end
 end
-	def mydestructor
-		@@Gamelogics[id] = nil
-	end
-end

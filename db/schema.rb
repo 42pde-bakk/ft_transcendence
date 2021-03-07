@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 2021_03_05_185749) do
 
   # These are extensions that must be enabled in order to support this database
@@ -97,11 +96,8 @@ ActiveRecord::Schema.define(version: 2021_03_05_185749) do
   end
 
   create_table "games", force: :cascade do |t|
-    t.bigint "player1_id"
+    t.bigint "player1_id", null: false
     t.bigint "player2_id"
-    t.string "name_player1"
-    t.string "name_player2"
-    t.string "gametype"
     t.integer "room_nb"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -140,6 +136,14 @@ ActiveRecord::Schema.define(version: 2021_03_05_185749) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
+  end
+
+  create_table "private_messages", force: :cascade do |t|
+    t.bigint "from_id"
+    t.text "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_id"], name: "index_private_messages_on_from_id"
   end
 
   create_table "tournaments", force: :cascade do |t|
@@ -203,6 +207,8 @@ ActiveRecord::Schema.define(version: 2021_03_05_185749) do
   add_foreign_key "chatrooms", "users", column: "owner_id"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "games", "users", column: "player1_id"
+  add_foreign_key "games", "users", column: "player2_id"
   add_foreign_key "wars", "guilds", column: "guild1_id"
   add_foreign_key "wars", "guilds", column: "guild2_id"
 end
