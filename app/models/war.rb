@@ -22,6 +22,8 @@ class War < ApplicationRecord
       ladder: war.ladder,
       tournament: war.tournament,
       duel: war.duel,
+      extra_speed: war.extra_speed,
+      long_paddles: war.long_paddles,
       winning_guild_id: war.winning_guild_id
     }
 

@@ -34,15 +34,19 @@ class NotificationController < ApplicationController
 
 	def create # Post /api/notification.json
 		STDERR.puts("in NotificationController#create, params is #{params}")
-		long_paddles = false
-		extra_speed = false
-		if @game_options
-			extra_speed = @game_options[:extra_speed]
-			long_paddles = @game_options[:long_paddles]
-		end
 		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
 		unless @target_user then return render json: { error: "Can't find the user you're trying to send a notification to, sorry bro" }, status: :bad_request end
 		unless @notification_type then return render json: { error: "Don't understand what type of notification you're trying to create" }, status: :bad_request end
+		if @game_options
+			extra_speed = @game_options[:extra_speed]
+			long_paddles = @game_options[:long_paddles]
+		elsif @notification_type == "wartime"
+			extra_speed = @current_user.guild&.active_war&.extra_speed
+			long_paddles = @current_user.guild&.active_war&.long_paddles
+		else
+			long_paddles = false
+			extra_speed = false
+		end
 
 		if Notification.create(sender: @current_user, receiver: @target_user, is_accepted: false, kind: @notification_type, name_sender: @current_user.name, name_receiver: @target_user.name, extra_speed: extra_speed, long_paddles: long_paddles).save
 			NotificationChannel.broadcast_to(@target_user, {

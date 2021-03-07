@@ -180,6 +180,8 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.boolean "ladder", default: false
     t.boolean "tournament", default: false
     t.boolean "duel", default: false
+    t.boolean "extra_speed", default: false
+    t.boolean "long_paddles", default: false
     t.integer "winning_guild_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
