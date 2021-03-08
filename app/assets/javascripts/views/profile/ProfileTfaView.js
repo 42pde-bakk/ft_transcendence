@@ -38,7 +38,9 @@ AppClasses.Views.ProfileTfa = class extends Backbone.View {
            })
 }
     updateRender() {
-        this.$el.html(this.template({current_user: App.models.user.toJSON()}));
+        this.$el.html(this.template({
+	        current_user: App.models.user.toJSON()
+        }));
         return (this);
     }
     render() {

@@ -58,7 +58,7 @@ AppClasses.Views.Admin = class extends Backbone.View {
 
 	updateRender() {
 		this.$el.html(this.template({
-			user: App.models.user.toJSON(),
+			current_user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
 			allUsers: App.collections.users_not_banned.toJSON(),
 			allAdmins: App.collections.users_admin_only.toJSON(),

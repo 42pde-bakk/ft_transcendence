@@ -11,6 +11,7 @@ AppClasses.Views.GamePlayView = class extends Backbone.View {
 	updateRender() {
 		// App.collections.games.myFetch();
 		this.$el.html(this.template({
+			current_user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
 			room_id: this.room_id
 		}));

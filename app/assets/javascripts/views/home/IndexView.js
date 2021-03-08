@@ -24,6 +24,8 @@ AppClasses.Views.Index = class extends Backbone.View {
 
 	updateRender() {
 		console.log("in home#indexview.updateRender");
+		App.models.user.fetch();
+		console.log(`current_user is ${JSON.stringify(App.models.user.toJSON())}`);
 		App.collections.notifications.myFetch();
     this.$el.html(this.template({
       current_user: App.models.user.toJSON(),

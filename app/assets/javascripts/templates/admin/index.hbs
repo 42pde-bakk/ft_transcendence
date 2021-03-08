@@ -23,9 +23,9 @@
                                 <a href="#guilds" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Guilds</a>
 	                            <a href="#game" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Game</a>
 	                            <a href="#chat" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Chat</a>
-{{#if user.admin }}
-                                <a href="#admin" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
-{{/if}} 
+								{{#if current_user.admin }}
+									<a href="#admin" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
+								{{/if}}
                             <a href="/logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
         </div>
 		</nav>
 	</div>
-{{#if user.ban}}
+{{#if current_user.ban}}
 <div>
 Your account has been banned.
 </div>
@@ -230,7 +230,7 @@ Your account has been banned.
                     <div class="md:flex px-4 py-5 sm:px-6">
                         <div class="md:w-48">
                             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                Change channel admins
+                                Chatchannels
                             </h3>
                         </div>
                     </div>
@@ -250,6 +250,9 @@ Your account has been banned.
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Remove channel admin status from
                                             </th>
+	                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Destroy
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
@@ -268,7 +271,7 @@ Your account has been banned.
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <label for="chatchannel{{id}}_giveadmin" class="block text-lg w-full text-gray-700 pb-2">Give admin status to</label>
+<!--                                                    <label for="chatchannel{{id}}_giveadmin" class="block text-lg w-full text-gray-700 pb-2">Give admin status to</label>-->
                                                     <input value="" name="chatchannel{{id}}_giveadmin" id="chatchannel{{id}}_giveadmin" class="border py-2 px-3 w-1/2 focus:ring-indigo-500 focus:border-indigo-500 shadow-inner rounded-md" required>
                                                 </td>
 	                                            <td>
@@ -276,20 +279,25 @@ Your account has been banned.
                                                     <input value="" name="chatchannel{{id}}_removeadmin" id="chatchannel{{id}}_removeadmin" class="border py-2 px-3 w-1/2 focus:ring-indigo-500 focus:border-indigo-500 shadow-inner rounded-md" required>
 	                                            </td>
                                                 <script>
-	                                                function shit(elem) {
+	                                                function shit(elem, update_actiontype) {
 	                                                	if (elem) {
                                                             elem.addEventListener("keyup", function (e) {
                                                                 if (e.keyCode === 13) {
                                                                     e.preventDefault();
-                                                                    App.collections.groupchats.updateAdminStatus({{id}}, elem.value, "giveAdmin");
+                                                                    App.collections.groupchats.updateAdminStatus({{id}}, elem.value, update_actiontype);
                                                                    elem.value = "";
                                                                 }
                                                             })
                                                         }
                                                     }
-                                                    shit(document.getElementById("chatchannel{{id}}_giveadmin"));
-                                                    shit(document.getElementById("chatchannel{{id}}_removeadmin"));
+                                                    shit(document.getElementById("chatchannel{{id}}_giveadmin"), "give_admin");
+                                                    shit(document.getElementById("chatchannel{{id}}_removeadmin"), "remove_admin");
                                                 </script>
+	                                            <td>
+		                                            <button onclick="App.collections.groupchats.destroy_chatchannel({{id}})" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+			                                            <span>Destroy</span>
+		                                            </button>
+	                                            </td>
                                             </tr>
 										{{/each}}
                                         </tbody>
