@@ -64,7 +64,7 @@ Rails.application.routes.draw do
     post '/chat/block_user'
     post '/chat/unblock_user'
     post '/chat/unblock_user'
-    patch '/chatroom/update_admin_status'
+    post '/chatroom/update_admin_status'
   end
   # map.resources :friendships
 end

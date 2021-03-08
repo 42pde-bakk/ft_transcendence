@@ -105,4 +105,14 @@ class ChatroomController < ApplicationController
 		end
 	end
 
+	def get_clearance_level
+		if @current_user.owner then return Cleanance_level::Server_owner end
+		if @current_user.admin then return Cleanance_level::Server_admin end
+		Cleanance_level::User
+	end
+
+	def update_admin_status
+		return render json: { error: "Cannot find current user" }, status: :internal_server_error unless @current_user
+	end
+
 end
