@@ -33,7 +33,7 @@ class ChatroomController < ApplicationController
 			end
 			if @chatroom.is_private
 				if @chatroom.password != Base64.strict_encode64(@chatroom_pw)
-					render json: {error: "Wrong password" }, status: :unauthorized
+					render json: { error: "Wrong password" }, status: :unauthorized
 					return false
 				end
 			end

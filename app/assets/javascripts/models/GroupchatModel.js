@@ -172,7 +172,6 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 	myFetch() {
 		let this_copy = this;
 		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
-
 		$.ajax({
 			url: '/api/chatroom.json',
 			type: 'GET',
@@ -184,5 +183,30 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 				console.error(e);
 			}
 		})
+
+	}
+
+	updateAdminStatus(groupchat_id, user_name, action) {
+		let data = {
+			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			groupchat_id: groupchat_id,
+			targetuser_name: user_name,
+			update_action: action
+		};
+
+		console.log(`in updateAdminStatus, data is ${JSON.stringify(data)}, user_name is ${user_name}`);
+
+		// $.ajax({
+		// 	url: '/api/chatroom/update_admin_status.json',
+		// 	type: 'PATCH',
+		// 	data: data,
+		// 	success: function (response) {
+		// 		//
+		// 	},
+		// 	error: function (e) {
+		// 		console.error(e);
+		// 	}
+		// })
+
 	}
 }
