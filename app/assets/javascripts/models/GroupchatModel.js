@@ -47,11 +47,12 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 	leave_groupchat(groupchat_id) {
 		let data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			update_actiontype: "leave"
 		};
 
 		$.ajax( {
 			url: `/api/chatroom/${groupchat_id}.json`,
-			type: 'DELETE',
+			type: 'PATCH',
 			data: data,
 			success: function(response) {
 				App.routers.chats.navigate(); // Doing this because the next line wont actually trigger a refresh if the hash hasnt changed (so in my case i go from "#chat" to "#chat" )
@@ -67,7 +68,8 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 	join_groupchat(groupchat_id) {
 		let data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			chatroom_password: $(`#chatroom_${groupchat_id}_password`).val()
+			chatroom_password: $(`#chatroom_${groupchat_id}_password`).val(),
+			update_actiontype: "join"
 		};
 
 		$.ajax({
@@ -183,31 +185,43 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 				console.error(e);
 			}
 		})
+	}
 
+	destroy_chatchannel(chatroom_id) {
+		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
+		$.ajax({
+			url: `/api/chatroom/${chatroom_id}.json`,
+			type: 'DELETE',
+			data: data,
+			success: function(response) {
+				App.collections.groupchats.myFetch();
+			},
+			error: function(e) {
+				console.error(e);
+			}
+		})
 	}
 
 	updateAdminStatus(groupchat_id, user_name, action) {
 		let data = {
 			// authenticity_token: 0,
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			groupchat_id: groupchat_id,
 			targetuser_name: user_name,
 			update_action: action
 		};
-
-		console.log(`in updateAdminStatus, data is ${JSON.stringify(data)}, user_name is ${user_name}`);
-
 		$.ajax({
-			url: '/api/chatroom/update_admin_status.json',
-			type: 'POST',
+			url: `/api/chatroom/${groupchat_id}.json`,
+			type: 'PATCH',
 			data: data,
 			success: function (response) {
+				if (response["alert"])
+					alert(response["alert"]);
 				//
 			},
 			error: function (e) {
-				console.error(e);
+				if (e["responseJSON"]["error"])
+					alert(e["responseJSON"]["error"]);
 			}
 		})
-
 	}
 }
