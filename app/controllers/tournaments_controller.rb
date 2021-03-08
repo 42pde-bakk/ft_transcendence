@@ -98,6 +98,27 @@ def checkAuthTournament
     cookies[:tourn_id] = params[:id]
   end 
 end
+
+def endTournament
+  @tourn = Tournament.find(cookies[:tourn_id])
+  max = 0
+  max_id = 0 
+  @tourn.users.each do |usr|
+    if (usr.tourn_score > max)
+      max = usr.tourn_score
+      max_id = usr.id
+    end
+  end
+  @winner = User.find(max_id)
+  #uncomment when war_integration branch is merged
+  #winner.elo += 250
+  @tourn.users.each do |user_x|
+    user_x.tournament_id = nil
+    user_x.save
+  end
+  @tourn.delete
+end
+
  def create
 
     @tournament = Tournament.new

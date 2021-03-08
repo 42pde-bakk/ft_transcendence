@@ -57,11 +57,11 @@ Rails.application.routes.draw do
     post '/tournaments/startTournament'
     post '/tournaments/checkAuthTournament'
     post '/tournaments/registerUser'
+    post '/tournaments/endTournament'
     post '/tournaments/index_upcoming_tournaments'
     post '/tournaments/index_ongoing_tournaments'
     post '/tournaments/index_tournament_users'
     post '/tournaments/index_tournament_current_game'
-
 
     resources :notification
 

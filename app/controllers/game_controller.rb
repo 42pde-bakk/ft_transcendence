@@ -3,7 +3,7 @@ class GameController < ApplicationController
 	skip_before_action :verify_authenticity_token
 
 	def index
-		render json: Game.all, status: :ok
+            render json: Game.all, status: :ok
 	end
 
 	def show

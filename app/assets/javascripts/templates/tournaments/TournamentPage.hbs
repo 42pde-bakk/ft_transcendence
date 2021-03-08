@@ -40,6 +40,7 @@
 Your account has been banned.
 <div>
 {{else}}
+{{#if current_game}}
  <div>
         <div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
             <div class="max-w-4xl mx-auto">
@@ -73,8 +74,8 @@ Your account has been banned.
 
                                         </tr>
                                         </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
                                         {{#each current_game}}
+                                        <tbody class="bg-white divide-y divide-gray-200">
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                         <div class="ml-4">
@@ -86,12 +87,11 @@ Your account has been banned.
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-nowrap">
-	<div class="ml-4">
-															<a href="#game/{{id}}">
-																<span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Go to game</span>
-															</a>
-														</div>
-
+						<div class="ml-4">
+						<a href="#game/{{id}}">
+						<span class="cursor-pointer h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">Go to game</span>
+						</a>
+						</div>
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -105,8 +105,8 @@ Your account has been banned.
 
                                                 </td>
                                             </tr>
-                                        {{/each}}
                                         </tbody>
+                                        {{/each}}
                                     </table>
                                 </div>
                             </div>
@@ -117,7 +117,15 @@ Your account has been banned.
         </div>
     </div>
    
+					{{else}}
+{{#if user.admin}}
+<p class="endTournament cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    End Tournament
+</p>
 
+{{/if}}
+					Tournament's finished, check leaderboard to see who won. Reward will be destributed when an admin end's this tournament.
+{{/if}}
 
 
 
