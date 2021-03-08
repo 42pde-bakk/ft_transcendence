@@ -75,7 +75,9 @@ class WarsController < ApplicationController
                                 :time_to_answer,
                                 :ladder,
                                 :tournament,
-                                :duel)
+                                :duel,
+                                :extra_speed,
+                                :long_paddles)
   end
 
   def set_opponent_guild

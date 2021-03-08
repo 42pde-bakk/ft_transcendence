@@ -7,7 +7,8 @@ class CreateNotifications < ActiveRecord::Migration[6.1]
       t.string :name_receiver
       t.references :sender, references: :users
       t.references :receiver, references: :users
-
+      t.boolean :extra_speed
+      t.boolean :long_paddles
       t.timestamps
     end
   end

@@ -176,6 +176,15 @@
                                             Duel: {{guild.active_war.duel}}
                                         </dd>
                                     </div>
+	                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+		                                <dt class="text-sm font-medium text-gray-500">
+			                                Additional features
+		                                </dt>
+		                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+			                                Extra Speed: {{guild.active_war.extra_speed}} <br>
+			                                Long Paddles: {{guild.active_war.long_paddles}}
+		                                </dd>
+	                                </div>
                                 </dl>
                             </div>
                         </div>
@@ -210,47 +219,52 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody class="bg-white divide-y divide-gray-200">
-                                                        {{#each all_users}}
-                                                            {{#if (check_equal guild_id ../guild.active_war.guild2_id)}}
-                                                                {{#if (check_timeframe ../guild.active_war.wt_begin ../guild.active_war.wt_end)}}
-                                                                    {{#unless active_battle}}
-                                                                        <tr>
-                                                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                                                <div class="flex items-center">
-                                                                                    <div class="flex-shrink-0 h-10 w-10">
-                                                                                        <img class="h-10 w-10 rounded-full"
-                                                                                             src={{img_path}}>
-                                                                                    </div>
-                                                                                    <div class="ml-4">
-                                                                                        <div class="text-sm font-medium text-gray-900">
-                                                                                            {{name}}
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
-                                                                                <p class="clickToInviteBattle cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">
-                                                                                    Invite for battle
-                                                                                    <span hidden class="battle">{{id}}</span>
-                                                                                </p>
-                                                                            </td>
-                                                                        </tr>
-                                                                    {{/unless}}
-                                                                {{else}}
-                                                                    <tr>
-                                                                        <td class="px-6 py-4 whitespace-nowrap">
-                                                                            <div class="flex items-center">
-                                                                                <div class="ml-4">
-                                                                                    <div class="text-sm font-medium text-gray-900">
-                                                                                        You have to wait until wartime starts...
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                {{/if}}
-                                                            {{/if}}
-                                                        {{/each}}
+                                                        <p class="clickToInviteBattle cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">
+                                                            Invite for battle
+<!--                                                            <span hidden class="battle">{{id}}</span>-->
+                                                        </p>
+
+		                                                        <!--                                                        {{#each all_users}}-->
+<!--                                                            {{#if (check_equal guild_id ../guild.active_war.guild2_id)}}-->
+<!--                                                                {{#if (check_timeframe ../guild.active_war.wt_begin ../guild.active_war.wt_end)}}-->
+<!--                                                                    {{#unless active_battle}}-->
+<!--                                                                        <tr>-->
+<!--                                                                            <td class="px-6 py-4 whitespace-nowrap">-->
+<!--                                                                                <div class="flex items-center">-->
+<!--                                                                                    <div class="flex-shrink-0 h-10 w-10">-->
+<!--                                                                                        <img class="h-10 w-10 rounded-full"-->
+<!--                                                                                             src={{img_path}}>-->
+<!--                                                                                    </div>-->
+<!--                                                                                    <div class="ml-4">-->
+<!--                                                                                        <div class="text-sm font-medium text-gray-900">-->
+<!--                                                                                            {{name}}-->
+<!--                                                                                        </div>-->
+<!--                                                                                    </div>-->
+<!--                                                                                </div>-->
+<!--                                                                            </td>-->
+<!--                                                                            <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">-->
+<!--                                                                                <p class="clickToInviteBattle cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">-->
+<!--                                                                                    Invite for battle-->
+<!--                                                                                    <span hidden class="battle">{{id}}</span>-->
+<!--                                                                                </p>-->
+<!--                                                                            </td>-->
+<!--                                                                        </tr>-->
+<!--                                                                    {{/unless}}-->
+<!--                                                                {{else}}-->
+<!--                                                                    <tr>-->
+<!--                                                                        <td class="px-6 py-4 whitespace-nowrap">-->
+<!--                                                                            <div class="flex items-center">-->
+<!--                                                                                <div class="ml-4">-->
+<!--                                                                                    <div class="text-sm font-medium text-gray-900">-->
+<!--                                                                                        You have to wait until wartime starts...-->
+<!--                                                                                    </div>-->
+<!--                                                                                </div>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
+<!--                                                                    </tr>-->
+<!--                                                                {{/if}}-->
+<!--                                                            {{/if}}-->
+<!--                                                        {{/each}}-->
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -268,58 +282,11 @@
                                     <div class="md:flex px-4 py-5 sm:px-6">
                                         <div class="md:w-48">
                                             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                                Battle invites
+	                                            You can find your battle invites in incoming notifications on the home page!
                                             </h3>
                                             <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                                                Please respond to these invites in time, otherwise you loose them...
+                                                You can find your battle invites in incoming notifications on the home page!
                                             </p>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                                    <table class="min-w-full divide-y divide-gray-200">
-                                                        <thead class="bg-white">
-                                                        <tr>
-                                                            <th scope="col"
-                                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                Name
-                                                            </th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody class="bg-white divide-y divide-gray-200">
-                                                        {{#each current_user.battle_invites}}
-                                                            <tr>
-                                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                                    <div class="flex items-center">
-                                                                        <div class="flex-shrink-0 h-10 w-10">
-                                                                            <img class="h-10 w-10 rounded-full"
-                                                                                 src={{user1.img_path}}>
-                                                                        </div>
-                                                                        <div class="ml-4">
-                                                                            <div class="text-sm font-medium text-gray-900">
-                                                                                {{user1.name}}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
-                                                                    <p class="clickToAcceptBattle cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                                                        Accept
-                                                                        <span hidden class="battle">{{user1_id}}</span>
-                                                                    </p>
-                                                                    <p class="clickToRejectBattle cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                                                        Reject
-                                                                        <span hidden class="battle">{{user1_id}}</span>
-                                                                    </p>
-                                                                </td>
-                                                            </tr>
-                                                        {{/each}}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -355,6 +322,12 @@
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Date
                                                     </th>
+	                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+		                                                Counting gamemodes
+	                                                </th>
+	                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+		                                                Additional features
+	                                                </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -378,6 +351,27 @@
                                                                 </div>
                                                             </div>
                                                         </td>
+	                                                    <td class="px-6 py-4 whitespace-nowrap">
+		                                                    <div class="flex items-center">
+			                                                    <div class="ml-4">
+				                                                    <div class="text-sm font-medium text-gray-900">
+					                                                    Ladder: {{ladder}} <br>
+					                                                    Tournament: {{tournament}} <br>
+					                                                    Duel: {{duel}}
+				                                                    </div>
+			                                                    </div>
+		                                                    </div>
+	                                                    </td>
+	                                                    <td class="px-6 py-4 whitespace-nowrap">
+		                                                    <div class="flex items-center">
+			                                                    <div class="ml-4">
+				                                                    <div class="text-sm font-medium text-gray-900">
+					                                                    Extra speed: {{extra_speed}} <br>
+					                                                    Long paddles: {{long_paddles}} <br>
+				                                                    </div>
+			                                                    </div>
+		                                                    </div>
+	                                                    </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="flex items-center">
                                                                 <div class="ml-4">

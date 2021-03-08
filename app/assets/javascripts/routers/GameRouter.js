@@ -8,10 +8,12 @@ AppClasses.Routers.GameRouter = class extends AppClasses.Routers.AbstractRouter 
 
 	index() {
 		console.log("In GameRouter.index");
+		App.collections.games.myFetch();
 		this.renderView("GameIndexView");
 	}
 
 	play(room_id) {
+		App.collections.games.myFetch();
 		room_id = parseInt(room_id);
 		if (!Number.isInteger(room_id) || isNaN(room_id)) {
 			console.log(`room_id '${room_id}' is not an integer apparently`);

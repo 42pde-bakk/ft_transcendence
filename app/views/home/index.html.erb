@@ -78,11 +78,19 @@
     }
     App.collections.guilds.fetch();
 
-    App.collections.groupchats ||= new AppClasses.Collections.Groupchats();
-    App.collections.notifications ||= new AppClasses.Collections.Notifications();
-    // App.collections.games ||= new AppClasses.Collections.Games();
+		if (!App.collections.groupchats) {
+			App.collections.groupchats = new AppClasses.Collections.Groupchats();
+		}
+		App.collections.groupchats.myFetch();
+
+		if (!App.collections.notifications) {
+			App.collections.notifications = new AppClasses.Collections.Notifications();
+		}
+		App.collections.notifications.myFetch();
+
     if (!App.collections.games)
     	App.collections.games = new AppClasses.Collections.Games();
+    App.collections.games.myFetch();
 
 		if(!Backbone.History.started)  {
 			console.log("Backbone history started");

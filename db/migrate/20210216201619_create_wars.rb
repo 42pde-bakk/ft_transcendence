@@ -17,6 +17,8 @@ class CreateWars < ActiveRecord::Migration[6.1]
       t.boolean :ladder, default: false
       t.boolean :tournament, default: false
       t.boolean :duel, default: false
+      t.boolean :extra_speed, default: false
+      t.boolean :long_paddles, default: false
       t.integer :winning_guild_id
 
       t.timestamps

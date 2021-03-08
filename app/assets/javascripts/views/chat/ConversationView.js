@@ -7,7 +7,9 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 			"click .block_user": "block_user",
 			"click .unblock_user": "unblock_user",
 			"click .join_groupchat": "join_groupchat",
-			"click .leave_groupchat": "leave_groupchat"
+			"click .leave_groupchat": "leave_groupchat",
+			"click .send_casual_duel_invite": "send_casual_duel_invite",
+			"click .send_ranked_duel_invite": "send_ranked_duel_invite"
 		};
 		super(options);
 		this.tagName = "div";
@@ -75,8 +77,16 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 		App.collections.groupchats.myFetch();
 	}
 
+	send_casual_duel_invite(e) {
+		App.collections.notifications.create_notification(parseInt($(e.currentTarget).data('target-id')), "casual");
+	}
+
+	send_ranked_duel_invite(e) {
+		App.collections.notifications.create_notification(parseInt($(e.currentTarget).data('target-id')), "duel");
+	}
+
 	cancel() {
-		this.clearInput();
+		$("textarea").val('');
 		App.routers.chats.navigate("/chat", { trigger: true } );
 	}
 

@@ -20,7 +20,7 @@ class GameController < ApplicationController
 		game = Game.create(player1: @user, name_player1: @user.name, name_player2: "Feskir", gametype: "casual")
 		game.mysetup
 		game.save
-		# GameJob.perform_later(game.id)
+
 		NotificationChannel.broadcast_to(@user, {
 			message: "Game has been set up for you",
 			redirection: "#game/#{game.id}"
@@ -28,11 +28,11 @@ class GameController < ApplicationController
 		render json: { status: "Succesfully created a practice game against the AI" }, status: :ok
 	end
 
-	def create_game(usr1, usr2, gametype)
-		game = Game.create(player1: usr1, player2: usr2, name_player1: usr1.name, name_player2: usr2.name, gametype: gametype)
+	def create_game(usr1, usr2, gametype, extra_speed, long_paddles)
+		game = Game.create(player1: usr1, player2: usr2, name_player1: usr1.name, name_player2: usr2.name, gametype: gametype, extra_speed: extra_speed, long_paddles: long_paddles)
 		game.mysetup
 		game.save
-		# GameJob.perform_later(game.id)
+
 		if usr1
 			NotificationChannel.broadcast_to(usr1, {
 				message: "Game has been set up for you",

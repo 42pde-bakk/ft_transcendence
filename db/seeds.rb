@@ -6,11 +6,24 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
+Guild.create([{
+	              name: "Ants",
+	              anagram: "ant",
+	              points: 66
+              },
+              {
+	              name: "Lions",
+	              anagram: "lio",
+	              points: 55
+              }])
+
+
 User.create([{
                name: "Ant-Man",
                img_path: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg",
                token: "12345",
-               guild_id: nil,
+               guild: Guild.find_by(name: "Ants"),
                tfa: true,
                reg_done: false,
                current: false,
@@ -49,14 +62,3 @@ Chatroom.create([
 		                amount_members: 0
 	                }
                 ])
-
-Guild.create([{
-               name: "Ants",
-               anagram: "ant",
-               points: 66
-              },
-              {
-                name: "Lions",
-                anagram: "lio",
-                points: 55
-              }])

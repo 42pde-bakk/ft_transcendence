@@ -22,6 +22,8 @@ class War < ApplicationRecord
       ladder: war.ladder,
       tournament: war.tournament,
       duel: war.duel,
+      extra_speed: war.extra_speed,
+      long_paddles: war.long_paddles,
       winning_guild_id: war.winning_guild_id
     }
 
@@ -54,5 +56,14 @@ class War < ApplicationRecord
       new_war_arr.append clean(war)
     end
     new_war_arr
+  end
+
+  def add_war_points(to_guild_id)
+    if to_guild_id == guild1_id
+      self.g1_points += 1
+    elsif to_guild_id == guild2_id
+      self.g2_points += 1
+    end
+    self.save!
   end
 end

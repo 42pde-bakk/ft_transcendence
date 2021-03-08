@@ -64,6 +64,7 @@ Rails.application.routes.draw do
     post '/tournaments/index_tournament_current_game'
 
     resources :notification
+    post '/notification/create_wartime_duel_request'
 
     resources :game
     post '/game/join'

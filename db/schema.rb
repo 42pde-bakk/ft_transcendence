@@ -101,7 +101,8 @@ ActiveRecord::Schema.define(version: 2021_03_05_185749) do
     t.string "name_player1"
     t.string "name_player2"
     t.string "gametype"
-    t.integer "room_nb"
+    t.boolean "long_paddles"
+    t.boolean "extra_speed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "tournament_id"
@@ -113,7 +114,7 @@ ActiveRecord::Schema.define(version: 2021_03_05_185749) do
   create_table "guilds", force: :cascade do |t|
     t.string "name"
     t.string "anagram"
-    t.integer "points", default: 0
+    t.integer "points", default: 50
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -135,6 +136,8 @@ ActiveRecord::Schema.define(version: 2021_03_05_185749) do
     t.string "name_receiver"
     t.bigint "sender_id"
     t.bigint "receiver_id"
+    t.boolean "extra_speed"
+    t.boolean "long_paddles"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
@@ -153,6 +156,7 @@ ActiveRecord::Schema.define(version: 2021_03_05_185749) do
     t.string "name"
     t.string "img_path", default: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
     t.string "token"
+    t.integer "elo", default: 1500
     t.integer "guild_id"
     t.boolean "guild_owner", default: false
     t.boolean "guild_officer", default: false
@@ -189,6 +193,8 @@ ActiveRecord::Schema.define(version: 2021_03_05_185749) do
     t.boolean "ladder", default: false
     t.boolean "tournament", default: false
     t.boolean "duel", default: false
+    t.boolean "extra_speed", default: false
+    t.boolean "long_paddles", default: false
     t.integer "winning_guild_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
