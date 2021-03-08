@@ -26,6 +26,7 @@ class User < ApplicationRecord
   def self.clean(usr)
     new_user = {
       id: usr.id,
+      elo: usr.elo,
       name: usr.name,
       email: usr.email,
       owner: usr.owner,

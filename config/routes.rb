@@ -53,6 +53,8 @@ Rails.application.routes.draw do
     post '/admin/removeAdmin'
 
     resources :notification
+    post '/notification/create_wartime_duel_request'
+
     resources :game
     post '/game/join'
 

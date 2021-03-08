@@ -1,5 +1,7 @@
 class Ball
-	def initialize(canvas_width, canvas_height)
+	def initialize(canvas_width, canvas_height, extra_speed)
+		@mult_value = 1.1
+		@mult_value = 1.5 if extra_speed
 		@radius = 5
 		@posx = canvas_width / 2
 		@posy = canvas_height / 2
@@ -18,9 +20,9 @@ class Ball
 		@posx += @xvelocity
 		@posy += @yvelocity
 		if players[0].paddle.include?(self) or players[1].paddle.include?(self)
-			@xvelocity *= -1.1
+			@xvelocity *= -@mult_value
 			@turncounter += 1
-			@yvelocity *= 1.1 * rand(1..3) / 2
+			@yvelocity *= @mult_value * rand(1..3) / 2
 		end
 		if @posy < @radius or @posy > @canvas_height - @radius
 			@yvelocity *= -1

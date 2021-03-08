@@ -58,7 +58,15 @@
                                     {{current_user.name}}
                                 </dd>
                             </div>
-				<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+	                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+		                        <dt class="text-sm font-medium text-gray-500">
+			                        ELO
+		                        </dt>
+		                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+			                        {{current_user.elo}}
+		                        </dd>
+	                        </div>
+					<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
                                     Email
                                 </dt>
@@ -84,8 +92,8 @@
                                 </dd>
                             </div>
 			<script>
-			var elem= document.getElementById("log_id");
-			elem.innerHTML = (parseInt(elem.innerHTML, 10) - 420 + 69).toString();
+				var elem = document.getElementById("log_id");
+				elem.innerHTML = (parseInt(elem.innerHTML, 10) - 420 + 69).toString();
 			</script>
 
 				<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

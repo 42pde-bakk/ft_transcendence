@@ -24,6 +24,8 @@ AppClasses.Views.NewWar = class extends Backbone.View {
         var ladder = $('#ladder').is(':checked');
         var tournament = $('#tournament').is(':checked');
         var duel = $('#duel').is(':checked');
+        var extra_speed = $('#extra_speed').is(':checked');
+        var long_paddles = $('#long_paddles').is(':checked');
 
         var form_error = false;
 
@@ -70,18 +72,21 @@ AppClasses.Views.NewWar = class extends Backbone.View {
             return;
         }
 
-        let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-            guild1_id: App.models.user.toJSON().id,
-            guild2_id: opponent_id,
-            start: start_date,
-            end: end_date,
-            wt_begin: start_wt,
-            wt_end: end_wt,
-            prize: prize,
-            time_to_answer: resp_time,
-            ladder: ladder,
-            tournament: tournament,
-            duel: duel
+        let attr = {
+        	authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+          guild1_id: App.models.user.toJSON().id,
+          guild2_id: opponent_id,
+          start: start_date,
+          end: end_date,
+          wt_begin: start_wt,
+          wt_end: end_wt,
+          prize: prize,
+          time_to_answer: resp_time,
+          ladder: ladder,
+          tournament: tournament,
+          duel: duel,
+          extra_speed: extra_speed,
+	        long_paddles: long_paddles
         };
 
         war.save(attr, {

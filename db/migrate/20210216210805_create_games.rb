@@ -6,8 +6,8 @@ class CreateGames < ActiveRecord::Migration[6.1]
       t.string :name_player1
       t.string :name_player2
       t.string :gametype
-      t.integer :room_nb
-
+      t.boolean :long_paddles
+      t.boolean :extra_speed
       t.timestamps
     end
     # add_foreign_key :games, :users, column: :player1_id, primary_key: :id

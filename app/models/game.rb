@@ -6,7 +6,7 @@
 class Player
 	attr_accessor :inputs
 
-	def initialize(id, x, canvas_width, canvas_height, user)
+	def initialize(id, x, canvas_width, canvas_height, user, long_paddles)
 		@status = "ready"
 		if user == nil or user.id < 3 then @ai = true else @ai = false end
 		if user
@@ -14,14 +14,12 @@ class Player
 			@user_id = user.id
 			@status = "waiting"
 		else
-			@name = "Bot Feskir"
+			@name = "Bot"
 			@user_id = 0
 		end
 		@left_right = id
 		@score = 0
-		@canvas_width = canvas_width
-		@canvas_height = canvas_height
-		@paddle = Paddle.new(x, @canvas_width, @canvas_height)
+		@paddle = Paddle.new(x, canvas_width, canvas_height, long_paddles)
 		@inputs = Array.new
 	end
 
@@ -45,11 +43,9 @@ class Player
 	def paddle
 		@paddle
 	end
-
 	def user_id
 		@user_id
 	end
-
 	def status
 		@status
 	end
@@ -69,7 +65,7 @@ class Player
 	end
 
 	def move(ball)
-		if @ai and rand(1..5) == 1
+		if @ai and rand(1..4) == 1
 			ai_sim(ball)
 		end
 		if @inputs.length > 0
@@ -85,13 +81,13 @@ class Gamelogic
 		@canvas_height = 100
 		@status = "running"
 		@players = [
-			Player.new(0, 5, @canvas_width, @canvas_height, game.player1),
-			Player.new(1, @canvas_width - 20, @canvas_width, @canvas_height, game.player2)
+			Player.new(0, 5, @canvas_width, @canvas_height, game.player1, game.long_paddles),
+			Player.new(1, @canvas_width - 20, @canvas_width, @canvas_height, game.player2, game.long_paddles)
 		]
 		@winner = "TBD"
 		@msg = nil
 		@turn = 0
-		@ball = Ball.new(@canvas_width, @canvas_height)
+		@ball = Ball.new(@canvas_width, @canvas_height, game.extra_speed)
 	end
 
 	def score
@@ -100,6 +96,57 @@ class Gamelogic
 			p.paddle.reset
 		end
 		@ball.reset
+	end
+
+	def readjust_personal_elo(winner, loser)
+		winner.elo += 1
+		loser.elo -= 1
+		winner.save
+		loser.save
+		winner.guild&.points += 1
+		winner.guild&.save
+	end
+
+	def add_wartime_points(winner, loser)
+		winner.guild&.active_war&.add_war_points(winner.guild_id)
+		loser.guild&.active_war&.add_war_points(winner.guild_id)
+	end
+
+	def distribute_points(winner, loser)
+		return if winner == nil or loser == nil or @game.gametype == "casual" or @game.gametype == "practice"
+
+		if @game.gametype == "duel"
+			add_wartime_points(winner, loser) if winner.guild&.active_war&.duel
+		elsif @game.gametype == "tournament"
+			# winner advances?
+			add_wartime_points(winner, loser) if winner.guild&.active_war&.tournament
+		elsif @game.gametype == "ranked"
+			readjust_personal_elo(winner, loser)
+			add_wartime_points(winner, loser) if winner.guild&.active_war&.ladder
+		elsif @game.gametype == "wartime"
+			add_wartime_points(winner, loser)
+		end
+	end
+
+	def finish_game
+		@status = "finished"
+
+		if @players[0].score.to_i == @players[1].score.to_i
+			@winner = "DRAW"
+			@msg = "The game has ended in a draw, PepeHands"
+		else
+			if @players[0].score.to_i > @players[1].score.to_i
+				@winner = @players[0].name
+				winner_id = @players[0].user_id
+				loser_id = @players[1].user_id
+			else
+				@winner = @players[1].name
+				winner_id = @players[1].user_id
+				loser_id = @players[0].user_id
+			end
+			@msg = "#{@winner} wins!"
+			distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id))
+		end
 	end
 
 	def sim_turn
@@ -118,14 +165,7 @@ class Gamelogic
 		end
 
 		if @players.any? {|p| p.score.to_i == 5} or @turn.to_i >= 100
-			@status = "finished"
-			if @players[0].score.to_i == @players[1].score.to_i
-				@winner = "DRAW"
-				@msg = "The game has ended in a draw, PepeHands"
-			else
-				if @players[0].score.to_i > @players[1].score.to_i then @winner = @players[0].name else @winner = @players[1].name end
-				@msg = "#{@winner} wins!"
-			end
+			finish_game
 		end
 		send_config
 	end
@@ -230,13 +270,6 @@ class Game < ApplicationRecord # This is a wrapper class
 	def add_input(type, user_id)
 		if @@Gamelogics[id]
 			@@Gamelogics[id].add_input(type, user_id, id)
-		end
-	end
-
-	def resolve_battle
-		if gametype == "ranked"
-
-			elsif gametype == "war"
 		end
 	end
 
