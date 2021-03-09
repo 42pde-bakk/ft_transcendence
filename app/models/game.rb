@@ -12,7 +12,7 @@ class Player
 		if user
 			@name = user.name
 			@user_id = user.id
-			@status = "waiting"
+			@status = "waiting" if user.id >= 3
 		else
 			@name = "Bot"
 			@user_id = 0
@@ -53,7 +53,7 @@ class Player
 	def toggle_ready
 		if @status == "waiting"
 			@status = "ready"
-		elsif @status == "ready"
+		elsif @status == "ready" and !@ai
 			@status = "waiting"
 		end
 	end
@@ -292,7 +292,7 @@ class Game < ApplicationRecord # This is a wrapper class
 	end
 
 	def mydestructor
-          if (this.tournament_id != nil)
+          if self.tournament_id != nil
             tourn = Tournament.find(this.tournament_id)
             tourn.game_index += 1
             tourn.save
