@@ -293,7 +293,7 @@ class Game < ApplicationRecord # This is a wrapper class
 
 	def mydestructor
           if self.tournament_id != nil
-            tourn = Tournament.find(this.tournament_id)
+            tourn = Tournament.find(self.tournament_id)
             tourn.game_index += 1
             tourn.save
           end
