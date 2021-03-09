@@ -53,9 +53,9 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
 		let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: userID};
 		 jQuery.post("/api/tournaments/registerUser", data)
             .done(usersData => {
-        	alert("Registered for this tournament, good luck !")
+        	      alert("Registered for this tournament, good luck !")
                 App.models.user.fetch();
-		App.collections.upcoming_tournaments.myFetch();
+								App.collections.upcoming_tournaments.myFetch();
                 App.collections.ongoing_tournaments.myFetch();
 	    })
             .fail(e => {
@@ -74,9 +74,8 @@ AppClasses.Views.Tournaments = class extends Backbone.View {
                 jQuery.post("/api/tournaments/startTournament", data)
             .done(usersData => {
                 App.models.user.fetch();
-		App.collections.upcoming_tournaments.myFetch();
+								App.collections.upcoming_tournaments.myFetch();
                 App.collections.ongoing_tournaments.myFetch();
-            	updateRender();
 	    })
             .fail(e => {
                 alert("Not enough player registred to start tournament !");
