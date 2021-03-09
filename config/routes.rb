@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
     post '/guilds/add_points'
+    post '/guilds/update_officer_status'
     # War actions
     resources :wars
     post '/wars/create'

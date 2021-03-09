@@ -63,6 +63,7 @@ AppClasses.Views.Admin = class extends Backbone.View {
 			allUsers: App.collections.users_not_banned.toJSON(),
 			allAdmins: App.collections.users_admin_only.toJSON(),
 			allNotAdmins: App.collections.users_not_admin.toJSON(),
+			allGuilds: App.collections.guilds.toJSON(),
 			allGroupchats: App.collections.groupchats.toJSON()
 		}));
 		return (this);

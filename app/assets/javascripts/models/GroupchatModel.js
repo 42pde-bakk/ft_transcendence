@@ -204,7 +204,6 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 
 	updateAdminStatus(groupchat_id, user_name, action) {
 		let data = {
-			// authenticity_token: 0,
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
 			targetuser_name: user_name,
 			update_action: action

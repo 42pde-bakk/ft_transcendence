@@ -186,6 +186,23 @@ class GuildsController < ApplicationController
     end
   end
 
+  def update_officer_status
+    return render json: { error: "Error. Only server owners/admins are allowed to assign/remove officers of any guild" }, status: :unauthorized unless @current_user&.owner or @current_user&.admin
+    guild = Guild.find(params[:guild_id]) rescue nil
+    action = params[:update_action]
+    STDERR.puts "params is #{params}, guidld_id is #{params[:guild_id]} guild is #{guild}, action is #{action}"
+    return render json: { error: "Error. Can't find the guild you're trying to change officers of." }, status: :bad_request unless guild
+    target_user = guild.users.find_by(name: params[:targetuser_name])
+    return render json: { error: "Error. Target user has to be a member of the #{guild.name} guild" }, status: :bad_request unless target_user
+    return render json: { error: "Error. Can't change permissions of guild owner." }, status: :bad_request if Guild.owner == target_user
+    if action == "remove_officer"
+      return render json: { error: "Error. Can't strip #{target_user.name} of officer role if he doesnt have it." }, status: :bad_request unless Guild.officers.find_by(id: target_user)
+      render json: { alert: "Succesfully stripped #{target_user.name} of officer role!" }, status: :ok
+    elsif action == "give_officer"
+      return render json: { error: "Error. Can't give #{target_user.name} the  officer role since they already are an officer." }, status: :bad_request if action == "give_officer" and Guild.officers.find_by(id: target_user)
+      render json: { alert: "Succesfully given #{target_user.name} an officer role!" }, status: :ok
+    end
+  end
 
   private
 
