@@ -134,15 +134,33 @@ class Gamelogic
 		if @players[0].score.to_i == @players[1].score.to_i
 			@winner = "DRAW"
 			@msg = "The game has ended in a draw, PepeHands"
+                                if @game.tournament_id != nil
+                                  u_win = User.find(@players[0].user_id)
+                                  u_win.tourn_score += 25
+                                  u_win.save
+                                  u_win = User.find(@players[1].user_id)
+                                  u_win.tourn_score += 25
+                                  u_win.save
+                                end
 		else
 			if @players[0].score.to_i > @players[1].score.to_i
 				@winner = @players[0].name
 				winner_id = @players[0].user_id
 				loser_id = @players[1].user_id
+                                if @game.tournament_id != nil
+                                  u_win = User.find(winner_id)
+                                  u_win.tourn_score += 50
+                                  u_win.save
+                                end
 			else
 				@winner = @players[1].name
 				winner_id = @players[1].user_id
 				loser_id = @players[0].user_id
+                                if @game.tournament_id != nil
+                                  u_win = User.find(winner_id)
+                                  u_win.tourn_score += 50
+                                  u_win.save
+                                end
 			end
 			@msg = "#{@winner} wins!"
 			distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id))

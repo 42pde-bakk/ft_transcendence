@@ -109,9 +109,11 @@ def endTournament
       max_id = usr.id
     end
   end
-  @winner = User.find(max_id)
-  #uncomment when war_integration branch is merged
-  #winner.elo += 250
+  @tourn.users.each do |usrs|
+    if (usrs.tourn_score == max)
+      usrs.elo += 250
+    end
+  end
   @tourn.users.each do |user_x|
     user_x.tournament_id = nil
     user_x.save
