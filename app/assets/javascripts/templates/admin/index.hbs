@@ -33,6 +33,7 @@
                 </div>
 		</nav>
 	</div>
+{{#if user.admin}}
 {{#if user.ban}}
 <div>
 Your account has been banned.
@@ -220,5 +221,8 @@ Your account has been banned.
             </div>
         </div>
     </div>
+{{/if}}
+{{else}}
+Your not allowed here little hacker.
 {{/if}}
 </div>
