@@ -147,7 +147,7 @@ class GuildsController < ApplicationController
   def set_officer
     @user = User.find_by(id: params[:id])
     @user.guild_officer = true
-    @user.guild_owner = true
+    @user.guild_owner = true #TODO Maybe an officer shouldn't be an owner by default?
 
     if @user.save
       respond_to do |format|
@@ -194,12 +194,16 @@ class GuildsController < ApplicationController
     return render json: { error: "Error. Can't find the guild you're trying to change officers of." }, status: :bad_request unless guild
     target_user = guild.users.find_by(name: params[:targetuser_name])
     return render json: { error: "Error. Target user has to be a member of the #{guild.name} guild" }, status: :bad_request unless target_user
-    return render json: { error: "Error. Can't change permissions of guild owner." }, status: :bad_request if Guild.owner == target_user
+    return render json: { error: "Error. Can't change permissions of guild owner." }, status: :bad_request if guild.owner == target_user
     if action == "remove_officer"
-      return render json: { error: "Error. Can't strip #{target_user.name} of officer role if he doesnt have it." }, status: :bad_request unless Guild.officers.find_by(id: target_user)
+      return render json: { error: "Error. Can't strip #{target_user.name} of officer role if he doesnt have it." }, status: :bad_request unless guild.officers.find_by(id: target_user)
+      target_user.guild_officer = false
+      target_user.save
       render json: { alert: "Succesfully stripped #{target_user.name} of officer role!" }, status: :ok
     elsif action == "give_officer"
-      return render json: { error: "Error. Can't give #{target_user.name} the  officer role since they already are an officer." }, status: :bad_request if action == "give_officer" and Guild.officers.find_by(id: target_user)
+      return render json: { error: "Error. Can't give #{target_user.name} the  officer role since they already are an officer." }, status: :bad_request if action == "give_officer" and guild.officers.find_by(id: target_user)
+      target_user.guild_officer = true
+      target_user.save
       render json: { alert: "Succesfully given #{target_user.name} an officer role!" }, status: :ok
     end
   end
