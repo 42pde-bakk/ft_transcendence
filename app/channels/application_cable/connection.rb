@@ -18,7 +18,6 @@ module ApplicationCable
 			if (current_user = User.find_by(log_token: encrypt(cookies[:log_token])))
 				current_user
 			else
-				STDERR.puts "ERROR. #{current_user} is not verified in ApplicationCable"
 				reject_unauthorized_connection
 			end
 		end
