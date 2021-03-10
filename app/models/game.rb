@@ -257,6 +257,15 @@ class Game < ApplicationRecord # This is a wrapper class
 		@@Gamelogics[id] = Gamelogic.new(self)
 	end
 
+	def toggle_players_ingame_status
+		self.player1.is_ingame = !self.player1.is_ingame
+		self.player1.save!
+		if self.player2
+			self.player2.is_ingame = self.player2.is_ingame
+			self.player2.save!
+		end
+	end
+
 	def send_config
 		if @@Gamelogics[id]
 			@@Gamelogics[id].send_config
