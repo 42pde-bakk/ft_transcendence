@@ -31,12 +31,6 @@ class Paddle
 		ydiff_ball = ball.nextpos[1] - ball.posy
 		delta = ydiff_ball / xdiff_ball
 		y_would_cross = delta * (paddle_frontx - ball.posx) + ball.posy
-		str = "paddle_frontx is #{paddle_frontx}, paddle_y is #{[@posy - @width / 2, @posy + @height / 2]}
-	ball is at #{[ball.posx, ball.posy]}, nextpos is #{ball.nextpos}
-	xdiff_ball = #{xdiff_ball}, ydiff_ball = #{ydiff_ball}, delta = #{delta}
-	y_would_cross: #{y_would_cross} = #{delta} * (#{paddle_frontx} - #{ball.posx}) + #{ball.posy}\n"
-		# open('get_hit.txt', 'a') do |f| f << str
-		# end
 		return true if y_would_cross.between?(@posy - @height / 2 - ball.radius, @posy + @height / 2 + ball.radius)
 		false
 	end
