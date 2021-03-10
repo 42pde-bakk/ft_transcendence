@@ -19,7 +19,7 @@ class Player
 		end
 		@left_right = id
 		@score = 0
-		@paddle = Paddle.new(x, canvas_width, canvas_height, long_paddles)
+		@paddle = Paddle.new(id, x, canvas_width, canvas_height, long_paddles)
 		@inputs = Array.new
 	end
 
@@ -65,7 +65,7 @@ class Player
 	end
 
 	def move(ball)
-		if @ai and rand(1..4) == 1
+		if @ai and rand(1..3) > 1
 			ai_sim(ball)
 		end
 		if @inputs.length > 0
