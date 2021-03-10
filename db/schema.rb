@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.boolean "reg_done"
     t.boolean "current"
     t.datetime "last_seen"
+    t.boolean "is_ingame", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "log_token"
