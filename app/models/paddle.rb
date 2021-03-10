@@ -1,9 +1,10 @@
 class Paddle
-	def initialize(x, canvas_width, canvas_height, long_paddles)
+	def initialize(id, x, canvas_width, canvas_height, long_paddles)
+		@id = id
 		@height = 30
 		@height *= 1.5 if long_paddles
 		@width = 15.0
-		@velocity = 10
+		@velocity = 5
 		@posx = x.to_i + (@width / 2)
 		@posy = canvas_height / 2
 		@canvas_width = canvas_width.to_i
@@ -12,47 +13,32 @@ class Paddle
 	end
 
 	def move(input)
-		unless input
-			return
-		end
+		return unless input
+
 		if input[:type] == "paddle_up"
 			@posy -= @velocity.to_i
 			@posy = [@posy.to_i, @height / 2].max
-
 		elsif input[:type] == "paddle_down"
 			@posy += @velocity.to_i
 			@posy = [@posy.to_i, @canvas_height.to_i - (@height / 2)].min
 		end
 	end
 
-	def get_distance(a, b, ball)
-		a_to_p = [ ball.posx - a[0], ball.posy - a[1] ] # Storing vector A->P
-
-		a_to_b = [ b[0] - a[0], b[1] - a[1] ] # Storing vector A->B
-
-		atb2 = a_to_b[0] ** 2 + a_to_b[1] ** 2 # Finding the squared magnitured of a_to_b
-
-		atp_dot_atb = a_to_p[0] * a_to_p[0] + a_to_p[1] * a_to_b[1] # Dot product of a2p and a2b
-		t = atp_dot_atb / atb2 # Normalized distance from a to the closest point
-		closest_point = [a[0] + a_to_b[0] * t, a[1] + a_to_b[1] * t]
-		unless closest_point[0].between?(a[0], b[0]) and closest_point[1].between?(a[1], b[1])
-			return 100
-		end
-		Math.sqrt(((closest_point[0] - ball.posx) ** 2) + ((closest_point[1] - ball.posy) ** 2))
-	end
-
-	def include?(ball)
-		topleft = [@posx - @width / 2, @posy - @height / 2]
-		topright = [@posx + @width / 2, @posy - @height / 2]
-		botleft = [@posx - @width / 2, @posy + @height / 2]
-		botright = [@posx + @width / 2, @posy + @height / 2]
-		if @posx > @canvas_width / 2
-			if ball.xvelocity < 0 then return false end
-			return get_distance(topleft, botleft, ball) < ball.radius
-		else
-			if ball.xvelocity > 0 then return false end
-			return get_distance(topright, botright, ball) < ball.radius
-		end
+	def get_hit(ball)
+		if @id == 0 then paddle_frontx = @posx + @width / 2 else paddle_frontx = @posx - @width / 2 end
+		return false unless paddle_frontx.between?([ball.posx, ball.nextpos[0]].min, [ball.posx, ball.nextpos[0]].max)
+		xdiff_ball = ball.nextpos[0] - ball.posx
+		ydiff_ball = ball.nextpos[1] - ball.posy
+		delta = ydiff_ball / xdiff_ball
+		y_would_cross = delta * (paddle_frontx - ball.posx) + ball.posy
+		str = "paddle_frontx is #{paddle_frontx}, paddle_y is #{[@posy - @width / 2, @posy + @height / 2]}
+	ball is at #{[ball.posx, ball.posy]}, nextpos is #{ball.nextpos}
+	xdiff_ball = #{xdiff_ball}, ydiff_ball = #{ydiff_ball}, delta = #{delta}
+	y_would_cross: #{y_would_cross} = #{delta} * (#{paddle_frontx} - #{ball.posx}) + #{ball.posy}\n"
+		# open('get_hit.txt', 'a') do |f| f << str
+		# end
+		return true if y_would_cross.between?(@posy - @height / 2 - ball.radius, @posy + @height / 2 + ball.radius)
+		false
 	end
 
 	def reset
