@@ -21,7 +21,7 @@ Guild.create([{
 
 User.create([{
                name: "Ant-Man",
-               img_path: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg",
+               img_path: "https://static.wikia.nocookie.net/marveldatabase/images/2/2e/Scott_Lang_%28Earth-199999%29_from_Ant-Man_and_the_Wasp_%28film%29_promo_art_001.jpg/revision/latest/top-crop/width/360/height/450?cb=20180707042039",
                token: "12345",
                guild: Guild.find_by(name: "Ants"),
                tfa: true,
@@ -35,7 +35,7 @@ User.create([{
                },
              {
                name: "R2D2",
-               img_path: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg",
+               img_path: "https://upload.wikimedia.org/wikipedia/en/3/39/R2-D2_Droid.png",
                token: "123",
                guild_id: nil,
                tfa: true,
