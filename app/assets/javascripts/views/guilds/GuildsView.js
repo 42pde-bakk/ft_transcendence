@@ -104,18 +104,7 @@ AppClasses.Views.Guilds = class extends Backbone.View {
     }
 
     invite_battle(e) {
-	    let battleTargetId = e.target.getElementsByClassName("battle")[0].innerText;
-	    console.log(`battleTargetId is ${battleTargetId}`);
-	    App.collections.notifications.create_notification(parseInt(battleTargetId), "wartime")
-        // this.battleAction(e, "/api/battles/create.json", "battle", "Sent battle invite");
-    }
-
-    accept_battle(e) {
-        this.battleAction(e, "/api/battles/accept_battle.json", "battle", "Accepted battle invite");
-    }
-
-    reject_battle(e) {
-        this.battleAction(e, "/api/battles/reject_battle.json", "battle", "Rejected battle invite");
+	    App.collections.notifications.create_wartime_duel_request();
     }
 
     updateRender() {
