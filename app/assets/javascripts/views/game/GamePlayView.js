@@ -23,4 +23,11 @@ AppClasses.Views.GamePlayView = class extends Backbone.View {
 		this.updateRender();
 		return (this);
 	}
+
+	destroy() {
+		console.log("in GamePlayView#destroy");
+		this.undelegateEvents();
+		this.$el.removeData().unbind();
+		this.remove();
+	}
 }

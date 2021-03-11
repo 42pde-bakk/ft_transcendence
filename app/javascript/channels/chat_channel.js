@@ -37,7 +37,6 @@ function manageChatChannels() {
 			// clean up stale connections
 			consumer.subscriptions.subscriptions.forEach(sub => {
 				if (sub.identifier && sub.identifier.includes("ChatChannel")) {
-					console.log(`ChatChannel cleanup: disconnecting ${sub.identifier}`);
 					sub.disconnected();
 					consumer.subscriptions.remove(sub);
 				}
