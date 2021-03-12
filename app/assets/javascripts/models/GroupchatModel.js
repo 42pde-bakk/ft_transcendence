@@ -47,11 +47,12 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 	leave_groupchat(groupchat_id) {
 		let data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			update_actiontype: "leave"
 		};
 
 		$.ajax( {
 			url: `/api/chatroom/${groupchat_id}.json`,
-			type: 'DELETE',
+			type: 'PATCH',
 			data: data,
 			success: function(response) {
 				App.routers.chats.navigate(); // Doing this because the next line wont actually trigger a refresh if the hash hasnt changed (so in my case i go from "#chat" to "#chat" )
@@ -67,7 +68,8 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 	join_groupchat(groupchat_id) {
 		let data = {
 			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
-			chatroom_password: $(`#chatroom_${groupchat_id}_password`).val()
+			chatroom_password: $(`#chatroom_${groupchat_id}_password`).val(),
+			update_actiontype: "join"
 		};
 
 		$.ajax({
@@ -172,7 +174,6 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 	myFetch() {
 		let this_copy = this;
 		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
-
 		$.ajax({
 			url: '/api/chatroom.json',
 			type: 'GET',
@@ -182,6 +183,43 @@ AppClasses.Collections.Groupchats = class extends Backbone.Collection {
 			},
 			error: function(e) {
 				console.error(e);
+			}
+		})
+	}
+
+	destroy_chatchannel(chatroom_id) {
+		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
+		$.ajax({
+			url: `/api/chatroom/${chatroom_id}.json`,
+			type: 'DELETE',
+			data: data,
+			success: function(response) {
+				App.collections.groupchats.myFetch();
+			},
+			error: function(e) {
+				console.error(e);
+			}
+		})
+	}
+
+	updateAdminStatus(groupchat_id, user_name, action) {
+		let data = {
+			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			targetuser_name: user_name,
+			update_action: action
+		};
+		$.ajax({
+			url: `/api/chatroom/${groupchat_id}.json`,
+			type: 'PATCH',
+			data: data,
+			success: function (response) {
+				if (response["alert"])
+					alert(response["alert"]);
+				//
+			},
+			error: function (e) {
+				if (e["responseJSON"]["error"])
+					alert(e["responseJSON"]["error"]);
 			}
 		})
 	}

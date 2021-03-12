@@ -46,11 +46,14 @@ AppClasses.Collections.Games = class extends Backbone.Collection {
 			type: 'POST',
 			data: data,
 			success: function (response) {
+				App.collections.games.myFetch();
 				if (response["alert"])
 					console.log(JSON.stringify(response["alert"]));
 			},
 			error: function (e) {
-				alert(e["responseJSON"]["error"]);
+				console.log(JSON.stringify(e));
+				if (e["responseJSON"] && e["responseJSON"]["error"])
+					alert(e["responseJSON"]["error"]);
 			}
 		})
 	}

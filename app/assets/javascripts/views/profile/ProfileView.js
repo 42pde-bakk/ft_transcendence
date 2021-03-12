@@ -52,7 +52,9 @@ AppClasses.Views.Profile = class extends Backbone.View {
 	}
     updateRender() {
 	      // App.models.user.fetch();
-        this.$el.html(this.template({current_user: App.models.user.toJSON()}));
+        this.$el.html(this.template({
+	        current_user: App.models.user.toJSON()
+        }));
         return (this);
     }
 

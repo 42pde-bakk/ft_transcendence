@@ -53,6 +53,10 @@
     }
     App.collections.guilds.fetch();
 
+    if (!App.collections.groupchats)
+      App.collections.groupchats = new AppClasses.Collections.Groupchats();
+    if (!App.collections.notifications)
+      App.collections.notifications = new AppClasses.Collections.Notifications();
 		if (!App.collections.groupchats) {
 			App.collections.groupchats = new AppClasses.Collections.Groupchats();
 		}
