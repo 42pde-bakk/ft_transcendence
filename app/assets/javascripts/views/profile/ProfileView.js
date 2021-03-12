@@ -7,16 +7,16 @@ function setCookie(cname, cvalue, exdays) {
 
 AppClasses.Views.Profile = class extends Backbone.View {
   constructor(opts) {
-      opts.events = {
-          "click .changeAccount": "changeAccount",
-          "click .getOwner": "getOwner"
-      };
-      super(opts);
-      this.user_id = 0;
-      this.tagName = "div";
-      this.template = App.templates["profile/index"];
-      this.updateRender(); // render the template only one time, unless model changed
-      this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
+    opts.events = {
+        "click .changeAccount": "changeAccount",
+        "click .getOwner": "getOwner"
+    };
+    super(opts);
+    this.tagName = "div";
+    this.template = App.templates["profile/index"];
+    this.updateRender(); // render the template only one time, unless model changed
+	  this.listenTo(App.collections.games, "sync change reset add remove", this.updateRender);
+    this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
   }
 
 	changeAccount(event) {
@@ -51,20 +51,14 @@ AppClasses.Views.Profile = class extends Backbone.View {
 	}
 
   updateRender() {
-      // App.models.user.fetch();
-	  if (this.user_id !== 0) {
-
-	  }
     this.$el.html(this.template({
-      current_user: App.models.user.toJSON()
+      current_user: App.models.user.toJSON(),
+	    allGames: App.collections.games.toJSON()
     }));
     return (this);
   }
 
-  render(user_id) {
-    if (!user_id)
-      user_id = 0;
-    this.user_id = user_id;
+  render() {
     return (this);
   }
 }

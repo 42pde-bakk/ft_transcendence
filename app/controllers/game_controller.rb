@@ -48,7 +48,7 @@ class GameController < ApplicationController
 	end
 
 	def create # Set up a game against a bot
-		return render json: { error: "Error creating game, you must not already be in a game" }, status: :not_acceptable if Game.find_by(player2: @user) or Game.find_by(player1: @user)
+		return render json: { error: "Error creating game, you must not already be in a game" }, status: :not_acceptable if Game.find_by(player2: @user, is_finished: false) or Game.find_by(player1: @user, is_finished: false)
 		game = Game.create(player1: @user, name_player1: @user.name, name_player2: "Bottt", gametype: "casual")
 		game.mysetup
 		game.save

@@ -2,11 +2,11 @@ AppClasses.Views.ShowUser = class extends Backbone.View {
 	constructor(opts) {
 		super(opts);
 		this.user_id = opts.user_id;
-		console.log(`opts = ${JSON.stringify((opts))}, this.user_id is ${this.user_id}`);
 		this.tagName = "div";
 		this.template = App.templates["profile/show_user"];
 		this.updateRender(); // render the template only one time, unless model changed
 		this.listenTo(App.collections.users_no_self, "sync change reset add remove", this.updateRender);
+		this.listenTo(App.collections.games, "sync change reset add remove", this.updateRender);
 		this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
 	}
 
@@ -39,7 +39,8 @@ AppClasses.Views.ShowUser = class extends Backbone.View {
 		this.$el.html(this.template({
 			current_user: App.models.user.toJSON(),
 			showing_user: showing_userJSON,
-			guild_name: guild_name
+			guild_name: guild_name,
+			allGames: App.collections.games.toJSON()
 		}));
 		return (this);
 	}
