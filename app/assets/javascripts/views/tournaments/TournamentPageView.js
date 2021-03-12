@@ -8,6 +8,8 @@ AppClasses.Views.TournamentPage = class extends Backbone.View {
         this.template = App.templates["tournaments/TournamentPage"];
 	this.listenTo(App.collections.upcoming_tournaments, "change reset add remove", this.updateRender);
 	this.listenTo(App.collections.tournament_current_game, "change reset add remove", this.updateRender);
+	this.listenTo(App.collections.tournament_users, "change reset add remove", this.updateRender);
+        this.listenTo(App.models.user, "sync change reset add remove", this.updateRender);
         this.updateRender(); // render the template only one time, unless model changed
     }
 

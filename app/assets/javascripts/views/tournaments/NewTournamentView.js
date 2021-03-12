@@ -12,7 +12,10 @@ AppClasses.Views.NewTournament = class extends Backbone.View {
     submit(e) {
         e.preventDefault();
         let tournament = new AppClasses.Models.Tournament();
-        let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), name: $('#tournament_name').val(), started: false};
+        let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), name: $('#tournament_name').val(),
+		started: false,
+	long_paddle: document.querySelector('.long_paddle_checkbox').checked,
+	extra_speed: document.querySelector('.extra_speed_checkbox').checked};
         tournament.save(attr, {patch: true,
             error: function(tournament, response){
                 alert("Could not create tournament");
