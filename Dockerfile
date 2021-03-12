@@ -17,7 +17,7 @@ RUN apt-get update
 RUN apt-get -y install npm && npm install -g -y n && n stable
 RUN yarn install
 
-#ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
+# ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
 EXPOSE 3000
 
 # Start the main process.
