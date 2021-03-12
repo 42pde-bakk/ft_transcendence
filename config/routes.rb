@@ -58,6 +58,8 @@ Rails.application.routes.draw do
 
     resources :game
     post '/game/join'
+    post '/game/queue_ladder'
+    post '/game/cancel_queue_ladder'
 
     resources :chatroom
     post '/chat/send_dm'

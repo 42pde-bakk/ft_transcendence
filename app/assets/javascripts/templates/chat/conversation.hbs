@@ -78,16 +78,18 @@
 										{{#each allUsers}}
 											<tr>
 												<td class="px-6 py-4 whitespace-nowrap">
-													<div class="flex items-center">
-														<div class="flex-shrink-0 h-10 w-10">
-															<img class="h-10 w-10 rounded-full" src={{img_path}}>
-														</div>
-														<div class="ml-4">
-															<div class="text-sm font-medium text-gray-900">
-																{{name}}
+													<a href="#profile/{{id}}">
+														<div class="flex items-center">
+															<div class="flex-shrink-0 h-10 w-10">
+																<img class="h-10 w-10 rounded-full" src={{img_path}}>
+															</div>
+															<div class="ml-4">
+																<div class="text-sm font-medium text-gray-900">
+																	{{name}}
+																</div>
 															</div>
 														</div>
-													</div>
+													</a>
 												</td>
 												<td class="px-6 py-4 whitespace-nowrap">
 													<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{print_color}}">{{print_status}}</span>
