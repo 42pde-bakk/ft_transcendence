@@ -9,6 +9,24 @@ AppClasses.Views.NewGuild = class extends Backbone.View {
         this.updateRender(); // render the template only one time, unless model changed
     }
 
+    submit(e) {
+        e.preventDefault();
+        let guild = new AppClasses.Models.Guild();
+        let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), name: $('#guild_name').val(), anagram: $('#anagram').val()};
+        guild.save(attr, {patch: true,
+            error: function(guild, response){
+                if (response)
+                    alert(response.responseJSON.alert);
+                else
+                    alert("Unknown error while saving guild");
+            },
+            success: function(){
+                App.models.user.fetch();
+                App.routers.profile.navigate("/guilds", {trigger: true})
+            }
+        });
+    }
+
     updateRender() {
         this.$el.html(this.template({
             current_user: App.models.user.toJSON(),

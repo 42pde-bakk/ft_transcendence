@@ -18,7 +18,7 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 
 	get_target_name(user_id) {
 		let ret = "SomeUserName";
-		this.collections.users_no_self.forEach( user => {
+		App.collections.users_no_self.forEach( user => {
 			if (user_id === user.attributes.id)
 				ret = user.attributes.name;
 		})
@@ -42,5 +42,4 @@ AppClasses.Routers.ChatRouter = class extends AppClasses.Routers.AbstractRouter 
 		}
 		this.renderViewWithParamsBitch("ConversationView", data);
 	}
-
 }
