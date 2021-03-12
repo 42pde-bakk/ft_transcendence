@@ -42,7 +42,7 @@ AppClasses.Views.Friends = class extends Backbone.View {
 	}
 	updateRender() {
 		this.$el.html(this.template({
-			user: App.models.user.toJSON(),
+			current_user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
 			allUsers: App.collections.available_for_friends.toJSON()
 		}));

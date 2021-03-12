@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     post '/guilds/accept_invite'
     post '/guilds/reject_invite'
     post '/guilds/add_points'
+    post '/guilds/update_officer_status'
     # War actions
     resources :wars
     post '/wars/create'
@@ -74,6 +75,8 @@ Rails.application.routes.draw do
     post '/chat/send_groupmessage'
     post '/chat/block_user'
     post '/chat/unblock_user'
+    post '/chat/unblock_user'
+    post '/chatroom/update_admin_status'
   end
   # map.resources :friendships
 end

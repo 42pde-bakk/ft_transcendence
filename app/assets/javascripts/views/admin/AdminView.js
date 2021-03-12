@@ -14,6 +14,7 @@ AppClasses.Views.Admin = class extends Backbone.View {
 		this.listenTo(App.collections.users_not_banned, "change reset add remove", this.updateRender);
 		this.listenTo(App.collections.users_not_admin, "change reset add remove", this.updateRender);
 		this.listenTo(App.collections.users_admin_only, "change reset add remove", this.updateRender);
+		this.listenTo(App.collections.groupchats, "change reset add remove", this.updateRender);
 	}
 	submit(e) {
         e.preventDefault();
@@ -45,8 +46,7 @@ AppClasses.Views.Admin = class extends Backbone.View {
                 console.log("Error in ban");
             })
 	}
-	addAdmin(event)
-	{
+	addAdmin(event) {
 		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
         let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: userID};
         jQuery.post("/api/admin/getAdmin", data)
@@ -60,8 +60,7 @@ AppClasses.Views.Admin = class extends Backbone.View {
             })
 
 	}
-	removeAdmin(event)
-	{
+	removeAdmin(event) {
 		const userID = event.target.getElementsByClassName("nodisplay")[0].innerText;
         let data = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: userID};
         jQuery.post("/api/admin/removeAdmin", data)
@@ -78,11 +77,13 @@ AppClasses.Views.Admin = class extends Backbone.View {
 
 	updateRender() {
 		this.$el.html(this.template({
-			user: App.models.user.toJSON(),
+			current_user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
 			allUsers: App.collections.users_not_banned.toJSON(),
 			allAdmins: App.collections.users_admin_only.toJSON(),
-			allNotAdmins: App.collections.users_not_admin.toJSON()
+			allNotAdmins: App.collections.users_not_admin.toJSON(),
+			allGuilds: App.collections.guilds.toJSON(),
+			allGroupchats: App.collections.groupchats.toJSON()
 		}));
 		return (this);
 	}

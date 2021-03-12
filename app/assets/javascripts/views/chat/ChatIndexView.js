@@ -46,7 +46,7 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 		App.collections.users_no_self.myFetch();
 		App.collections.groupchats.myFetch();
 		this.$el.html(this.template({
-			user: App.models.user.toJSON(),
+			current_user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
 			allUsers: App.collections.users_no_self.toJSON(),
 			groupChats: App.collections.groupchats.toJSON()

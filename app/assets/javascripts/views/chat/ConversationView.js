@@ -41,7 +41,7 @@ AppClasses.Views.ConversationView = class extends Backbone.View {
 			this.targetUserName = this.get_chatchannel_name(parseInt(this.targetUserID));
 		}
 		this.$el.html(this.template({
-			user: App.models.user.toJSON(),
+			current_user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
 			allUsers: App.collections.users_no_self.toJSON(),
 			groupChats: App.collections.groupchats.toJSON(),

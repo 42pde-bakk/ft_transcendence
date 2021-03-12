@@ -44,6 +44,7 @@ class GuildsController < ApplicationController
       end
     else
       res_with_error("Failed to create new guild", :unauthorized)
+      return false
     end
   end
 
@@ -147,7 +148,6 @@ class GuildsController < ApplicationController
   def set_officer
     @user = User.find_by(id: params[:id])
     @user.guild_officer = true
-    @user.guild_owner = true
 
     if @user.save
       respond_to do |format|
@@ -162,7 +162,6 @@ class GuildsController < ApplicationController
   def unset_officer
     @user = User.find_by(id: params[:id])
     @user.guild_officer = false
-    @user.guild_owner = false
 
     if @user.save
       respond_to do |format|
@@ -186,6 +185,27 @@ class GuildsController < ApplicationController
     end
   end
 
+  def update_officer_status
+    return render json: { error: "Error. Only server owners/admins are allowed to assign/remove officers of any guild" }, status: :unauthorized unless @current_user&.owner or @current_user&.admin
+    guild = Guild.find(params[:guild_id]) rescue nil
+    action = params[:update_action]
+    STDERR.puts "params is #{params}, guidld_id is #{params[:guild_id]} guild is #{guild}, action is #{action}"
+    return render json: { error: "Error. Can't find the guild you're trying to change officers of." }, status: :bad_request unless guild
+    target_user = guild.users.find_by(name: params[:targetuser_name])
+    return render json: { error: "Error. Target user has to be a member of the #{guild.name} guild" }, status: :bad_request unless target_user
+    return render json: { error: "Error. Can't change permissions of guild owner." }, status: :bad_request if guild.owner == target_user
+    if action == "remove_officer"
+      return render json: { error: "Error. Can't strip #{target_user.name} of officer role if he doesnt have it." }, status: :bad_request unless guild.officers.find_by(id: target_user)
+      target_user.guild_officer = false
+      target_user.save
+      render json: { alert: "Succesfully stripped #{target_user.name} of officer role!" }, status: :ok
+    elsif action == "give_officer"
+      return render json: { error: "Error. Can't give #{target_user.name} the  officer role since they already are an officer." }, status: :bad_request if action == "give_officer" and guild.officers.find_by(id: target_user)
+      target_user.guild_officer = true
+      target_user.save
+      render json: { alert: "Succesfully given #{target_user.name} an officer role!" }, status: :ok
+    end
+  end
 
   private
 
@@ -193,10 +213,12 @@ class GuildsController < ApplicationController
     guild_params = params.require(:guild).permit(:id, :name, :anagram)
     if !guild_params['name'] || check_len(guild_params['name'], 3, 20)
       res_with_error("Name length must be >= 3 and <= 20", :bad_request)
+      puts "IN HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       return false
     end
     if !guild_params['anagram'] || check_len(guild_params['anagram'], 2, 5)
       res_with_error("Anagram length must be >= 2 and <= 5", :bad_request)
+      puts "IN HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       return false
     end
     (guild_params)

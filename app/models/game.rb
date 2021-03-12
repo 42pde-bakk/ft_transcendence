@@ -19,7 +19,7 @@ class Player
 		end
 		@left_right = id
 		@score = 0
-		@paddle = Paddle.new(x, canvas_width, canvas_height, long_paddles)
+		@paddle = Paddle.new(id, x, canvas_width, canvas_height, long_paddles)
 		@inputs = Array.new
 	end
 
@@ -65,7 +65,7 @@ class Player
 	end
 
 	def move(ball)
-		if @ai and rand(1..4) == 1
+		if @ai and rand(1..3) > 1
 			ai_sim(ball)
 		end
 		if @inputs.length > 0
@@ -273,6 +273,15 @@ class Game < ApplicationRecord # This is a wrapper class
 
 	def mysetup
 		@@Gamelogics[id] = Gamelogic.new(self)
+	end
+
+	def toggle_players_ingame_status
+		self.player1.is_ingame = !self.player1.is_ingame
+		self.player1.save!
+		if self.player2
+			self.player2.is_ingame = self.player2.is_ingame
+			self.player2.save!
+		end
 	end
 
 	def send_config

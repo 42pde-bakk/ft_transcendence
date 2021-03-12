@@ -28,8 +28,9 @@ AppClasses.Views.ProfileEditFriends = class extends Backbone.View {
     updateRender() {
         this.users.fetch();
         this.$el.html(this.template({
-            users: this.users,
-            token: $('meta[name="csrf-token"]').attr('content')
+	        current_user: App.models.user.toJSON(),
+          users: this.users,
+          token: $('meta[name="csrf-token"]').attr('content')
         }));
         return (this);
     }
