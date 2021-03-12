@@ -49,8 +49,9 @@ AppClasses.Views.ProfileEdit = class extends Backbone.View {
 
     updateRender() {
         this.$el.html(this.template({
-            user: App.models.user.toJSON(),
-            token: $('meta[name="csrf-token"]').attr('content')
+	        current_user: App.models.user.toJSON(),
+          user: App.models.user.toJSON(),
+          token: $('meta[name="csrf-token"]').attr('content')
         }));
         return (this);
     }

@@ -25,6 +25,10 @@ class GameController < ApplicationController
 			message: "Game has been set up for you",
 			redirection: "#game/#{game.id}"
 		})
+		# respond_to do |format|
+		# 	format.html { redirect_to "/#game/#{game.id}", notice: '^' }
+		# 	format.json { render json: { status: "Succesfully created a practice game against the AI" }, status: :ok}
+		# end
 		render json: { status: "Succesfully created a practice game against the AI" }, status: :ok
 	end
 

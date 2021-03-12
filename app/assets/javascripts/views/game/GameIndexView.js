@@ -16,6 +16,7 @@ AppClasses.Views.GameIndexView = class extends Backbone.View {
 	updateRender() {
 		App.collections.games.myFetch();
 		this.$el.html(this.template({
+			current_user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
 			allGames: App.collections.games.toJSON()
 			}

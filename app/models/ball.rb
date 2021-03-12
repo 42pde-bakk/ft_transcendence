@@ -19,7 +19,7 @@ class Ball
 	def updatepos(players)
 		@posx += @xvelocity
 		@posy += @yvelocity
-		if players[0].paddle.include?(self) or players[1].paddle.include?(self)
+		if (@xvelocity < 0 and players[0].paddle.get_hit(self)) or (@xvelocity > 0 and players[1].paddle.get_hit(self))
 			@xvelocity *= -@mult_value
 			@turncounter += 1
 			@yvelocity *= @mult_value * rand(1..3) / 2
