@@ -5,7 +5,7 @@ console.log("Running notification_channel.js");
 let NotificationSub = consumer.subscriptions.create("NotificationChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
-  	console.log("I subbed to the NotificationChannel, identifier is " + NotificationSub.identifier);
+  	console.log("I subbed to the NotificationChannel");
   },
 
   disconnected() {

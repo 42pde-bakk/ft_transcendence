@@ -1,6 +1,6 @@
 import consumer from "./consumer"
-let mykeydown, mykeyup;
 import Render from "../rendering/render"
+let mykeydown, mykeyup;
 let KEY_SPACE = 32,
 	ARROW_UP = 38,
 	ARROW_DOWN = 40,
@@ -11,7 +11,6 @@ let input = "none";
 function removeStaleGameConnections() {
 	consumer.subscriptions.subscriptions.forEach(sub => {
 		if (sub.identifier && sub.identifier.includes("GameChannel")) {
-			console.log("GameChannelremovestaleconns: disconnecting " + sub.identifier);
 			sub.disconnected();
 			consumer.subscriptions.remove(sub);
 		}
@@ -79,6 +78,6 @@ window.addEventListener("hashchange", e => {
 	setTimeout(manageGameChannel, 250);
 })
 
-window.addEventListener('load', (event) => {
+window.addEventListener('load', (event) => { // for refresh (f5)
 	setTimeout(manageGameChannel, 250);
 })
