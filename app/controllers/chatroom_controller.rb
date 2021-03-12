@@ -20,7 +20,7 @@ class ChatroomController < ApplicationController
 		@chatroom_name = params[:chatroom_name]
 	end
 	def param_update_actiontype
-		@update_actiontype = params[:update_action]
+		@update_actiontype = params[:update_actiontype]
 	end
 
 	def index # responds to a GET request on "/chatroom"
@@ -41,7 +41,8 @@ class ChatroomController < ApplicationController
 			return remove_admin_status(target_user)
 		end
 		return join_chatroom if @update_actiontype == "join"
-		leave_chatroom
+		return leave_chatroom if @update_actiontype == "leave"
+		render json: { error: "Cannot find update_actiontype #{@update_actiontype}" }, status: :bad_request
 	end
 
 	def join_chatroom
