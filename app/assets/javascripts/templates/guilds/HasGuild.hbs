@@ -446,24 +446,27 @@
                                                                 </div>
                                                             </td>
                                                             <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
-                                                            {{#if ../current_user.guild_owner}}
-
+                                                            {{#if ../current_user.guild_officer}}
+                                                                {{#unless guild_owner}}
                                                                     <p class="clickToRemoveMember cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                                                                         Remove
                                                                         <span hidden class="remove">{{id}}</span>
                                                                     </p>
+                                                                {{/unless}}
                                                             {{/if}}
-                                                            {{#if ../current_user.admin}}
-                                                                {{#unless guild_officer}}
+                                                            {{#if ../current_user.guild_owner}}
+                                                                {{#unless guild_owner}}
+                                                                    {{#unless guild_officer}}
                                                                         <p class="clickToSetOfficer cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                                                                             Make officer
                                                                             <span hidden class="officer">{{id}}</span>
                                                                         </p>
-                                                                {{else}}
+                                                                    {{else}}
                                                                         <p class="clickToUnsetOfficer cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                                                                             Make normal member
                                                                             <span hidden class="officer">{{id}}</span>
                                                                         </p>
+                                                                    {{/unless}}
                                                                 {{/unless}}
                                                             </td>
                                                             {{/if}}

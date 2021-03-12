@@ -44,6 +44,7 @@ class GuildsController < ApplicationController
       end
     else
       res_with_error("Failed to create new guild", :unauthorized)
+      return false
     end
   end
 
@@ -147,7 +148,6 @@ class GuildsController < ApplicationController
   def set_officer
     @user = User.find_by(id: params[:id])
     @user.guild_officer = true
-    @user.guild_owner = true #TODO Maybe an officer shouldn't be an owner by default?
 
     if @user.save
       respond_to do |format|
@@ -162,7 +162,6 @@ class GuildsController < ApplicationController
   def unset_officer
     @user = User.find_by(id: params[:id])
     @user.guild_officer = false
-    @user.guild_owner = false
 
     if @user.save
       respond_to do |format|
@@ -214,10 +213,12 @@ class GuildsController < ApplicationController
     guild_params = params.require(:guild).permit(:id, :name, :anagram)
     if !guild_params['name'] || check_len(guild_params['name'], 3, 20)
       res_with_error("Name length must be >= 3 and <= 20", :bad_request)
+      puts "IN HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       return false
     end
     if !guild_params['anagram'] || check_len(guild_params['anagram'], 2, 5)
       res_with_error("Anagram length must be >= 2 and <= 5", :bad_request)
+      puts "IN HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       return false
     end
     (guild_params)
