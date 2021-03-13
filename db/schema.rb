@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_11_205604) do
+ActiveRecord::Schema.define(version: 2021_03_12_203128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 2021_03_11_205604) do
     t.boolean "owner"
     t.bigint "tournament_id"
     t.integer "tourn_score"
+    t.integer "tourn_win"
     t.index ["tournament_id"], name: "index_users_on_tournament_id"
   end
 

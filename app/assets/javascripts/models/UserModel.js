@@ -4,6 +4,7 @@ AppClasses.Models.User = Backbone.Model.extend({
 	defaults: {
 		name: "",
 		elo: 0,
+		tourn_win: 0,
 		email: "",
     img_path: "",
     token: "",

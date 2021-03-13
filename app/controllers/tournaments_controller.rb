@@ -112,6 +112,7 @@ def endTournament
   @tourn.users.each do |usrs|
     if (usrs.tourn_score == max)
       usrs.elo += 250
+      usrs.tourn_win += 1
     end
   end
   @tourn.users.each do |user_x|

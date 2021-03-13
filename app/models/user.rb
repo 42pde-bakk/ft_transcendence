@@ -49,6 +49,8 @@ class User < ApplicationRecord
       invites: usr.invites,
       last_seen: usr.last_seen,
       finished_battles: usr.finished_battles,
+      tourn_win: usr.tourn_win,
+      tourn_score: usr.tourn_score,
       battle_invites: Battle.clean_arr(usr.battle_invites)
     }
     if usr.active_battle
