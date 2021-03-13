@@ -24,7 +24,7 @@ class NotificationController < ApplicationController
 		return render json: { error: "Can't find the guild you're trying to fight" }, status: :bad_request unless @target_guild
 
 		User.where(guild: @target_guild).each do |user|
-			notif = Notification.create(sender: @current_user, receiver: user, is_accepted: false, kind: "wartime", name_sender: @current_user.name, name_receiver: user.name)
+			notif = Notification.create(sender: @current_user, receiver: user, is_accepted: false, kind: "wartime", description: "Wartime duel", name_sender: "Someone from the #{g1.name} guild", name_receiver: user.name)
 			if notif.save
 				NotificationChannel.broadcast_to(user, {
 					message: "new wartime battle invite!"
@@ -51,7 +51,7 @@ class NotificationController < ApplicationController
 			extra_speed = false
 		end
 
-		if Notification.create(sender: @current_user, receiver: @target_user, is_accepted: false, kind: @notification_type, name_sender: @current_user.name, name_receiver: @target_user.name, extra_speed: extra_speed, long_paddles: long_paddles).save
+		if Notification.create(sender: @current_user, receiver: @target_user, is_accepted: false, kind: @game_options[:gametype], description: @notification_type, name_sender: @current_user.name, name_receiver: @target_user.name, extra_speed: extra_speed, long_paddles: long_paddles).save
 			NotificationChannel.broadcast_to(@target_user, {
 				message: "new notification bro!"
 			})

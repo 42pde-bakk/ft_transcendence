@@ -53,6 +53,7 @@ AppClasses.Views.Profile = class extends Backbone.View {
   updateRender() {
     this.$el.html(this.template({
       current_user: App.models.user.toJSON(),
+	    guild: App.models.user.toJSON().guild,
 	    allGames: App.collections.games.toJSON()
     }));
     return (this);

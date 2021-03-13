@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
   create_table "notifications", force: :cascade do |t|
     t.boolean "is_accepted"
     t.string "kind"
+    t.string "description"
     t.string "name_sender"
     t.string "name_receiver"
     t.bigint "sender_id"
