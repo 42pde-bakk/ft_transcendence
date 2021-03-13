@@ -49,6 +49,30 @@ AppClasses.Collections.Games = class extends Backbone.Collection {
 				App.collections.games.myFetch();
 				if (response["alert"])
 					console.log(JSON.stringify(response["alert"]));
+				App.models.user.fetch();
+				App.collections.users_no_self.myFetch();
+			},
+			error: function (e) {
+				console.log(JSON.stringify(e));
+				if (e["responseJSON"] && e["responseJSON"]["error"])
+					alert(e["responseJSON"]["error"]);
+			}
+		})
+	}
+
+	ladder_queue(actionurl) {
+		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
+
+		$.ajax({
+			url: actionurl,
+			type: 'POST',
+			data: data,
+			success: function (response) {
+				// App.collections.games.myFetch();
+				if (response["alert"])
+					console.log(JSON.stringify(response["alert"]));
+				App.models.user.fetch();
+				App.collections.users_no_self.myFetch();
 			},
 			error: function (e) {
 				console.log(JSON.stringify(e));

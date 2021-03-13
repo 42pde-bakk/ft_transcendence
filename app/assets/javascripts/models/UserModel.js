@@ -14,6 +14,8 @@ AppClasses.Models.User = Backbone.Model.extend({
 		admin: false,
 		owner: false,
 		ban: false,
+		is_ingame: false,
+		is_queueing: false,
 		log_token: 0
 	}
 });

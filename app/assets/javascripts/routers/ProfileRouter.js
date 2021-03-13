@@ -5,6 +5,7 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
         this.models = App.models;
         // routes
         this.route("profile", "profile");
+        this.route("profile/:id", "show_user")
         this.route("profile/edit", "edit");
         this.route("profile/tfa", "tfa")
         this.mainDiv = $("#app");
@@ -16,6 +17,14 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
         }
         this.mainDiv.html(this.views.profile.render().el);
         this.views.profile.delegateEvents();
+    }
+
+    show_user(id) {
+    	let id_int = parseInt(id);
+	    if (!this.views.show_user) {
+		    this.views.show_user = new AppClasses.Views.ShowUser({user_id: id_int});
+	    }
+	    this.mainDiv.html(this.views.show_user.render(id_int).el);
     }
 
     edit() {

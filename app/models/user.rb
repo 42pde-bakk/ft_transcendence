@@ -48,6 +48,8 @@ class User < ApplicationRecord
       friends: usr.friends,
       invites: usr.invites,
       last_seen: usr.last_seen,
+      is_ingame: usr.is_ingame,
+      is_queueing: usr.is_queueing,
       finished_battles: usr.finished_battles,
       tourn_win: usr.tourn_win,
       tourn_score: usr.tourn_score,

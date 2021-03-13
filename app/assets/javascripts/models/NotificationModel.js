@@ -17,7 +17,6 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 	}
 
 	myFetch() {
-		console.log("fetching notifications");
 		let this_copy = this;
 		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
 
@@ -26,11 +25,11 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 			type: 'GET',
 			data: data,
 			success: function (response) {
-				console.log(`fetching notifications returned: ${JSON.stringify(response)}`);
+				// console.log(`fetching notifications returned: ${JSON.stringify(response)}`);
 				this_copy.set(response);
 			},
 			error: function (error) {
-				console.log(`fetching notifications returned error: ${JSON.stringify(error)}`);
+				// console.log(`fetching notifications returned error: ${JSON.stringify(error)}`);
 				// alert(error["responseJSON"]["error"]);
 			}
 		})
@@ -55,7 +54,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 					alert(response["alert"]);
 			},
 			error: function (error) {
-				console.log(`creating notification returned error: ${JSON.stringify(error)}`);
+				// console.log(`creating notification returned error: ${JSON.stringify(error)}`);
 				// alert(error["responseJSON"]["error"]);
 			}
 		})
@@ -73,7 +72,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 					alert(response["alert"]);
 			},
 			error: function (error) {
-				console.log(`creating notification returned error: ${JSON.stringify(error)}`);
+				// console.log(`creating notification returned error: ${JSON.stringify(error)}`);
 				// alert(error["responseJSON"]["error"]);
 			}
 		})
@@ -95,8 +94,10 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 				App.collections.notifications.myFetch();
 			},
 			error: function (error) {
-				console.log(`accepting notification returned error: ${JSON.stringify(error)}`);
-				// alert(error["responseJSON"]["error"]);
+				// console.log(`accepting notification returned error: ${JSON.stringify(error)}`);
+				if (error["responseJSON"] && error["responseJSON"]["error"])
+					alert(error["responseJSON"]["error"]);
+				App.models.notifications.myFetch();
 			}
 		})
 	}
@@ -117,8 +118,10 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 				App.collections.notifications.myFetch();
 			},
 			error: function (error) {
-				console.log(`declining notification returned error: ${JSON.stringify(error)}`);
-				// alert(error["responseJSON"]["error"]);
+				// console.log(`declining notification returned error: ${JSON.stringify(error)}`);
+				if (error["responseJSON"] && error["responseJSON"]["error"])
+					alert(error["responseJSON"]["error"]);
+				App.models.notifications.myFetch();
 			}
 		})
 	}

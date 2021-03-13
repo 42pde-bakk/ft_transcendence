@@ -18,13 +18,16 @@ class NotificationController < ApplicationController
 
 	def create_wartime_duel_request
 		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
-		unless @target_guild then return render json: { error: "Can't find the guild you're trying to fight" }, status: :bad_request end
+		g1 = @current_user.guild.active_war.guild1_id
+		g2 = @current_user.guild.active_war.guild2_id
+		if g1 == @current_user.guild.id then @target_guild = Guild.find_by(id: g2) elsif g2 == @current_user.guild.id then @target_guild = Guild.find_by(id: g1) end
+		return render json: { error: "Can't find the guild you're trying to fight" }, status: :bad_request unless @target_guild
 
 			User.where(guild: @target_guild).each do |user|
 				notif = Notification.create(sender: @current_user, receiver: user, is_accepted: false, kind: "wartime", name_sender: @current_user.name, name_receiver: user.name)
 				if notif.save
 					NotificationChannel.broadcast_to(user, {
-						message: "new wartime invite!"
+						message: "new wartime battle invite!"
 					})
 				end
 				CheckNotificationTimeoutJob.set(wait: @target_guild.active_war.time_to_answer.minutes).perform_later(@current_user, @target_guild)

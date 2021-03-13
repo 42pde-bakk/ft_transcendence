@@ -41,7 +41,6 @@ AppClasses.Views.ChatIndexView = class extends Backbone.View {
 	}
 
 	updateRender() {
-		console.log("rendering chatindexview");
 		App.models.user.fetch();
 		App.collections.users_no_self.myFetch();
 		App.collections.groupchats.myFetch();

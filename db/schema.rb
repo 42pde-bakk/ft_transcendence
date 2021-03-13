@@ -100,9 +100,9 @@ ActiveRecord::Schema.define(version: 2021_03_12_203128) do
     t.bigint "player2_id"
     t.string "name_player1"
     t.string "name_player2"
-    t.string "gametype"
-    t.boolean "long_paddles"
-    t.boolean "extra_speed"
+    t.string "gametype", default: "casual"
+    t.boolean "long_paddles", default: false
+    t.boolean "extra_speed", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "tournament_id"
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_203128) do
     t.boolean "current"
     t.datetime "last_seen"
     t.boolean "is_ingame", default: false
+    t.boolean "is_queueing", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "log_token"
