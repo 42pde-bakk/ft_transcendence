@@ -110,8 +110,8 @@ class Gamelogic
 		loser.guild&.active_war&.add_war_points(winner.guild_id)
 	end
 
-	def distribute_points(winner, loser)
-		@game.winner = winner.name
+	def distribute_points(winner, loser, winner_name) # added winner_name in case the winning user is a practice bot
+		@game.winner = winner_name
 		@game.save
 		return if winner == nil or loser == nil or @game.gametype == "practice"
 
@@ -151,7 +151,7 @@ class Gamelogic
 				loser_id = @players[0].user_id
 			end
 			@msg = "#{@winner} wins!"
-			distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id))
+			distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id), @winner)
 		end
 	end
 
