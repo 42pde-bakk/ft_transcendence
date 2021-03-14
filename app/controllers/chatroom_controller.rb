@@ -104,6 +104,14 @@ class ChatroomController < ApplicationController
 		unless @current_user
 			return render json: { error: "Cannot find current user" }, status: :internal_server_error
 		end
+		if (!validate_input(@chatroom_name))
+			render json: { error: "Chatroom name contains forbidden characters." }, status: :bad_request
+			return
+		end	
+		if (!(@chatroom_pw.empty?) && !validate_input(@chatroom_pw))
+			render json: { error: "Chatroom password contains forbidden characters." }, status: :bad_request
+			return
+		end
 		if @chatroom_name == nil or @chatroom_name.empty?
 			render json: { error: "You need to specify a valid name" }, status: :bad_request
 			return
