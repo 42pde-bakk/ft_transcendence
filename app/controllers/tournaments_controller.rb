@@ -81,7 +81,7 @@ end
  end
 
  def  registerUser
-  @tourn = Tournament.find(params[:id].to_i)
+  @tourn = Tournament.find(params[:id].to_i) rescue nil
   @tuser =  User.find_by log_token: encrypt(cookies[:log_token])
   if (@tuser.tournament_id == nil)
    @tourn.update(users: @tourn.users + [@tuser])
@@ -89,7 +89,7 @@ end
   else
       render json: {alert: "Nope"}, status: :unauthorized
   end 
-end 
+end
 def checkAuthTournament
   @tuser =  User.find_by log_token: encrypt(cookies[:log_token])
   if (params[:id] != @tuser.tournament_id.to_s)
