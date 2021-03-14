@@ -8,11 +8,12 @@ class Player
 
 	def initialize(id, x, canvas_width, canvas_height, user, long_paddles)
 		@status = "ready"
-		if user == nil or user.id < 3 then @ai = true else @ai = false end
+		@ai = false
+		if user == nil or user.log_token == nil then @ai = true else @ai = false end
 		if user
 			@name = user.name
 			@user_id = user.id
-			@status = "waiting" if user.id >= 3
+			@status = "waiting" if user.log_token != nil
 		else
 			@name = "Bot"
 			@user_id = 0
