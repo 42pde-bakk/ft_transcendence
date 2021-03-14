@@ -35,6 +35,10 @@ class ChatroomController < ApplicationController
 		STDERR.puts "update_actiontype is #{@update_actiontype}"
 		return render json: { error: "Cannot find current user" }, status: :internal_server_error unless @current_user
 		if @update_actiontype == "give_admin" or @update_actiontype == "remove_admin"
+			#SQL INJECTION PROTECTION
+			if (!validate_input(params[:targetuser_name]))
+				return render json: {error: "Username contains forbidden characters"}, status: :bad_request
+			end
 			target_user = User.find_by(name: params[:targetuser_name])
 			return render json: { error: "Error finding the user by the name of #{params[:targetuser_name]}"}, status: :bad_request unless target_user
 			return give_admin_status(target_user) if @update_actiontype == "give_admin"

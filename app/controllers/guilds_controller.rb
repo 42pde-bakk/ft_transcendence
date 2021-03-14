@@ -191,7 +191,12 @@ class GuildsController < ApplicationController
     action = params[:update_action]
     STDERR.puts "params is #{params}, guidld_id is #{params[:guild_id]} guild is #{guild}, action is #{action}"
     return render json: { error: "Error. Can't find the guild you're trying to change officers of." }, status: :bad_request unless guild
-    target_user = guild.users.find_by(name: params[:targetuser_name])
+    #SQL INJECTION PROTECTION
+			if (!validate_input(params[:targetuser_name]))
+				return render json: {error: "Username contains forbidden characters"}, status: :bad_request
+			end
+
+	target_user = guild.users.find_by(name: params[:targetuser_name])
     return render json: { error: "Error. Target user has to be a member of the #{guild.name} guild" }, status: :bad_request unless target_user
     return render json: { error: "Error. Can't change permissions of guild owner." }, status: :bad_request if guild.owner == target_user
     if action == "remove_officer"
