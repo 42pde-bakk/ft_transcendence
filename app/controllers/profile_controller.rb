@@ -50,7 +50,12 @@ class ProfileController < ApplicationController
 
 
   def changeAccount
-    User.all.each do |usr|
+   	if (!validate_input(params[:new_logtoken]))
+      render json: {alert: "Input contains forbidden characters"}, status: :unprocessable_entity
+		return
+	end
+
+	 User.all.each do |usr|
      if (decrypt(usr.log_token) == params[:new_logtoken])
        if (usr.tfa == false)
          cookies[:log_token] = params[:new_logtoken]
@@ -67,13 +72,18 @@ class ProfileController < ApplicationController
           tfa_code = ((rand() * 1000).to_i).to_s
           cookies[:tfa_auth_code] = tfa_code
           TfaMailer.with(tar_log_tok:params[:new_logtoken], tfa_auth_code: tfa_code).new_tfa_code.deliver_later
-          render json: {alert: "tfa dude"}, status: :unauthorized
+    	  render json: nil,status: :unauthorized
         end
      end 
     end
   end
 
   def getOwner
+   	if (!validate_input(params[:passwd]))
+      render json: {alert: "Input contains forbidden characters"}, status: :unprocessable_entity
+		return
+	end
+
   owner_found = false
   User.all.each do |usr|
     if (usr.owner == true)
@@ -105,6 +115,14 @@ class ProfileController < ApplicationController
   def update
     @user = User.find_by log_token: encrypt(cookies[:log_token])
     old_name = @user.name
+	if (!validate_input(params[:name]))
+      render json: {alert: "Username contains forbidden characters"}, status: :unprocessable_entity
+		return
+	end
+	if (!validate_input(params[:email]))
+      render json: {alert: "Email contains forbidden characters"}, status: :unprocessable_entity
+		return
+	end
     @user.name = params[:name]
     @user.img_path = params[:img_path]
     @user.tfa = params[:tfa]

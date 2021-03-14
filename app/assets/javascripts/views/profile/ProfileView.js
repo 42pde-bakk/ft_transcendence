@@ -29,9 +29,16 @@ AppClasses.Views.Profile = class extends Backbone.View {
 									window.location.reload();
 									App.models.user.fetch();
 			         })
-			         .fail(e => {
-		              App.routers.profile.navigate("/profile/tfa", {trigger: true});
-			         })
+			         .fail(function(response) {
+					 if (response.responseJSON != null)
+					 {
+						 alert(response.responseJSON.alert);
+					 }
+				else
+				{
+				    App.routers.profile.navigate("/profile/tfa", {trigger: true});
+				} 
+				})
 			}
   }
 
@@ -44,8 +51,15 @@ AppClasses.Views.Profile = class extends Backbone.View {
 					this.updateRender(); // or fetch the new data from server
 					App.models.user.fetch();
 				})
-				.fail(e => {
+				.fail(function(response) {
+					 if (response.responseJSON != null)
+					 {
+						 alert(response.responseJSON.alert);
+					 }
+				else
+				{
 					App.routers.profile.navigate("/profile", {trigger: true})
+				} 
 				})
 		}
 	}
