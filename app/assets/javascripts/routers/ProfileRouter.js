@@ -12,15 +12,21 @@ AppClasses.Routers.Profile = class extends Backbone.Router {
     };
 
     profile() {
-        if (!this.views.profile) {
-            this.views.profile = new AppClasses.Views.Profile({});
-        }
-        this.mainDiv.html(this.views.profile.render().el);
-        this.views.profile.delegateEvents();
+	    App.collections.games.myFetch();
+	    App.collections.users_no_self.myFetch();
+	    App.models.user.fetch();
+      if (!this.views.profile) {
+          this.views.profile = new AppClasses.Views.Profile({});
+      }
+      this.mainDiv.html(this.views.profile.render().el);
+      this.views.profile.delegateEvents();
     }
 
     show_user(id) {
     	let id_int = parseInt(id);
+	    App.collections.games.myFetch();
+	    App.collections.users_no_self.myFetch();
+	    App.models.user.fetch();
 	    if (!this.views.show_user) {
 		    this.views.show_user = new AppClasses.Views.ShowUser({user_id: id_int});
 	    }

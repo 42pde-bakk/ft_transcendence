@@ -23,14 +23,14 @@ class NotificationController < ApplicationController
 		if g1 == @current_user.guild.id then @target_guild = Guild.find_by(id: g2) elsif g2 == @current_user.guild.id then @target_guild = Guild.find_by(id: g1) end
 		return render json: { error: "Can't find the guild you're trying to fight" }, status: :bad_request unless @target_guild
 
-			User.where(guild: @target_guild).each do |user|
-				notif = Notification.create(sender: @current_user, receiver: user, is_accepted: false, kind: "wartime", name_sender: @current_user.name, name_receiver: user.name)
-				if notif.save
-					NotificationChannel.broadcast_to(user, {
-						message: "new wartime battle invite!"
-					})
-				end
-				CheckNotificationTimeoutJob.set(wait: @target_guild.active_war.time_to_answer.minutes).perform_later(@current_user, @target_guild)
+		User.where(guild: @target_guild).each do |user|
+			notif = Notification.create(sender: @current_user, receiver: user, is_accepted: false, kind: "wartime", description: "Wartime duel", name_sender: "Someone from the #{g1.name} guild", name_receiver: user.name)
+			if notif.save
+				NotificationChannel.broadcast_to(user, {
+					message: "new wartime battle invite!"
+				})
+			end
+			CheckNotificationTimeoutJob.set(wait: @target_guild.active_war.time_to_answer.minutes).perform_later(@current_user, @target_guild)
 		end
 		render json: { status: "Succesfully sent notifications to each member of #{@target_guild.name}!"}, status: :ok
 	end
@@ -51,7 +51,7 @@ class NotificationController < ApplicationController
 			extra_speed = false
 		end
 
-		if Notification.create(sender: @current_user, receiver: @target_user, is_accepted: false, kind: @notification_type, name_sender: @current_user.name, name_receiver: @target_user.name, extra_speed: extra_speed, long_paddles: long_paddles).save
+		if Notification.create(sender: @current_user, receiver: @target_user, is_accepted: false, kind: @game_options[:gametype], description: @notification_type, name_sender: @current_user.name, name_receiver: @target_user.name, extra_speed: extra_speed, long_paddles: long_paddles).save
 			NotificationChannel.broadcast_to(@target_user, {
 				message: "new notification bro!"
 			})
@@ -65,8 +65,8 @@ class NotificationController < ApplicationController
 		# The game invite has been accepted, now to create a new game to matchmake our users into
 		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
 		unless @notification then return render json: { error: "Can't find the notification you're accepting, my man. Did it expire?" }, status: :bad_request end
-		if Game.find_by(player2: @current_user) or Game.find_by(player1: @current_user) then return render json: { error: "Error accepting invite, you must not already be in a game" }, status: :not_acceptable end
-		if Game.find_by(player2: @target_user) or Game.find_by(player1: @target_user) then return render json: { error: "Error accepting invite, opponent must not already be in a game" }, status: :not_acceptable end
+		if Game.find_by(player2: @current_user, is_finished: false) or Game.find_by(player1: @current_user, is_finished: false) then return render json: { error: "Error accepting invite, you must not already be in a game" }, status: :not_acceptable end
+		if Game.find_by(player2: @target_user, is_finished: false) or Game.find_by(player1: @target_user, is_finished: false) then return render json: { error: "Error accepting invite, opponent must not already be in a game" }, status: :not_acceptable end
 
 		@notification.is_accepted = true
 		@notification.save

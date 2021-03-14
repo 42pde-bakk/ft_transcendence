@@ -25,11 +25,12 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 			type: 'GET',
 			data: data,
 			success: function (response) {
+				console.log('Succesfully fetched notifications');
 				// console.log(`fetching notifications returned: ${JSON.stringify(response)}`);
 				this_copy.set(response);
 			},
 			error: function (error) {
-				// console.log(`fetching notifications returned error: ${JSON.stringify(error)}`);
+				console.log(`fetching notifications returned error: ${JSON.stringify(error)}`);
 				// alert(error["responseJSON"]["error"]);
 			}
 		})
@@ -54,7 +55,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 					alert(response["alert"]);
 			},
 			error: function (error) {
-				// console.log(`creating notification returned error: ${JSON.stringify(error)}`);
+				console.log(`creating notification returned error: ${JSON.stringify(error)}`);
 				// alert(error["responseJSON"]["error"]);
 			}
 		})
@@ -72,8 +73,9 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 					alert(response["alert"]);
 			},
 			error: function (error) {
-				// console.log(`creating notification returned error: ${JSON.stringify(error)}`);
-				// alert(error["responseJSON"]["error"]);
+				console.log(`creating notification returned error: ${JSON.stringify(error)}`);
+				if (error["responseJSON"] && error["responseJSON"]["error"])
+					alert(error["responseJSON"]["error"]);
 			}
 		})
 	}
@@ -97,7 +99,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 				// console.log(`accepting notification returned error: ${JSON.stringify(error)}`);
 				if (error["responseJSON"] && error["responseJSON"]["error"])
 					alert(error["responseJSON"]["error"]);
-				App.models.notifications.myFetch();
+				App.collections.notifications.myFetch();
 			}
 		})
 	}
@@ -121,7 +123,7 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 				// console.log(`declining notification returned error: ${JSON.stringify(error)}`);
 				if (error["responseJSON"] && error["responseJSON"]["error"])
 					alert(error["responseJSON"]["error"]);
-				App.models.notifications.myFetch();
+				App.collections.notifications.myFetch();
 			}
 		})
 	}

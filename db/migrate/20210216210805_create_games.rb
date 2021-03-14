@@ -5,12 +5,12 @@ class CreateGames < ActiveRecord::Migration[6.1]
       t.references :player2, references: :users
       t.string :name_player1
       t.string :name_player2
+      t.string :winner, default: "Noone"
       t.string :gametype, default: "casual"
+      t.boolean :is_finished, default: false
       t.boolean :long_paddles, default: false
       t.boolean :extra_speed, default: false
       t.timestamps
     end
-    # add_foreign_key :games, :users, column: :player1_id, primary_key: :id
-    # add_foreign_key :games, :users, column: :player2_id, primary_key: :id
   end
 end
