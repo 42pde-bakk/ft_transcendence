@@ -19,6 +19,7 @@ class War < ApplicationRecord
       wt_begin: war.wt_begin,
       wt_end: war.wt_end,
       time_to_answer: war.time_to_answer,
+      max_unanswered_match_calls: war.max_unanswered_match_calls,
       ladder: war.ladder,
       tournament: war.tournament,
       duel: war.duel,

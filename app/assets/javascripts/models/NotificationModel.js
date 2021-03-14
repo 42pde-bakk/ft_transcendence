@@ -72,8 +72,9 @@ AppClasses.Collections.Notifications = class extends Backbone.Collection {
 					alert(response["alert"]);
 			},
 			error: function (error) {
-				// console.log(`creating notification returned error: ${JSON.stringify(error)}`);
-				// alert(error["responseJSON"]["error"]);
+				console.log(`creating notification returned error: ${JSON.stringify(error)}`);
+				if (error["responseJSON"] && error["responseJSON"]["error"])
+					alert(error["responseJSON"]["error"]);
 			}
 		})
 	}

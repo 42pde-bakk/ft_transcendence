@@ -3,6 +3,7 @@ class CreateGames < ActiveRecord::Migration[6.1]
     create_table :games do |t|
       t.references :player1, references: :users
       t.references :player2, references: :users
+      t.references :war, references: :wars
       t.string :name_player1
       t.string :name_player2
       t.string :gametype, default: "casual"

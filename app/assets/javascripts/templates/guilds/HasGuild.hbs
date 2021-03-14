@@ -132,7 +132,15 @@
                                             {{guild.active_war.time_to_answer}}
                                         </dd>
                                     </div>
-                                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+	                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+		                                <dt class="text-sm font-medium text-gray-500">
+			                                Max unanswered match calls
+		                                </dt>
+		                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+			                                {{guild.active_war.max_unanswered_match_calls}}
+		                                </dd>
+	                                </div>
+	                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                         <dt class="text-sm font-medium text-gray-500">
                                             Types of battle that count towards war
                                         </dt>
@@ -229,7 +237,7 @@
                                                         Opponent
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        Proposed prize
+                                                        Info
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Date
@@ -258,7 +266,9 @@
                                                             <div class="flex items-center">
                                                                 <div class="ml-4">
                                                                     <div class="text-sm font-medium text-gray-900">
-                                                                        {{prize}}
+                                                                        Prize: {{prize}} <br>
+	                                                                    Time to answer: {{time_to_answer}} mins <br>
+	                                                                    Max unanswered match calls: {{max_unanswered_match_calls}}
                                                                     </div>
                                                                 </div>
                                                             </div>

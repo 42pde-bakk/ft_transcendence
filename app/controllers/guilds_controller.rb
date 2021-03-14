@@ -210,17 +210,13 @@ class GuildsController < ApplicationController
   private
 
   def guild_params
-    guild_params = params.require(:guild).permit(:id, :name, :anagram, :max_battle_invites)
+    guild_params = params.require(:guild).permit(:id, :name, :anagram)
     if !guild_params['name'] || check_len(guild_params['name'], 3, 20)
       res_with_error("Name length must be >= 3 and <= 20", :bad_request)
       return false
     end
     if !guild_params['anagram'] || check_len(guild_params['anagram'], 2, 5)
       res_with_error("Anagram length must be >= 2 and <= 5", :bad_request)
-      return false
-    end
-    if !guild_params['max_battle_invites'] || guild_params['max_battle_invites'].to_i <= 0
-      res_with_error("Max battle invites must be > 0", :bad_request)
       return false
     end
     (guild_params)

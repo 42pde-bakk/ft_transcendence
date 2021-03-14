@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
   create_table "games", force: :cascade do |t|
     t.bigint "player1_id"
     t.bigint "player2_id"
+    t.bigint "war_id"
     t.string "name_player1"
     t.string "name_player2"
     t.string "gametype", default: "casual"
@@ -107,12 +108,14 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["player1_id"], name: "index_games_on_player1_id"
     t.index ["player2_id"], name: "index_games_on_player2_id"
+    t.index ["war_id"], name: "index_games_on_war_id"
   end
 
   create_table "guilds", force: :cascade do |t|
     t.string "name"
     t.string "anagram"
-    t.integer "max_battle_invites", default: 5
+    t.integer "unanswered_match_calls", default: 0
+    t.integer "max_unanswered_match_calls", default: 5
     t.integer "points", default: 50
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -135,12 +138,14 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.string "name_receiver"
     t.bigint "sender_id"
     t.bigint "receiver_id"
+    t.bigint "war_id"
     t.boolean "extra_speed"
     t.boolean "long_paddles"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
+    t.index ["war_id"], name: "index_notifications_on_war_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -180,6 +185,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.datetime "wt_begin"
     t.datetime "wt_end"
     t.integer "time_to_answer", default: 10
+    t.integer "max_unanswered_match_calls", default: 5
     t.boolean "ladder", default: false
     t.boolean "tournament", default: false
     t.boolean "duel", default: false

@@ -22,15 +22,21 @@ class NotificationController < ApplicationController
 		g2 = @current_user.guild.active_war.guild2_id
 		if g1 == @current_user.guild.id then @target_guild = Guild.find_by(id: g2) elsif g2 == @current_user.guild.id then @target_guild = Guild.find_by(id: g1) end
 		return render json: { error: "Can't find the guild you're trying to fight" }, status: :bad_request unless @target_guild
+		war = @current_user.guild.active_war
+		inverse_war = @target_guild.active_war
+		if Game.find_by(war: war) or Game.find_by(war: inverse_war) or Notification.find_by(war: war, is_accepted: false) or Notification.find_by(war: inverse_war, is_accepted: false)
+			return render json: { error: "You cannot have more than 1 ongoing wartime battle at a time!" }, status: :bad_request
+		end
 
 			User.where(guild: @target_guild).each do |user|
-				notif = Notification.create(sender: @current_user, receiver: user, is_accepted: false, kind: "wartime", name_sender: @current_user.name, name_receiver: user.name)
+				notif = Notification.create(sender: @current_user, receiver: user, is_accepted: false, kind: "wartime", war: war, name_sender: @current_user.name, name_receiver: user.name)
 				if notif.save
 					NotificationChannel.broadcast_to(user, {
 						message: "new wartime battle invite!"
 					})
 				end
 				CheckNotificationTimeoutJob.set(wait: @target_guild.active_war.time_to_answer.minutes).perform_later(@current_user, @target_guild)
+				STDERR.puts "scheduled notifictionTimeoutJob in #{@target_guild.active_war.time_to_answer} minutes"
 		end
 		render json: { status: "Succesfully sent notifications to each member of #{@target_guild.name}!"}, status: :ok
 	end
@@ -67,7 +73,6 @@ class NotificationController < ApplicationController
 		unless @notification then return render json: { error: "Can't find the notification you're accepting, my man. Did it expire?" }, status: :bad_request end
 		if Game.find_by(player2: @current_user) or Game.find_by(player1: @current_user) then return render json: { error: "Error accepting invite, you must not already be in a game" }, status: :not_acceptable end
 		if Game.find_by(player2: @target_user) or Game.find_by(player1: @target_user) then return render json: { error: "Error accepting invite, opponent must not already be in a game" }, status: :not_acceptable end
-
 		@notification.is_accepted = true
 		@notification.save
 		NotificationChannel.broadcast_to(@notification.sender, {

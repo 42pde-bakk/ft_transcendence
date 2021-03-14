@@ -21,6 +21,7 @@ AppClasses.Views.NewWar = class extends Backbone.View {
         var start_wt = $('#start_wt').val();
         var end_wt = $('#end_wt').val();
         var resp_time = $('#resp_time').val();
+        var max_unanswered_match_calls = $('#max_unanswered_match_calls').val();
         var prize = $('#prize').val();
         var ladder = $('#ladder').is(':checked');
         var tournament = $('#tournament').is(':checked');
@@ -43,6 +44,12 @@ AppClasses.Views.NewWar = class extends Backbone.View {
         } else {
             $('#resp_time').removeClass('border-red-700').addClass('border-gray-300');
         }
+		    if (!max_unanswered_match_calls || max_unanswered_match_calls < 0) {
+			    $('#max_unanswered_match_calls').removeClass('border-gray-300').addClass('border-red-700');
+			    form_error = true;
+		    } else {
+			    $('#max_unanswered_match_calls').removeClass('border-red-700').addClass('border-gray-300');
+		    }
 
         if (start_date >= end_date || !start_date || !end_date || start_date < today) {
             $('#end_date').removeClass('border-gray-300').addClass('border-red-700');
@@ -83,6 +90,7 @@ AppClasses.Views.NewWar = class extends Backbone.View {
           wt_end: end_wt,
           prize: prize,
           time_to_answer: resp_time,
+	        max_unanswered_match_calls: max_unanswered_match_calls,
           ladder: ladder,
           tournament: tournament,
           duel: duel,
@@ -111,7 +119,8 @@ AppClasses.Views.NewWar = class extends Backbone.View {
             users: App.collections.available_for_guild.toJSON(),
             guild: App.models.user.toJSON().guild,
             guilds_available: App.collections.guilds.toJSON(),
-            token: $('meta[name="csrf-token"]').attr('content')}));
+            token: $('meta[name="csrf-token"]').attr('content')
+        }));
         var today = new Date().toISOString().split('T')[0];
         var tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
         $('#start_date').attr({"min" : today});
