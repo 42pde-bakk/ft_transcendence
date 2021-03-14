@@ -60,11 +60,14 @@ class War < ApplicationRecord
   end
 
   def add_war_points(to_guild_id)
-    if to_guild_id == guild1_id
+    STDERR.puts "in add_war_points, to_guild_id is #{to_guild_id}, guild1_id is #{self.guild1_id}, guild2_id is #{self.guild2_id}"
+    STDERR.puts "in add_war_points, points are guild1: #{self.g1_points} - #{self.g2_points}: guild2"
+    if to_guild_id == self.guild1_id
       self.g1_points += 1
-    elsif to_guild_id == guild2_id
+    elsif to_guild_id == self.guild2_id
       self.g2_points += 1
     end
-    self.save!
+    self.save
+    STDERR.puts "AND AFTER add_war_points, points are guild1: #{self.g1_points} - #{self.g2_points}: guild2"
   end
 end

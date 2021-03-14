@@ -12,6 +12,7 @@ AppClasses.Routers.Main = class extends Backbone.Router {
 		if (!this.views.index) {
 			this.views.index = new AppClasses.Views.Index();
 		}
+		App.collections.notifications.myFetch();
 		this.mainDiv.html(this.views.index.render().el);
 	}
 }

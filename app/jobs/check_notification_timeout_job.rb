@@ -2,10 +2,10 @@ class CheckNotificationTimeoutJob < ApplicationJob
 	queue_as :default
 
 	def perform(sender, target_guild)
-		notifs = Notification.where(sender: sender, kind: "wartime")
-		declined_notifs = notifs.where(is_accepted: false)
-		STDERR.puts "in CheckNotificationTimeoutJob, notifs length is #{notifs.length}"
-		if declined_notifs.length == 0
+		all_notifs = Notification.where(sender: sender, kind: "wartime")
+		accepted_notifs = all_notifs.where(is_accepted: true)
+		STDERR.puts "in CheckNotificationTimeoutJob, notifs length is #{all_notifs.length}, accepted_notifs is #{accepted_notifs.length}"
+		if accepted_notifs.length == 0
 			STDERR.puts "Notification timed out, incrementing unanswered_match_calls counter"
 			sender.guild.active_war.add_war_points(sender.guild.id)
 			target_guild.active_war.add_war_points(sender.guild.id)
@@ -14,14 +14,13 @@ class CheckNotificationTimeoutJob < ApplicationJob
 			if target_guild.unanswered_match_calls >= target_guild.max_unanswered_match_calls
 				STDERR.puts "war is over because unanswered_match_calls has reached the maximum allowed"
 				sender.guild.active_war.end = Time.now
-				sender.guild.active_war.finished = true
 				sender.save
 				target_guild.active_war.end = Time.now
-				target_guild.active_war.finished = true
 				target_guild.save
+				sleep 2
 				CheckIfWarEndedJob.perform_later(target_guild.active_war.id)
 			end
 		end
-		notifs.destroy_all
+		all_notifs.destroy_all
 	end
 end
