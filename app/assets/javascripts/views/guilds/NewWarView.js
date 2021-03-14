@@ -13,6 +13,7 @@ AppClasses.Views.NewWar = class extends Backbone.View {
     submit(e) {
         e.preventDefault();
         let war = new AppClasses.Models.War();
+        var today = new Date().toISOString().split('T')[0];
 
         var opponent_id = $('#opponent_id').val();
         var start_date = $('#start_date').val();
@@ -43,7 +44,7 @@ AppClasses.Views.NewWar = class extends Backbone.View {
             $('#resp_time').removeClass('border-red-700').addClass('border-gray-300');
         }
 
-        if (start_date >= end_date || !start_date || !end_date) {
+        if (start_date >= end_date || !start_date || !end_date || start_date < today) {
             $('#end_date').removeClass('border-gray-300').addClass('border-red-700');
             $('#start_date').removeClass('border-gray-300').addClass('border-red-700');
             form_error = true;

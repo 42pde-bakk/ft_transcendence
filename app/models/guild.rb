@@ -18,6 +18,7 @@ class Guild < ApplicationRecord
       name: gld.name,
       anagram: gld.anagram,
       points: gld.points,
+      max_battle_invites: gld.max_battle_invites,
       users: gld.users,
       requests: gld.requests,
       owner: gld.owner,
