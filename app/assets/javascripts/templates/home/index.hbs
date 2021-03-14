@@ -1,23 +1,4 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
-<script>
-	function openNotificationsDropdownMenu() {
-		document.getElementById("notifications").classList.toggle("show");
-	}
-
-	// Close the dropdown menu if the user clicks outside of it
-	window.onclick = function(event) {
-		if (!event.target.matches('.dropbtn')) {
-			let dropdowns = document.getElementsByClassName("dropdown-content");
-			let i;
-			for (i = 0; i < dropdowns.length; i++) {
-				let openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
-				}
-			}
-		}
-	}
-</script>
 <div class="bg-gray-100 h-screen">
     <nav class="bg-gray-800">
         <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -51,7 +32,7 @@
 		                        <div id="notifications" class="dropdown-content">
 			                        {{#each notifications}}
 				                        <div class="bg-transparent rounded-md text-base font-medium">
-					                        <p class="text-black">{{kind}} from {{name_sender}}</p>
+					                        <p class="text-black">{{name_sender}} invites you to a {{description}} </p>
 					                        <button onclick="App.collections.notifications.decline_invite({{id}})" class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Decline</button>
 					                        <button onclick="App.collections.notifications.accept_invite({{id}})" class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Accept</button>
 				                        </div>

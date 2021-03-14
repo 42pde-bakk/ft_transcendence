@@ -31,5 +31,9 @@ class Guild < ApplicationRecord
     new_gld
   end
 
+  def add_points(amount)
+    self.points += amount
+    self.save
+  end
 
 end

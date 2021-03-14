@@ -53,7 +53,10 @@ class User < ApplicationRecord
       finished_battles: usr.finished_battles,
       tourn_win: usr.tourn_win,
       tourn_score: usr.tourn_score,
-      battle_invites: Battle.clean_arr(usr.battle_invites)
+      battle_invites: Battle.clean_arr(usr.battle_invites),
+      games_won: usr.games_won,
+      games_lost: usr.games_lost
+
     }
     if usr.active_battle
       new_user[:active_battle] = Battle.clean(usr.active_battle)

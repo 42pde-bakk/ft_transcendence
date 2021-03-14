@@ -10,6 +10,7 @@ AppClasses.Views.GamePlayView = class extends Backbone.View {
 
 	updateRender() {
 		// App.collections.games.myFetch();
+		this.mydestroy();
 		this.$el.html(this.template({
 			current_user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
@@ -24,7 +25,8 @@ AppClasses.Views.GamePlayView = class extends Backbone.View {
 		return (this);
 	}
 
-	destroy() {
+
+	mydestroy() {
 		console.log("in GamePlayView#destroy");
 		this.undelegateEvents();
 		this.$el.removeData().unbind();

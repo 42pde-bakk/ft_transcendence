@@ -15,7 +15,8 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.datetime :last_seen
       t.boolean :is_ingame, default: false
       t.boolean :is_queueing, default: false
-
+      t.integer :games_won, default: 0
+      t.integer :games_lost, default: 0
       t.timestamps
     end
   end

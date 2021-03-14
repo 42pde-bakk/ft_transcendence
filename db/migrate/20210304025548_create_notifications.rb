@@ -3,6 +3,7 @@ class CreateNotifications < ActiveRecord::Migration[6.1]
     create_table :notifications do |t|
       t.boolean :is_accepted
       t.string :kind
+      t.string :description
       t.string :name_sender
       t.string :name_receiver
       t.references :sender, references: :users
