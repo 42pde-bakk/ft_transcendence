@@ -211,6 +211,14 @@ class GuildsController < ApplicationController
 
   def guild_params
     guild_params = params.require(:guild).permit(:id, :name, :anagram)
+	if (!validate_input(guild_params['name']))
+		res_with_error("Guild name contains invalid characters.", :bad_request)
+		return false
+	end
+	if (!validate_input(guild_params['anagram']))
+		res_with_error("Guild anagram contains invalid characters.", :bad_request)
+		return(false)
+	end
     if !guild_params['name'] || check_len(guild_params['name'], 3, 20)
       res_with_error("Name length must be >= 3 and <= 20", :bad_request)
       puts "IN HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
