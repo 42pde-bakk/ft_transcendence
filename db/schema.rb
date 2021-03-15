@@ -101,8 +101,6 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
   create_table "guilds", force: :cascade do |t|
     t.string "name"
     t.string "anagram"
-    t.integer "unanswered_match_calls", default: 0
-    t.integer "max_unanswered_match_calls", default: 5
     t.integer "points", default: 50
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -173,6 +171,8 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.datetime "wt_end"
     t.integer "time_to_answer", default: 10
     t.integer "max_unanswered_match_calls", default: 5
+    t.integer "g1_unanswered_match_calls", default: 0
+    t.integer "g2_unanswered_match_calls", default: 0
     t.boolean "ladder", default: false
     t.boolean "tournament", default: false
     t.boolean "duel", default: false

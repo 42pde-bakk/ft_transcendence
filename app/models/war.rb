@@ -19,6 +19,8 @@ class War < ApplicationRecord
       wt_begin: war.wt_begin,
       wt_end: war.wt_end,
       time_to_answer: war.time_to_answer,
+      g1_unanswered_match_calls: war.g1_unanswered_match_calls,
+      g2_unanswered_match_calls: war.g2_unanswered_match_calls,
       max_unanswered_match_calls: war.max_unanswered_match_calls,
       ladder: war.ladder,
       tournament: war.tournament,
@@ -60,14 +62,20 @@ class War < ApplicationRecord
   end
 
   def add_war_points(to_guild_id)
-    STDERR.puts "in add_war_points, to_guild_id is #{to_guild_id}, guild1_id is #{self.guild1_id}, guild2_id is #{self.guild2_id}"
-    STDERR.puts "in add_war_points, points are guild1: #{self.g1_points} - #{self.g2_points}: guild2"
     if to_guild_id == self.guild1_id
       self.g1_points += 1
     elsif to_guild_id == self.guild2_id
       self.g2_points += 1
     end
     self.save
-    STDERR.puts "AND AFTER add_war_points, points are guild1: #{self.g1_points} - #{self.g2_points}: guild2"
+  end
+
+  def add_unanswered_match_call(to_guild_id)
+    if to_guild_id == self.guild1_id
+      self.g1_unanswered_match_calls += 1
+    elsif to_guild_id == self.guild2_id
+      self.g2_unanswered_match_calls += 1
+    end
+    self.save
   end
 end

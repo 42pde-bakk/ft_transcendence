@@ -18,8 +18,6 @@ class Guild < ApplicationRecord
       name: gld.name,
       anagram: gld.anagram,
       points: gld.points,
-      unanswered_match_calls: gld.unanswered_match_calls,
-      max_unanswered_match_calls: gld.max_unanswered_match_calls,
       users: gld.users,
       requests: gld.requests,
       owner: gld.owner,
