@@ -47,6 +47,8 @@ class HomeController < ApplicationController
       @user.admin = false
       @user.owner = false
       @user.ban = false
+      @user.tourn_score = 0
+      @user.tourn_win = 0
       log_token_used = false
       loop do 
         @n = ((rand() * 100000000).to_i).to_s
@@ -79,7 +81,7 @@ class HomeController < ApplicationController
   cookies.delete :log_token
   #  cookies[:log_token] = ""
     cookies.delete :atoken
-  redirect_to "http://127.0.0.1:3000"
+  redirect_to "http://127.0.0.1:3000/home"
   end
 
   def auth

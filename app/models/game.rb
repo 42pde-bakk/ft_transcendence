@@ -8,11 +8,12 @@ class Player
 
 	def initialize(id, x, canvas_width, canvas_height, user, long_paddles)
 		@status = "ready"
-		if user == nil or user.id < 3 then @ai = true else @ai = false end
+		@ai = false
+		if user == nil or user.log_token == nil then @ai = true else @ai = false end
 		if user
 			@name = user.name
 			@user_id = user.id
-			@status = "waiting"
+			@status = "waiting" if user.log_token != nil
 		else
 			@name = "Bot"
 			@user_id = 0
@@ -53,7 +54,7 @@ class Player
 	def toggle_ready
 		if @status == "waiting"
 			@status = "ready"
-		elsif @status == "ready"
+		elsif @status == "ready" and !@ai
 			@status = "waiting"
 		end
 	end
@@ -125,6 +126,10 @@ class Gamelogic
 			add_wartime_points(winner, loser) if winner.guild&.active_war&.duel
 		elsif @game.gametype == "tournament"
 			# winner advances?
+			if winner.tournament_id
+				winner.tourn_score += 1
+				winner.save
+			end
 			add_wartime_points(winner, loser) if winner.guild&.active_war&.tournament
 		elsif @game.gametype == "ranked"
 			readjust_personal_elo(winner, loser)
@@ -137,22 +142,20 @@ class Gamelogic
 	def finish_game
 		@status = "finished"
 
-		if @players[0].score.to_i == @players[1].score.to_i
-			@winner = "DRAW"
-			@msg = "The game has ended in a draw, PepeHands"
+		if @players[0].score.to_i > @players[1].score.to_i
+			@winner = @players[0].name
+			winner_id = @players[0].user_id
+			loser_id = @players[1].user_id
 		else
-			if @players[0].score.to_i > @players[1].score.to_i
-				@winner = @players[0].name
-				winner_id = @players[0].user_id
-				loser_id = @players[1].user_id
-			else
-				@winner = @players[1].name
-				winner_id = @players[1].user_id
-				loser_id = @players[0].user_id
-			end
-			@msg = "#{@winner} wins!"
-			distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id), @winner)
+			@winner = @players[1].name
+			winner_id = @players[1].user_id
+			loser_id = @players[0].user_id
 		end
+		@msg = "#{@winner} wins!"
+    distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id), @winner)
+    if @game.tournament_id != nil
+      Tournament.find_by(id: @game.tournament_id).games.delete(Game.find_by(id: @game.id))
+    end
 	end
 
 	def sim_turn
@@ -170,7 +173,7 @@ class Gamelogic
 			score
 		end
 
-		if @players.any? {|p| p.score.to_i == 5} or @turn.to_i >= 100
+		if @players.any? {|p| p.score.to_i == 5}
 			finish_game
 		end
 		send_config
@@ -256,8 +259,8 @@ class Game < ApplicationRecord # This is a wrapper class
 	belongs_to :war, :class_name => "War", required: false
 	belongs_to :player1, :class_name => "User", required: true
 	belongs_to :player2, :class_name => "User", required: false
-
-	@@Gamelogics = Hash.new
+	belongs_to :tournament, :class_name => "Tournament", required: false
+        @@Gamelogics = Hash.new
 
 	def mysetup
 		@@Gamelogics[id] = Gamelogic.new(self)
@@ -289,6 +292,11 @@ class Game < ApplicationRecord # This is a wrapper class
 	end
 
 	def mydestructor
+          if self.tournament_id != nil
+            tourn = Tournament.find(self.tournament_id)
+            tourn.game_index += 1
+            tourn.save
+          end
 		@@Gamelogics[id] = nil
 	end
 end

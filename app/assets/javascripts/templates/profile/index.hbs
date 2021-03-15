@@ -16,6 +16,7 @@
                                 <a href="#profile" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
                                 <a href="#friends" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Friends</a>
                                 <a href="#guilds" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Guilds</a>
+                         	<a href="#tournaments" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tournaments</a>
 	                            <a href="#game" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Game</a>
 	                            <a href="#chat" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Chat</a>
 							{{#if current_user.admin }}
@@ -73,6 +74,17 @@
 			                        {{current_user.elo}}
 		                        </dd>
 	                        </div>
+
+				<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+		                        <dt class="text-sm font-medium text-gray-500">
+			                        Tournament Wins
+		                        </dt>
+		                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+			                        {{current_user.tourn_win}}
+		                        </dd>
+	                        </div>
+
+
 	                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
 		                        <dt class="text-sm font-medium text-gray-500">
 			                        Game record (W - L)
@@ -82,6 +94,7 @@
 		                        </dd>
 	                        </div>
 	                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
                                 <dt class="text-sm font-medium text-gray-500">
                                     Email
                                 </dt>

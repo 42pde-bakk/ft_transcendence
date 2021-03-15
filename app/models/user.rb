@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :messages, class_name: "Message", dependent: :destroy
 
   belongs_to :guild, required: false
+
+  belongs_to :tournament, required: false
   has_one :game, class_name: "Game", required: false
   # has_one :game, class_name: "Game", foreign_key: "player1_id"
   # has_one :game_invite, class_name: "Game", foreign_key: "player2_id"
@@ -19,6 +21,7 @@ class User < ApplicationRecord
   has_one :active_battle, -> { where(finished: false, accepted: true) }, class_name: "Battle", foreign_key: "user1_id"
   has_many :finished_battles, -> { where(finished: true) }, class_name: "Battle", foreign_key: "user1_id"
   has_many :battle_invites, -> { where(finished: false, accepted: false) }, class_name: "Battle", foreign_key: "user2_id" # invites from other users
+
 
   validates :name, uniqueness: true
  # validates :token, uniqueness: true
@@ -47,8 +50,13 @@ class User < ApplicationRecord
       last_seen: usr.last_seen,
       is_ingame: usr.is_ingame,
       is_queueing: usr.is_queueing,
+      finished_battles: usr.finished_battles,
+      tourn_win: usr.tourn_win,
+      tourn_score: usr.tourn_score,
+      battle_invites: Battle.clean_arr(usr.battle_invites),
       games_won: usr.games_won,
       games_lost: usr.games_lost
+
     }
     if usr.active_battle
       new_user[:active_battle] = Battle.clean(usr.active_battle)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_04_025548) do
+ActiveRecord::Schema.define(version: 2021_03_12_203128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,8 +107,10 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.boolean "extra_speed", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "tournament_id"
     t.index ["player1_id"], name: "index_games_on_player1_id"
     t.index ["player2_id"], name: "index_games_on_player2_id"
+    t.index ["tournament_id"], name: "index_games_on_tournament_id"
   end
 
   create_table "guilds", force: :cascade do |t|
@@ -145,6 +147,16 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
 
+  create_table "tournaments", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "started"
+    t.integer "game_index"
+    t.boolean "extra_speed"
+    t.boolean "long_paddle"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "img_path", default: "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
@@ -169,6 +181,10 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.boolean "admin"
     t.boolean "ban"
     t.boolean "owner"
+    t.bigint "tournament_id"
+    t.integer "tourn_score"
+    t.integer "tourn_win"
+    t.index ["tournament_id"], name: "index_users_on_tournament_id"
   end
 
   create_table "wars", force: :cascade do |t|
