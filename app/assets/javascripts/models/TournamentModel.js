@@ -19,8 +19,8 @@ AppClasses.Collections.UpcomingTournaments = class extends Backbone.Collection {
                 this.set(usersData);
             })
             .fail(e => {
-	            console.log("error in UpcomingTournaments collection.myFetch(): " + JSON.stringify(e));
-                console.error(e);
+//	            console.log("error in UpcomingTournaments collection.myFetch(): " + JSON.stringify(e));
+  //              console.error(e);
             })
     }
 };
@@ -37,8 +37,8 @@ AppClasses.Collections.OngoingTournaments = class extends Backbone.Collection {
                 this.set(usersData);
             })
             .fail(e => {
-	            console.log("error in OngoingTournaments collection.myFetch(): " + JSON.stringify(e));
-	            console.error(e);
+//	            console.log("error in OngoingTournaments collection.myFetch(): " + JSON.stringify(e));
+//	            console.error(e);
             })
     }
 };
@@ -54,8 +54,8 @@ AppClasses.Collections.TournamentUsers = class extends Backbone.Collection {
                 this.set(usersData);
             })
             .fail(e => {
-	            console.log("error in TournamentUsers collection.myFetch(): " + JSON.stringify(e));
- 	            console.error(e);
+//	            console.log("error in TournamentUsers collection.myFetch(): " + JSON.stringify(e));
+ //	            console.error(e);
             })
     }
 };
@@ -72,8 +72,8 @@ AppClasses.Collections.TournamentCurrentGame = class extends Backbone.Collection
                 this.set(usersData);
             })
             .fail(e => {
-	            console.log("error in TournamentCurrentGame collection.myFetch(): " + JSON.stringify(e));
-                console.error(e);
+//	            console.log("error in TournamentCurrentGame collection.myFetch(): " + JSON.stringify(e));
+  //              console.error(e);
             })
     }
 };
