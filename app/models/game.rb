@@ -170,8 +170,12 @@ class Gamelogic
                                 end
 			end
 			@msg = "#{@winner} wins!"
-			distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id), @winner)
+                        #next line should be after next end no ? Actually draw should never happen right ?
+                        distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id), @winner)
 		end
+                if (@game.tournament_id != nil)
+                  Tournament.all.find(@game.tournament_id).games.delete(Game.find(@game.id))
+                end
 	end
 
 	def sim_turn
