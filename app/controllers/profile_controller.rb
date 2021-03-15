@@ -124,7 +124,11 @@ class ProfileController < ApplicationController
 		return
 	end
     @user.name = params[:name]
-    @user.img_path = params[:img_path]
+    if (params[:img_path] == "")
+      @user.img_path = "https://img2.cgtrader.com/items/2043799/e1982ff5ee/star-wars-rogue-one-solo-stormtrooper-helmet-3d-model-stl.jpg"
+    else
+      @user.img_path = params[:img_path]
+    end
     @user.tfa = params[:tfa]
     @user.email = params[:email]
     @already_in_use = User.find_by name: params[:name]
