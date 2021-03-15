@@ -46,7 +46,9 @@ class User < ApplicationRecord
       invites: usr.invites,
       last_seen: usr.last_seen,
       is_ingame: usr.is_ingame,
-      is_queueing: usr.is_queueing
+      is_queueing: usr.is_queueing,
+      games_won: usr.games_won,
+      games_lost: usr.games_lost
     }
     if usr.guild_id
       new_user[:guild] = Guild.clean(usr.guild);

@@ -10,7 +10,9 @@ class GameJob < ApplicationJob
 		if @gamestate.status == "finished"
 			@game.toggle_players_ingame_status
 			@game.mydestructor
-			@game.destroy
+			@game.is_finished = true
+			@game.save
+			# @game.destroy
 		end
 	end
 

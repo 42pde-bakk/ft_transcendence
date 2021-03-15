@@ -88,7 +88,9 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.bigint "war_id"
     t.string "name_player1"
     t.string "name_player2"
+    t.string "winner", default: "Noone"
     t.string "gametype", default: "casual"
+    t.boolean "is_finished", default: false
     t.boolean "long_paddles", default: false
     t.boolean "extra_speed", default: false
     t.datetime "created_at", precision: 6, null: false
@@ -117,8 +119,10 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.boolean "is_accepted"
+    t.boolean "is_accepted", default: false
+    t.boolean "is_declined", default: false
     t.string "kind"
+    t.string "description"
     t.string "name_sender"
     t.string "name_receiver"
     t.bigint "sender_id"
@@ -148,6 +152,8 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.datetime "last_seen"
     t.boolean "is_ingame", default: false
     t.boolean "is_queueing", default: false
+    t.integer "games_won", default: 0
+    t.integer "games_lost", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "log_token"
