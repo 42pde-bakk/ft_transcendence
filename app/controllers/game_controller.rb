@@ -3,7 +3,14 @@ class GameController < ApplicationController
 	skip_before_action :verify_authenticity_token
 
 	def index
-            render json: Game.all, status: :ok
+            games = Game.all.where(:tournament_id => nil)
+            #Add only games which need to be played currently for each tournament
+            Tournament.all.each do |tourn|
+              if (tourn.games.count > 0)
+                games += [tourn.games[0]]
+              end
+            end
+            render json: games, status: :ok
 	end
 
 	def show
