@@ -15,19 +15,6 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "battles", force: :cascade do |t|
-    t.bigint "user1_id", null: false
-    t.bigint "user2_id", null: false
-    t.boolean "finished", default: false
-    t.boolean "accepted", default: false
-    t.integer "winner_id"
-    t.integer "time_to_accept"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user1_id"], name: "index_battles_on_user1_id"
-    t.index ["user2_id"], name: "index_battles_on_user2_id"
-  end
-
   create_table "blocked_users", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "towards_id"
@@ -198,8 +185,6 @@ ActiveRecord::Schema.define(version: 2021_03_04_025548) do
     t.index ["guild2_id"], name: "index_wars_on_guild2_id"
   end
 
-  add_foreign_key "battles", "users", column: "user1_id"
-  add_foreign_key "battles", "users", column: "user2_id"
   add_foreign_key "blocked_users", "users", column: "towards_id"
   add_foreign_key "chatrooms", "users", column: "owner_id"
   add_foreign_key "friendships", "users"

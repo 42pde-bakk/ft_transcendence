@@ -46,13 +46,8 @@ class User < ApplicationRecord
       invites: usr.invites,
       last_seen: usr.last_seen,
       is_ingame: usr.is_ingame,
-      is_queueing: usr.is_queueing,
-      finished_battles: usr.finished_battles,
-      battle_invites: Battle.clean_arr(usr.battle_invites)
+      is_queueing: usr.is_queueing
     }
-    if usr.active_battle
-      new_user[:active_battle] = Battle.clean(usr.active_battle)
-    end
     if usr.guild_id
       new_user[:guild] = Guild.clean(usr.guild);
     end
