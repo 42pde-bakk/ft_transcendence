@@ -126,6 +126,10 @@ class Gamelogic
 			add_wartime_points(winner, loser) if winner.guild&.active_war&.duel
 		elsif @game.gametype == "tournament"
 			# winner advances?
+			if winner.tournament_id
+				winner.tourn_score += 1
+				winner.save
+			end
 			add_wartime_points(winner, loser) if winner.guild&.active_war&.tournament
 		elsif @game.gametype == "ranked"
 			readjust_personal_elo(winner, loser)
@@ -138,44 +142,20 @@ class Gamelogic
 	def finish_game
 		@status = "finished"
 
-		if @players[0].score.to_i == @players[1].score.to_i
-			@winner = "DRAW"
-			@msg = "The game has ended in a draw, PepeHands"
-                                if @game.tournament_id != nil
-                                  u_win = User.find(@players[0].user_id)
-                                  u_win.tourn_score += 25
-                                  u_win.save
-                                  u_win = User.find(@players[1].user_id)
-                                  u_win.tourn_score += 25
-                                  u_win.save
-                                end
+		if @players[0].score.to_i > @players[1].score.to_i
+			@winner = @players[0].name
+			winner_id = @players[0].user_id
+			loser_id = @players[1].user_id
 		else
-			if @players[0].score.to_i > @players[1].score.to_i
-				@winner = @players[0].name
-				winner_id = @players[0].user_id
-				loser_id = @players[1].user_id
-                                if @game.tournament_id != nil
-                                  u_win = User.find(winner_id)
-                                  u_win.tourn_score += 50
-                                  u_win.save
-                                end
-			else
-				@winner = @players[1].name
-				winner_id = @players[1].user_id
-				loser_id = @players[0].user_id
-                                if @game.tournament_id != nil
-                                  u_win = User.find(winner_id)
-                                  u_win.tourn_score += 50
-                                  u_win.save
-                                end
-			end
-			@msg = "#{@winner} wins!"
-                        #next line should be after next end no ? Actually draw should never happen right ?
-                        distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id), @winner)
+			@winner = @players[1].name
+			winner_id = @players[1].user_id
+			loser_id = @players[0].user_id
 		end
-                if (@game.tournament_id != nil)
-                  Tournament.all.find(@game.tournament_id).games.delete(Game.find(@game.id))
-                end
+		@msg = "#{@winner} wins!"
+    distribute_points(User.find_by(id: winner_id), User.find_by(id: loser_id), @winner)
+    if @game.tournament_id != nil
+      Tournament.find_by(id: @game.tournament_id).games.delete(Game.find_by(id: @game.id))
+    end
 	end
 
 	def sim_turn
@@ -193,7 +173,7 @@ class Gamelogic
 			score
 		end
 
-		if @players.any? {|p| p.score.to_i == 5} or @turn.to_i >= 100
+		if @players.any? {|p| p.score.to_i == 5}
 			finish_game
 		end
 		send_config
