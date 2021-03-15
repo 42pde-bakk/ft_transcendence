@@ -24,8 +24,12 @@ AppClasses.Views.Admin = class extends Backbone.View {
 	long_paddle: document.querySelector('.long_paddle_checkbox').checked,
 	extra_speed: document.querySelector('.extra_speed_checkbox').checked};
         tournament.save(attr, {patch: true,
-            error: function(tournament, response){
-                alert("Could not create tournament");
+	    error: function(tournament, jqXHR){
+			if (jqXHR) {
+                        alert(jqXHR.responseJSON.alert);
+                    } else {
+                        alert("Error while creating a tournament");
+                    }
             },
             success: function(){
                 App.models.user.fetch();
