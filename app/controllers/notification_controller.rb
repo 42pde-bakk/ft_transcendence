@@ -27,7 +27,7 @@ class NotificationController < ApplicationController
 		currenttime = Time.now.getlocal('+01:00').strftime("%I:%M:%p")
 		wt_begin = war.wt_begin.strftime("%I:%M:%p")
 		wt_end = war.wt_end.strftime("%I:%M:%p")
-		if war.wt_begin < currenttime and currenttime < wt_end
+		if war.wt_begin <= currenttime and currenttime < wt_end
 			return render json: { error: "Wartime hasn't started yet, you can only battle between #{wt_begin} and #{wt_end}! right now its #{currenttime}" }, status: :bad_request
 		end
 		if Game.find_by(war: war) or Game.find_by(war: inverse_war) or Notification.find_by(war: war, is_accepted: false) or Notification.find_by(war: inverse_war, is_accepted: false)
