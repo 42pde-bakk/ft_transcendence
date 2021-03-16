@@ -28,7 +28,6 @@ AppClasses.Views.Friends = class extends Backbone.View {
             })
 	}
 	deleteFriend(e) {
-		console.log("deleteFriend, e = ", e);
 		this.friendAction(e, "/api/friendships/destroy.json", "Friend deleted");
 	}
 	rejectFriend(e) {
@@ -42,7 +41,7 @@ AppClasses.Views.Friends = class extends Backbone.View {
 	}
 	updateRender() {
 		this.$el.html(this.template({
-			current_user: App.models.user.toJSON(),
+			user: App.models.user.toJSON(),
 			token: $('meta[name="csrf-token"]').attr('content'),
 			allUsers: App.collections.available_for_friends.toJSON()
 		}));
