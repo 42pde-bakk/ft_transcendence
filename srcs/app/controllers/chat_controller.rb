@@ -212,6 +212,9 @@ The channel owner can appoint or remove admins by doing:
 		if @groupchat.mutes.find_by(user: @current_user)
 			return render json: { error: "You seem to have been muted, kiddo!" }, status: :unauthorized
 		end
+                if (!validate_input(@raw_message))
+			return render json: { error: "Your message contains forbidden characters" }, status: :bad_request
+                end
 		@message = Message.create(msg: @raw_message, user: @current_user, chatroom: @groupchat) # Maybe add the channel as optional here too?
 
 		if @message.save
@@ -235,6 +238,9 @@ The channel owner can appoint or remove admins by doing:
 		if @raw_message == nil or @raw_message.empty?
 			return invalid_message
 		end
+                if (!validate_input(@raw_message))
+			return render json: { error: "Your message contains forbidden characters" }, status: :bad_request
+                end
 		@message = Message.create(msg: @raw_message, user: @current_user)
 		if @message.save
 			ChatChannel.broadcast_to(@current_user, {
