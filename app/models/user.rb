@@ -50,13 +50,10 @@ class User < ApplicationRecord
       last_seen: usr.last_seen,
       is_ingame: usr.is_ingame,
       is_queueing: usr.is_queueing,
-      finished_battles: usr.finished_battles,
       tourn_win: usr.tourn_win,
       tourn_score: usr.tourn_score,
-      battle_invites: Battle.clean_arr(usr.battle_invites),
       games_won: usr.games_won,
       games_lost: usr.games_lost
-
     }
     if usr.guild_id
       new_user[:guild] = Guild.clean(usr.guild);

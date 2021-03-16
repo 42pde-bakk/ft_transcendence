@@ -27,7 +27,7 @@ class NotificationController < ApplicationController
 		currenttime = DateTime.now.getlocal('+01:00').strftime("%H:%M:%p")
 		wt_begin = war.wt_begin.strftime("%H:%M:%p")
 		wt_end = war.wt_end.strftime("%H:%M:%p")
-		if currenttime < wt_begin || currenttime > wt_end
+		unless (wt_begin < wt_end && wt_begin <= currenttime && currenttime < wt_end) || (wt_begin > wt_end && (wt_begin <= currenttime || currenttime < wt_end))
 			return render json: { error: "Wartime hasn't started yet, you can only battle between #{wt_begin} and #{wt_end}! right now its #{currenttime}" }, status: :bad_request
 		end
 		if @current_user.guild.active_war.g2_unanswered_match_calls >= @current_user.guild.active_war.max_unanswered_match_calls
@@ -35,7 +35,7 @@ class NotificationController < ApplicationController
 If you don't know what that means, dont worry. The evalsheet is dogshit and just says we need to have something like this, but doesnt tell us how to handle it, so we just decided you cant send them any more.
 But you can try again tomorrow if the war is still going on then!" } , status: :bad_request
 		end
-		if Game.find_by(war: war) or Game.find_by(war: inverse_war) or Notification.find_by(war: inverse_war, is_accepted: false) or Notification.find_by(war: inverse_war, is_accepted: false)
+		if Game.find_by(war: war) or Game.find_by(war: inverse_war) or Notification.find_by(war: war, is_accepted: false) or Notification.find_by(war: inverse_war, is_accepted: false)
 			return render json: { error: "You cannot have more than 1 ongoing wartime battle at a time!" }, status: :bad_request
 		end
 
