@@ -192,9 +192,9 @@ The channel owner can appoint or remove admins by doing:
 		# puts "INNNNN send_groupmessage, params is #{params}"
 		unless @current_user and @groupchat
 			if @groupchat
-				return render json: { error: "Cannot find current user" }, status: :internal_server_error
+				return render json: { error: "Cannot find current user" }, status: :bad_request
 			else
-				return render json: { error: "Cannot find groupchat" }, status: :internal_server_error
+				return render json: { error: "Cannot find groupchat" }, status: :bad_request
 			end
 		end
 		if @groupchat.bans.find_by(user: @current_user)
@@ -233,7 +233,7 @@ The channel owner can appoint or remove admins by doing:
 
 	def send_dm
 		unless @current_user and @target_user
-			return render json: { error: "Cannot find current user" }, status: :internal_server_error
+			return render json: { error: "Cannot find current user" }, status: :bad_request
 		end
 		if @raw_message == nil or @raw_message.empty?
 			return invalid_message

@@ -33,7 +33,7 @@ class ChatroomController < ApplicationController
 
 	def update # responds to a PATCH/PUT request to "/api/chatroom/:id"
 		STDERR.puts "update_actiontype is #{@update_actiontype}"
-		return render json: { error: "Cannot find current user" }, status: :internal_server_error unless @current_user
+		return render json: { error: "Cannot find current user" }, status: :unauthorized unless @current_user
 		if @update_actiontype == "give_admin" or @update_actiontype == "remove_admin"
 			#SQL INJECTION PROTECTION
 			if (!validate_input(params[:targetuser_name]))
@@ -107,7 +107,7 @@ class ChatroomController < ApplicationController
 
 	def create # responds to a POST request on "/api/chatroom"
 		unless @current_user
-			return render json: { error: "Cannot find current user" }, status: :internal_server_error
+			return render json: { error: "Cannot find current user" }, status: :bad_request
 		end
 		if (!validate_input(@chatroom_name))
 			render json: { error: "Chatroom name contains forbidden characters." }, status: :bad_request
@@ -135,7 +135,7 @@ class ChatroomController < ApplicationController
 				newMember.save
 				render json: { status: "Succesfully created groupchat", id: myChatroom.id }, status: :ok
 			else
-				render json: { error: "error saving chatroom" }, status: :internal_server_error
+				render json: { error: "error saving chatroom" }, status: :bad_request
 			end
 		end
 	end
@@ -144,7 +144,7 @@ class ChatroomController < ApplicationController
 		return render json: { error: "Error. #{target_user.name} is already an admin of this channel." }, status: :bad_request if ChatroomAdmin.find_by(chatroom: @chatroom, user: target_user)
 		newadmin = ChatroomAdmin.create(chatroom: @chatroom, user: target_user)
 		return render json: { alert: "Succesfully made #{target_user.name} an admin of channel #{@chatroom.name}!" }, status: :ok if newadmin.save
-		render json: { error: "Error creating chatroomadmin." }, status: :internal_server_error
+		render json: { error: "Error creating chatroomadmin." }, status: :bad_request
 	end
 
 	def remove_admin_status(target_user)

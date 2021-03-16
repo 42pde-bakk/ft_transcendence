@@ -6,7 +6,7 @@ services:
   db:
     image: postgres:12.1
     volumes:
-      - ./srcs/tmp/db:/var/lib/postgresql/data
+      - ./tmp/db:/var/lib/postgresql/data
     ports:
       - "5555:5432"
     environment:
