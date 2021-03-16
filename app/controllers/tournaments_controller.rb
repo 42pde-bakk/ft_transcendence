@@ -106,7 +106,11 @@ def endTournament
 end
 
  def create
-
+  
+    if (!validate_input(params[:name]))
+      render json: {alert: "Tournament name contains forbidden characters"}, status: :bad_request
+      return
+    end
     @tournament = Tournament.new
     @tournament.name = params[:name]
     @tournament.long_paddle = params[:long_paddle]

@@ -69,6 +69,7 @@ class HomeController < ApplicationController
         puts("Error saving user")
       end
       @new_user_form = true
+      redirect_to "http://127.0.0.1:3000/home#profile/edit"
     end
     if (@user.reg_done == true)
       @new_user_form = false
