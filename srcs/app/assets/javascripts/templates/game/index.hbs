@@ -16,7 +16,7 @@
 								<a href="#profile" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
 								<a href="#friends" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Friends</a>
 								<a href="#guilds" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Guilds</a>
-                         					<a href="#tournaments" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tournaments</a>
+                                <a href="#tournaments" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tournaments</a>
 								<a href="#game" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Game</a>
 								<a href="#chat" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Chat</a>
 								{{#if current_user.admin }}
@@ -35,9 +35,10 @@
 			<div class="max-w-4xl mx-auto">
 				<div class="bg-white shadow overflow-hidden sm:rounded-lg">
 					{{#if current_user.is_queueing}}
-						<span class="cancel_queue_ladder cursor-pointer text-indigo-700 transition-colors duration-150 rounded-full focus:shadow-outline hover:text-white hover:bg-indigo-800">Cancel ladder queue</span>
+						<button onclick="App.collections.games.ladder_queue('/api/game/cancel_queue_ladder.json', 'cancel')" class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Cancel queue</button>
 					{{else}}
-						<span class="queue_ladder cursor-pointer text-indigo-700 transition-colors duration-150 rounded-full focus:shadow-outline hover:text-white hover:bg-indigo-800">Start queueing on ladder</span>
+						<button onclick="App.collections.games.ladder_queue('/api/game/queue_ladder.json', 'casual')" class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Start queueing casually</button>
+						<button onclick="App.collections.games.ladder_queue('/api/game/queue_ladder.json', 'ranked')" class="dropbtn text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Start queueing on ladder</button>
 					{{/if}}
 				</div>
 				<div class="bg-white shadow overflow-hidden sm:rounded-lg">

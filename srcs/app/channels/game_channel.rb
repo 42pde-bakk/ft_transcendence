@@ -6,7 +6,7 @@ class GameChannel < ApplicationCable::Channel
 	@@subscribers = Hash.new
 
 	def subscribed
-		STDERR.puts("In gamechannel::subscribed, params is #{params}")
+		# STDERR.puts("In gamechannel::subscribed, params is #{params}")
 		game_id = params[:game_id]
 		stream_from "game_channel_#{game_id}"
 		@@subscribers[game_id] ||= 0 # if it's nil, it'll be set to be 0, poggers
@@ -15,20 +15,21 @@ class GameChannel < ApplicationCable::Channel
 		@game = Game.find(game_id) rescue nil
 		if @game
 			@game.send_config
-		else
-			puts "Someting wrong"
 		end
 	end
 
 	def receive(data)
-		# STDERR.puts("Data is #{data}")
 	end
 
 	def input(data)
-		# user = User.find_by()
-		# STDERR.puts("inputting #{data}, game is #{@game}, params is #{params}, current_user is #{current_user.id}")
 		if @game
-			if current_user == @game.player1 then id = 0 elsif current_user == @game.player2 then id = 1 else return false end
+			if current_user == @game.player1
+				id = 0
+			elsif current_user == @game.player2
+				id = 1
+			else
+				return false
+			end
 			@game.add_input(data["type"], id)
 		end
 		true

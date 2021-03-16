@@ -9,7 +9,7 @@ class Player
 	def initialize(id, x, canvas_width, canvas_height, user, long_paddles)
 		@status = "ready"
 		@ai = false
-		if user == nil or user.log_token == nil then @ai = true else @ai = false end
+		@ai = (user == nil || user.log_token == nil)
 		if user
 			@name = user.name
 			@user_id = user.id
@@ -52,9 +52,10 @@ class Player
 	end
 
 	def toggle_ready
+		return if @ai
 		if @status == "waiting"
 			@status = "ready"
-		elsif @status == "ready" and !@ai
+		elsif @status == "ready"
 			@status = "waiting"
 		end
 	end
@@ -125,7 +126,6 @@ class Gamelogic
 		if @game.gametype == "duel"
 			add_wartime_points(winner, loser) if winner.guild&.active_war&.duel
 		elsif @game.gametype == "tournament"
-			# winner advances?
 			if winner.tournament_id
 				winner.tourn_score += 1
 				winner.save
@@ -134,6 +134,8 @@ class Gamelogic
 		elsif @game.gametype == "ranked"
 			readjust_personal_elo(winner, loser)
 			add_wartime_points(winner, loser) if winner.guild&.active_war&.ladder
+		# elsif @game.gametype == "casual"
+		# 	add_wartime_points(winner, loser) if winner.guild&.active_war&.ladder
 		elsif @game.gametype == "wartime"
 			add_wartime_points(winner, loser)
 		end
@@ -263,7 +265,7 @@ class Game < ApplicationRecord # This is a wrapper class
         @@Gamelogics = Hash.new
 
 	def mysetup
-		@@Gamelogics[id] = Gamelogic.new(self)
+		@@Gamelogics[self.id] = Gamelogic.new(self)
 	end
 
 	def toggle_players_ingame_status
@@ -292,11 +294,11 @@ class Game < ApplicationRecord # This is a wrapper class
 	end
 
 	def mydestructor
-          if self.tournament_id != nil
-            tourn = Tournament.find(self.tournament_id)
-            tourn.game_index += 1
-            tourn.save
-          end
+    if self.tournament_id != nil
+      tourn = Tournament.find(self.tournament_id)
+      tourn.game_index += 1
+      tourn.save
+    end
 		@@Gamelogics[id] = nil
 	end
 end

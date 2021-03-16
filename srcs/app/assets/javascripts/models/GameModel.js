@@ -60,8 +60,11 @@ AppClasses.Collections.Games = class extends Backbone.Collection {
 		})
 	}
 
-	ladder_queue(actionurl) {
-		let data = { authenticity_token: $('meta[name="csrf-token"]').attr('content') };
+	ladder_queue(actionurl, queue_actiontype) {
+		let data = {
+			authenticity_token: $('meta[name="csrf-token"]').attr('content'),
+			queue_actiontype: queue_actiontype
+		};
 
 		$.ajax({
 			url: actionurl,
