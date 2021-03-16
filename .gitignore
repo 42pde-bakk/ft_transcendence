@@ -6,6 +6,7 @@
 
 # Ignore bundler config.
 /srcs/.bundle
+/tmp/
 
 # Ignore the default SQLite database.
 srcs/db/*.sqlite3
@@ -35,7 +36,7 @@ srcs/tmp/pids/*
 /srcs/public/packs
 /srcs/public/packs-test
 /srcs/node_modules
-/srcs//yarn-error.log
+/srcs/yarn-error.log
 /srcs/yarn-debug.log*
 /srcs.yarn-integrity
 
