@@ -1,0 +1,92 @@
+{{#if current_user.ban}}
+<div>
+Your account has been banned.
+<div>
+{{else}}
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="bg-gray-100 h-screen">
+    <div>
+        <nav class="bg-gray-800">
+            <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+                <div class="relative flex items-center justify-between h-16">
+                    <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+                        <div class="flex-shrink-0 flex items-center">
+                            <img class="block lg:hidden h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow">
+                            <img class="hidden lg:block h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg" alt="Workflow">
+                        </div>
+                        <div class="hidden sm:block sm:ml-6">
+                            <div class="flex space-x-4">
+                                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                                <a href="#profile" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+                                <a href="#friends" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Friends</a>
+                                <a href="#guilds" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Guilds</a>
+                                <a href="#tournaments" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Tournaments</a>
+	                            <a href="#game" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Game</a>
+	                            <a href="#chat" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Chat</a>
+	                            {{#if user.admin }}
+		                            <a href="#admin" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
+	                            {{/if}}
+	                            <a href="/logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div>
+        <div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                    <div class="px-4 py-5 sm:px-6">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                            New Tournament
+                        </h3>
+                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                            Fill out the form to create a new tournament
+                        </p>
+                    </div>
+                    <form id="createTournamentForm" action="api/tournaments"
+                          accept-charset="UTF-8" method="post">
+                        <input type="hidden"
+                               name="authenticity_token"
+                               value="{{token}}">
+                        <div class="shadow overflow-hidden sm:rounded-md">
+                            <div class="px-4 py-5 bg-white sm:p-6">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label for="tournament_name_name" class="block text-lg w-full text-gray-700 pb-2">Tournament Name</label>
+                                        <input type="text" value="" name="tournament[name]" id="tournament_name" class="border py-2 px-3 w-1/2 focus:ring-indigo-500 focus:border-indigo-500 shadow-inner rounded-md" required>
+                                    </div>
+                                </div>
+                            </div>
+			<div class="flex flex-col">
+                                        <span class="text-gray-700 mt-2">Games with extra speed</span>
+                                            <label class="inline-flex items-center">
+                                                <input type="checkbox" class="extra_speed_checkbox rounded-md" id="long_paddle_checkbox" name="tournament[extra_speed]">
+                                                <span class="ml-2">Extra Speed</span>
+                                            </label>
+                        </div>
+			<div class="flex flex-col">
+                                        <span class="text-gray-700 mt-2">Games with long paddle</span>
+                                            <label class="inline-flex items-center">
+                                                <input type="checkbox" class="long_paddle_checkbox rounded-md" id="long_paddle_checkbox" name="tournament[long_paddle]">
+                                                <span class="ml-2">Long Paddle</span>
+                                            </label>
+                         </div>
+
+                            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                <a href="#admin" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cancel</a>
+                                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}

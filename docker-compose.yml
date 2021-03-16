@@ -6,7 +6,7 @@ services:
   db:
     image: postgres:12.1
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - ./srcs/tmp/db:/var/lib/postgresql/data
     ports:
       - "5555:5432"
     environment:
@@ -15,7 +15,7 @@ services:
   web:
     build: .
     volumes:
-      - .:/app
+      - ./srcs:/app
     ports:
       - "3000:3000"
     depends_on:
