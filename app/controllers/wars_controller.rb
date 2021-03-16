@@ -42,7 +42,7 @@ class WarsController < ApplicationController
       res_with_error("Somehow, the war you want to accept does not exist", :bad_request)
       return
     end
-    CheckIfWarEndedJob.set(wait_until: inverse_war.end).perform_later(inverse_war)
+    CheckIfWarEndedJob.set(wait_until: inverse_war.end).perform_later(inverse_war.id)
     respond_to do |format|
       format.html { redirect_to "/#guilds", notice: 'War request sent.' }
       format.json { render json: { msg: "War request accepted" }, status: :ok }
@@ -73,6 +73,7 @@ class WarsController < ApplicationController
                                 :wt_begin,
                                 :wt_end,
                                 :time_to_answer,
+                                :max_unanswered_match_calls,
                                 :ladder,
                                 :tournament,
                                 :duel,

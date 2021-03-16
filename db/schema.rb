@@ -15,19 +15,6 @@ ActiveRecord::Schema.define(version: 2021_03_12_203128) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "battles", force: :cascade do |t|
-    t.bigint "user1_id", null: false
-    t.bigint "user2_id", null: false
-    t.boolean "finished", default: false
-    t.boolean "accepted", default: false
-    t.integer "winner_id"
-    t.integer "time_to_accept"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user1_id"], name: "index_battles_on_user1_id"
-    t.index ["user2_id"], name: "index_battles_on_user2_id"
-  end
-
   create_table "blocked_users", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "towards_id"
@@ -98,6 +85,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_203128) do
   create_table "games", force: :cascade do |t|
     t.bigint "player1_id"
     t.bigint "player2_id"
+    t.bigint "war_id"
     t.string "name_player1"
     t.string "name_player2"
     t.string "winner", default: "Noone"
@@ -111,6 +99,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_203128) do
     t.index ["player1_id"], name: "index_games_on_player1_id"
     t.index ["player2_id"], name: "index_games_on_player2_id"
     t.index ["tournament_id"], name: "index_games_on_tournament_id"
+    t.index ["war_id"], name: "index_games_on_war_id"
   end
 
   create_table "guilds", force: :cascade do |t|
@@ -132,19 +121,22 @@ ActiveRecord::Schema.define(version: 2021_03_12_203128) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.boolean "is_accepted"
+    t.boolean "is_accepted", default: false
+    t.boolean "is_declined", default: false
     t.string "kind"
     t.string "description"
     t.string "name_sender"
     t.string "name_receiver"
     t.bigint "sender_id"
     t.bigint "receiver_id"
+    t.bigint "war_id"
     t.boolean "extra_speed"
     t.boolean "long_paddles"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
+    t.index ["war_id"], name: "index_notifications_on_war_id"
   end
 
   create_table "tournaments", force: :cascade do |t|
@@ -200,6 +192,9 @@ ActiveRecord::Schema.define(version: 2021_03_12_203128) do
     t.datetime "wt_begin"
     t.datetime "wt_end"
     t.integer "time_to_answer", default: 10
+    t.integer "max_unanswered_match_calls", default: 5
+    t.integer "g1_unanswered_match_calls", default: 0
+    t.integer "g2_unanswered_match_calls", default: 0
     t.boolean "ladder", default: false
     t.boolean "tournament", default: false
     t.boolean "duel", default: false
@@ -212,8 +207,6 @@ ActiveRecord::Schema.define(version: 2021_03_12_203128) do
     t.index ["guild2_id"], name: "index_wars_on_guild2_id"
   end
 
-  add_foreign_key "battles", "users", column: "user1_id"
-  add_foreign_key "battles", "users", column: "user2_id"
   add_foreign_key "blocked_users", "users", column: "towards_id"
   add_foreign_key "chatrooms", "users", column: "owner_id"
   add_foreign_key "friendships", "users"

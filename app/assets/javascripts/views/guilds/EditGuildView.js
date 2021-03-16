@@ -11,7 +11,8 @@ AppClasses.Views.EditGuild = class extends Backbone.View {
 
     submit(e) {
         e.preventDefault();
-        let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: App.models.user.toJSON().guild.id, name: $('#guild_name').val(), anagram: $('#anagram').val()};
+        let attr = {authenticity_token: $('meta[name="csrf-token"]').attr('content'), id: App.models.user.toJSON().guild.id, name: $('#guild_name').val(), anagram: $('#anagram').val(),
+            max_battle_invites: $('#max_battle_invites').val()};
         var guild = new AppClasses.Models.Guild();
         guild.urlRoot = "/api/guilds";
         guild.save(attr, {patch: true,

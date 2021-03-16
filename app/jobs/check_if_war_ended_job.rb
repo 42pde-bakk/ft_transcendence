@@ -19,8 +19,14 @@ class CheckIfWarEndedJob < ApplicationJob
     war.guild2.save
   end
 
-  def perform(war)
+  def perform(war_id)
+    war = War.find_by(id: war_id)
+    return unless war
     if war.end <= Time.now && war.finished == false
+      war.guild1.unanswered_match_calls = 0
+      war.guild1.save
+      war.guild2.unanswered_match_calls = 0
+      war.guild2.save
       if war.g1_points == war.g2_points
         inverse_war = War.where(guild1_id: war.guild2_id, guild2_id: war.guild1_id).first
         war.finished = true

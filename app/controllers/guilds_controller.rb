@@ -226,12 +226,10 @@ class GuildsController < ApplicationController
 	end
     if !guild_params['name'] || check_len(guild_params['name'], 3, 20)
       res_with_error("Name length must be >= 3 and <= 20", :bad_request)
-      puts "IN HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       return false
     end
     if !guild_params['anagram'] || check_len(guild_params['anagram'], 2, 5)
       res_with_error("Anagram length must be >= 2 and <= 5", :bad_request)
-      puts "IN HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       return false
     end
     (guild_params)

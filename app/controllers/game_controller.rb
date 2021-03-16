@@ -69,6 +69,7 @@ class GameController < ApplicationController
 
 	def create_game(usr1, usr2, gametype, extra_speed, long_paddles)
 		game = Game.create(player1: usr1, player2: usr2, name_player1: usr1.name, name_player2: usr2.name, gametype: gametype, extra_speed: extra_speed, long_paddles: long_paddles)
+		game.war = usr1.guild&.active_war if gametype == "wartime"
 		game.mysetup
 		game.save
 

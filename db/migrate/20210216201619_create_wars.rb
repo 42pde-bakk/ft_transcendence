@@ -14,6 +14,9 @@ class CreateWars < ActiveRecord::Migration[6.1]
       t.datetime :wt_begin
       t.datetime :wt_end
       t.integer :time_to_answer, default: 10 # in min
+      t.integer :max_unanswered_match_calls, default: 5
+      t.integer :g1_unanswered_match_calls, default: 0
+      t.integer :g2_unanswered_match_calls, default: 0
       t.boolean :ladder, default: false
       t.boolean :tournament, default: false
       t.boolean :duel, default: false
