@@ -35,6 +35,10 @@ class ChatroomController < ApplicationController
 		STDERR.puts "update_actiontype is #{@update_actiontype}"
 		return render json: { error: "Cannot find current user" }, status: :internal_server_error unless @current_user
 		if @update_actiontype == "give_admin" or @update_actiontype == "remove_admin"
+			#SQL INJECTION PROTECTION
+			if (!validate_input(params[:targetuser_name]))
+				return render json: {error: "Username contains forbidden characters"}, status: :bad_request
+			end
 			target_user = User.find_by(name: params[:targetuser_name])
 			return render json: { error: "Error finding the user by the name of #{params[:targetuser_name]}"}, status: :bad_request unless target_user
 			return give_admin_status(target_user) if @update_actiontype == "give_admin"
@@ -104,6 +108,14 @@ class ChatroomController < ApplicationController
 	def create # responds to a POST request on "/api/chatroom"
 		unless @current_user
 			return render json: { error: "Cannot find current user" }, status: :internal_server_error
+		end
+		if (!validate_input(@chatroom_name))
+			render json: { error: "Chatroom name contains forbidden characters." }, status: :bad_request
+			return
+		end	
+		if (!(@chatroom_pw.empty?) && !validate_input(@chatroom_pw))
+			render json: { error: "Chatroom password contains forbidden characters." }, status: :bad_request
+			return
 		end
 		if @chatroom_name == nil or @chatroom_name.empty?
 			render json: { error: "You need to specify a valid name" }, status: :bad_request

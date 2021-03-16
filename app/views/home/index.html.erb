@@ -6,6 +6,7 @@
 		App.routers.main = new AppClasses.Routers.Main();
 		App.routers.profile = new AppClasses.Routers.Profile();
 		App.routers.friends = new AppClasses.Routers.FriendsRouter();
+		App.routers.tournaments = new AppClasses.Routers.TournamentsRouter();
 		App.routers.admin = new AppClasses.Routers.AdminRouter();
 		App.routers.guilds = new AppClasses.Routers.GuildsRouter();
 		App.routers.games = new AppClasses.Routers.GameRouter();
@@ -16,10 +17,34 @@
     }
     App.models.user.fetch();
 
+    if (!App.collections.tournament_users) {
+        App.collections.tournament_users = new AppClasses.Collections.TournamentUsers();
+    }
+    App.collections.tournament_users.myFetch();
+         
+    if (!App.collections.tournament_current_game) {
+        App.collections.tournament_current_game = new AppClasses.Collections.TournamentCurrentGame();
+    }
+    App.collections.tournament_current_game.myFetch();
+
+
+
     if (!App.collections.users_no_self) {
         App.collections.users_no_self = new AppClasses.Collections.UsersNoSelf();
     }
     App.collections.users_no_self.myFetch();
+
+
+    if (!App.collections.upcoming_tournaments) {
+        App.collections.upcoming_tournaments = new AppClasses.Collections.UpcomingTournaments();
+    }
+    App.collections.upcoming_tournaments.myFetch();
+
+
+    if (!App.collections.ongoing_tournaments) {
+        App.collections.ongoing_tournaments = new AppClasses.Collections.OngoingTournaments();
+    }
+    App.collections.ongoing_tournaments.myFetch();
 
 
     if (!App.collections.users_not_banned) {
