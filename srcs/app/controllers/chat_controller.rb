@@ -53,7 +53,7 @@ class ChatController < ApplicationController
 		if @groupchat.admins.find_by(user: @current_user) then return Clearance_level::Channel_admin end
 		if @current_user.owner then return Clearance_level::Server_owner end
 		if @current_user.admin then return Clearance_level::Server_admin end
-		Clearance_level::User
+		return Clearance_level::User
 	end
 
 	def handle_password_command(arr)

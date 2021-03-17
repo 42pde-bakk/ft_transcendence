@@ -13,6 +13,7 @@ srcs/db/*.sqlite3
 srcs/db/*.sqlite3-*
 
 # Ignore all logfiles and tempfiles.
+srcs/log/*.log
 srcs/log/*
 srcs/tmp/*
 !/log/.keep
