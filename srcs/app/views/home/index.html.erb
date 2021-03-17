@@ -101,13 +101,13 @@
 			Backbone.history.start(); // using anchor for routing
 		}
 
-		// const seconds = 15; // update every N seconds
-    // setInterval(() => {
-    //     App.models.user.fetch();
-    //     App.collections.available_for_friends.myFetch();
-    //     App.collections.available_for_guild.myFetch();
-    //     console.log("every 15 seconds, I fire!");
-    // }, 1000 * seconds);
+		const seconds = 15; // update every N seconds
+    setInterval(() => {
+        App.models.user.fetch();
+        App.collections.available_for_friends.myFetch();
+        App.collections.available_for_guild.myFetch();
+        console.log("every 15 seconds, I fire!");
+    }, 1000 * seconds);
 	}
 
   initApp();
