@@ -50,6 +50,7 @@ class User < ApplicationRecord
       last_seen: usr.last_seen,
       is_ingame: usr.is_ingame,
       is_queueing: usr.is_queueing,
+      queue_type: usr.queue_type,
       tourn_win: usr.tourn_win,
       tourn_score: usr.tourn_score,
       games_won: usr.games_won,

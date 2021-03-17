@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_203128) do
     t.datetime "last_seen"
     t.boolean "is_ingame", default: false
     t.boolean "is_queueing", default: false
+    t.string "queue_type", default: ""
     t.integer "games_won", default: 0
     t.integer "games_lost", default: 0
     t.datetime "created_at", precision: 6, null: false
