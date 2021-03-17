@@ -18,6 +18,7 @@ class NotificationController < ApplicationController
 
 	def create_wartime_duel_request
 		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
+		return render json: { error: "Error sending wartime duel request while being queued" }, status: :bad_request if @current_user.is_queueing
 		g1 = @current_user.guild.active_war.guild1_id
 		g2 = @current_user.guild.active_war.guild2_id
 		if g1 == @current_user.guild.id then @target_guild = Guild.find_by(id: g2) elsif g2 == @current_user.guild.id then @target_guild = Guild.find_by(id: g1) end
@@ -56,6 +57,7 @@ But you can try again tomorrow if the war is still going on then!" } , status: :
 		unless @current_user then return render json: { error: "Can't verify your auth token, sorry bro" }, status: :unauthorized end
 		unless @target_user then return render json: { error: "Can't find the user you're trying to send a notification to, sorry bro" }, status: :bad_request end
 		unless @notification_type then return render json: { error: "Don't understand what type of notification you're trying to create" }, status: :bad_request end
+		return render json: { error: "Error creating notification while being queued" }, status: :bad_request if @current_user.is_queueing
 		if @game_options
 			extra_speed = @game_options[:extra_speed]
 			long_paddles = @game_options[:long_paddles]
@@ -83,6 +85,7 @@ But you can try again tomorrow if the war is still going on then!" } , status: :
 		unless @notification then return render json: { error: "Can't find the notification you're accepting, my man. Did it expire?" }, status: :bad_request end
 		if Game.find_by(player2: @current_user, is_finished: false) or Game.find_by(player1: @current_user, is_finished: false) then return render json: { error: "Error accepting invite, you must not already be in a game" }, status: :not_acceptable end
 		if Game.find_by(player2: @target_user, is_finished: false) or Game.find_by(player1: @target_user, is_finished: false) then return render json: { error: "Error accepting invite, opponent must not already be in a game" }, status: :not_acceptable end
+		return render json: { error: "Error accepting wartime duel request while being queued" }, status: :bad_request if @current_user.is_queueing
 
 		@notification.update_column(:is_accepted, true)
 		NotificationChannel.broadcast_to(@notification.sender, {

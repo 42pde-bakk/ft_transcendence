@@ -262,7 +262,7 @@ class Game < ApplicationRecord # This is a wrapper class
 	belongs_to :player1, :class_name => "User", required: true
 	belongs_to :player2, :class_name => "User", required: false
 	belongs_to :tournament, :class_name => "Tournament", required: false
-        @@Gamelogics = Hash.new
+  @@Gamelogics = Hash.new
 
 	def mysetup
 		@@Gamelogics[self.id] = Gamelogic.new(self)
