@@ -8,7 +8,11 @@ class Message < ApplicationRecord
 		elsif message_receiver.blocked_users.find_by(towards: self.user) # elsif BlockedUser.find_by(user: message_receiver, towards: self.user)
 			"[Blocked User]: generic message"
 		else
-			"[#{self.user.name}]: #{self.msg}"
-		end
+                  if self.user.guild != nil
+                    "[#{self.user.guild.anagram} #{self.user.name}]: #{self.msg}"
+                  else
+                    "[#{self.user.name}]: #{self.msg}"
+                  end
+                  end
 	end
 end
