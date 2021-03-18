@@ -1,0 +1,627 @@
+{{#if current_user.ban}}
+    <div>
+        Your account has been banned.
+    </div>
+{{else}}
+        <div class="bg-gradient-to-br from-yellow-100 via-red-100 to-pink-100 p-12 h-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 rounded-lg">
+                <div class="lg:text-center pt-4">
+                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Guilds</h2>
+
+            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                You're part of the {{current_user.guild.name}} guild!
+            </p>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                You can find all the info regarding your guild on this page
+            </p>
+        </div>
+        <div>
+            <div class="max-w-7xl mx-auto pt-12 pb-6 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                        <div class="px-4 py-5 sm:px-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                Guild Stats
+                            </h3>
+                            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                This contains everything you need to know about your guild
+                            </p>
+                        </div>
+                        <div class="border-t border-gray-200">
+                            <dl>
+                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        Anagram
+                                    </dt>
+                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                        {{guild.anagram}}
+                                    </dd>
+                                </div>
+                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        ID
+                                    </dt>
+                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                        {{guild.id}}
+                                    </dd>
+                                </div>
+                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        Owner
+                                    </dt>
+                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                        {{guild.owner.name}}
+                                    </dd>
+                                </div>
+                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        Points
+                                    </dt>
+                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                        {{guild.points}}
+                                    </dd>
+                                </div>
+                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        About
+                                    </dt>
+                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                        Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+                                    </dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+<!--            Begin war section-->
+            {{#if guild.active_war}}
+                <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                            <div class="px-4 py-5 sm:px-6">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    Current War
+                                    <p class="px-2 mb-4 inline-flex text-xs leading-5 font-semibold rounded-full {{print_color_war guild.active_war.start guild.active_war.end}}">{{print_status_war guild.active_war.start guild.active_war.end}}</p>
+                                </h3>
+                                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                    This contains everything you need to know about the current guild war
+                                </p>
+                            </div>
+                            <div class="border-t border-gray-200">
+                                <dl>
+                                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">
+                                            Opponent
+                                        </dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            {{guild.active_war.opponent_name}}
+                                        </dd>
+                                    </div>
+	                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+		                                <dt class="text-sm font-medium text-gray-500">
+			                                Score
+		                                </dt>
+		                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+			                                {{guild.active_war.g1_points}} - {{guild.active_war.g2_points}}
+		                                </dd>
+	                                </div>
+                                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">
+                                            Dates
+                                        </dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            From {{date_format guild.active_war.start}} until {{date_format guild.active_war.end}}
+                                        </dd>
+                                    </div>
+                                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">
+                                            War times
+                                        </dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            Daily from {{date_format guild.active_war.wt_begin format="HH:mm"}} until {{date_format guild.active_war.wt_end format="HH:mm"}}
+                                        </dd>
+                                    </div>
+                                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">
+                                            Prize
+                                        </dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            {{guild.active_war.prize}}
+                                        </dd>
+                                    </div>
+                                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">
+                                            Time to answer (in minutes)
+                                        </dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            {{guild.active_war.time_to_answer}}
+                                        </dd>
+                                    </div>
+	                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+		                                <dt class="text-sm font-medium text-gray-500">
+			                                Max unanswered match calls
+		                                </dt>
+		                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+			                                {{guild.active_war.max_unanswered_match_calls}}
+		                                </dd>
+	                                </div>
+	                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">
+                                            Types of battle that count towards war
+                                        </dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            Ladder: {{guild.active_war.ladder}} <br>
+                                            Tournament: {{guild.active_war.tournament}} <br>
+                                            Duel: {{guild.active_war.duel}}
+                                        </dd>
+                                    </div>
+	                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+		                                <dt class="text-sm font-medium text-gray-500">
+			                                Additional features
+		                                </dt>
+		                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+			                                Extra Speed: {{guild.active_war.extra_speed}} <br>
+			                                Long Paddles: {{guild.active_war.long_paddles}}
+		                                </dd>
+	                                </div>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div>
+                        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                            <div class="max-w-4xl mx-auto">
+                                <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                    <div class="md:flex px-4 py-5 sm:px-6">
+                                        <div class="md:w-48">
+                                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                                Ready to battle?
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                                    <table class="min-w-full divide-y divide-gray-200">
+                                                        <tbody class="bg-white divide-y divide-gray-200">
+                                                        <p class="clickToInviteBattle cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">
+                                                            BATTLE!
+                                                        </p>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                            <div class="max-w-4xl mx-auto">
+                                <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                    <div class="md:flex px-4 py-5 sm:px-6">
+                                        <div class="md:w-48">
+                                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+	                                            You can find your battle invites in incoming notifications on the home page!
+                                            </h3>
+                                            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                                You can find your battle invites in incoming notifications on the home page!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            {{else}}
+                <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                            <div class="px-4 py-5 sm:px-6">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    War invites
+                                </h3>
+                                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                    Invitations from other guilds. When you're in an active war, the details will appear here.
+                                </p>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                            <table class="min-w-full divide-y divide-gray-200">
+                                                <thead class="bg-white">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Opponent
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Info
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Date
+                                                    </th>
+	                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+		                                                Counting gamemodes
+	                                                </th>
+	                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+		                                                Additional features
+	                                                </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200">
+                                                {{#each guild.war_invites}}
+                                                    <tr>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {{invite_name}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        Prize: {{prize}} <br>
+	                                                                    Time to answer: {{time_to_answer}} mins <br>
+	                                                                    Max unanswered match calls: {{max_unanswered_match_calls}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+	                                                    <td class="px-6 py-4 whitespace-nowrap">
+		                                                    <div class="flex items-center">
+			                                                    <div class="ml-4">
+				                                                    <div class="text-sm font-medium text-gray-900">
+					                                                    {{date_format guild.active_war.start}} - {{date_format guild.active_war.end}}
+				                                                    </div>
+			                                                    </div>
+		                                                    </div>
+	                                                    </td>
+	                                                    <td class="px-6 py-4 whitespace-nowrap">
+		                                                    <div class="flex items-center">
+			                                                    <div class="ml-4">
+				                                                    <div class="text-sm font-medium text-gray-900">
+					                                                    Ladder: {{ladder}} <br>
+					                                                    Tournament: {{tournament}} <br>
+					                                                    Duel: {{duel}}
+				                                                    </div>
+			                                                    </div>
+		                                                    </div>
+	                                                    </td>
+	                                                    <td class="px-6 py-4 whitespace-nowrap">
+		                                                    <div class="flex items-center">
+			                                                    <div class="ml-4">
+				                                                    <div class="text-sm font-medium text-gray-900">
+					                                                    Extra speed: {{extra_speed}} <br>
+					                                                    Long paddles: {{long_paddles}} <br>
+				                                                    </div>
+			                                                    </div>
+		                                                    </div>
+	                                                    </td>
+                                                        <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
+                                                            <p class="clickToAcceptWar cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                Accept
+                                                                <span hidden class="War">{{guild1_id}}</span>
+                                                            </p>
+                                                            <p class="clickToRejectWar cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                Reject
+                                                                <span hidden class="War">{{guild1_id}}</span>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-4">
+                            <a href="#guilds/new_war" class="cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">
+                                <svg class="h-5 w-5 mr-1" mlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd" />
+                                </svg>
+                                New War
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                        <div class="md:flex px-4 py-5 sm:px-6">
+                            <div class="md:w-48">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    Past wars
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-white">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Opponent
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Points
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Result
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                            {{#each current_user.guild.finished_wars}}
+                                                <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="flex items-center">
+                                                            <div class="ml-4">
+                                                                <div class="text-sm font-medium text-gray-900">
+                                                                    {{opponent_name}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="flex items-center">
+                                                            <div class="ml-4">
+                                                                <div class="text-sm font-medium text-gray-900">
+                                                                    {{prize}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="flex items-center">
+                                                            <div class="ml-4">
+                                                                <div class="text-sm font-medium text-gray-900">
+                                                                    {{result}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--            End war section-->
+        </div>
+        <div>
+            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                        <div class="max-w-4xl mx-auto">
+                            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div class="md:flex px-4 py-5 sm:px-6">
+                                    <div class="md:w-48">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                            Members
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col">
+                                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                                <table class="min-w-full divide-y divide-gray-200">
+                                                    <thead class="bg-white">
+                                                    <tr>
+                                                        <th scope="col"
+                                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            Name
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white divide-y divide-gray-200">
+                                                    {{#each current_user.guild.users}}
+                                                        <tr>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                <div class="flex items-center">
+                                                                    <div class="flex-shrink-0 h-10 w-10">
+                                                                        <img class="h-10 w-10 rounded-full"
+                                                                             src={{img_path}}>
+                                                                    </div>
+                                                                    <div class="ml-4">
+                                                                        <div class="text-sm font-medium text-gray-900">
+                                                                            {{name}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
+                                                            {{#if ../current_user.guild_officer}}
+                                                                {{#unless guild_owner}}
+                                                                    <p class="clickToRemoveMember cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                        Remove
+                                                                        <span hidden class="remove">{{id}}</span>
+                                                                    </p>
+                                                                {{/unless}}
+                                                            {{/if}}
+                                                            {{#if ../current_user.guild_owner}}
+                                                                {{#unless guild_owner}}
+                                                                    {{#unless guild_officer}}
+                                                                        <p class="clickToSetOfficer cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                            Make officer
+                                                                            <span hidden class="officer">{{id}}</span>
+                                                                        </p>
+                                                                    {{else}}
+                                                                        <p class="clickToUnsetOfficer cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                            Make normal member
+                                                                            <span hidden class="officer">{{id}}</span>
+                                                                        </p>
+                                                                    {{/unless}}
+                                                                {{/unless}}
+                                                            </td>
+                                                            {{/if}}
+                                                        </tr>
+                                                    {{/each}}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-4">
+                                <p class="clickToRemoveMember cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">
+                                    Leave Guild
+                                    <span hidden class="remove">{{current_user.id}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                        <div class="md:flex px-4 py-5 sm:px-6">
+                            <div class="md:w-48">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    Guilds Ranking
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-white">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Name
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Points
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                            {{#each all_guilds}}
+                                                <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="flex items-center">
+                                                            <div class="ml-4">
+                                                                <div class="text-sm font-medium text-gray-900">
+                                                                    {{name}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="flex items-center">
+                                                            <div class="ml-4">
+                                                                <div class="text-sm font-medium text-gray-900">
+                                                                    {{points}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{#if current_user.guild_owner}}
+                <div>
+                    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                        <div class="max-w-4xl mx-auto">
+                            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div class="md:flex px-4 py-5 sm:px-6">
+                                    <div class="md:w-48">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                            Invite
+                                        </h3>
+                                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                            These users can be invited to your guild
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col">
+                                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                                <table class="min-w-full divide-y divide-gray-200">
+                                                    <thead class="bg-white">
+                                                    <tr>
+                                                        <th scope="col"
+                                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            Name
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white divide-y divide-gray-200">
+                                                    {{#each users}}
+                                                        <tr>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                <div class="flex items-center">
+                                                                    <div class="flex-shrink-0 h-10 w-10">
+                                                                        <img class="h-10 w-10 rounded-full"
+                                                                             src={{img_path}}>
+                                                                    </div>
+                                                                    <div class="ml-4">
+                                                                        <div class="text-sm font-medium text-gray-900">
+                                                                            {{name}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="px-6 py-4 space-x-2 whitespace-nowrap flex justify-end">
+                                                                <p class="clickToInviteMember cursor-pointer cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                    Invite
+                                                                    <span hidden class="Invite">{{id}}</span>
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                    {{/each}}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{#if current_user.guild_owner}}
+                                <div class="pt-4">
+                                    <a href="#guilds/edit"
+                                       class="cursor-pointer cursor-pointer mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">
+                                        Update guild settings
+                                    </a>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+{{/if}}

@@ -1,0 +1,114 @@
+<div id="app"></div>
+<script type="text/javascript">
+
+	function initApp() {
+		App.templates = HandlebarsTemplates;
+		App.routers.main = new AppClasses.Routers.Main();
+		App.routers.profile = new AppClasses.Routers.Profile();
+		App.routers.friends = new AppClasses.Routers.FriendsRouter();
+		App.routers.tournaments = new AppClasses.Routers.TournamentsRouter();
+		App.routers.admin = new AppClasses.Routers.AdminRouter();
+		App.routers.guilds = new AppClasses.Routers.GuildsRouter();
+		App.routers.games = new AppClasses.Routers.GameRouter();
+		App.routers.chats = new AppClasses.Routers.ChatRouter();
+
+    if (!App.models.user) {
+        App.models.user = new AppClasses.Models.User(App.data.user);
+    }
+    App.models.user.fetch();
+
+    if (!App.collections.tournament_users) {
+        App.collections.tournament_users = new AppClasses.Collections.TournamentUsers();
+    }
+    App.collections.tournament_users.myFetch();
+         
+    if (!App.collections.tournament_current_game) {
+        App.collections.tournament_current_game = new AppClasses.Collections.TournamentCurrentGame();
+    }
+    App.collections.tournament_current_game.myFetch();
+
+
+
+    if (!App.collections.users_no_self) {
+        App.collections.users_no_self = new AppClasses.Collections.UsersNoSelf();
+    }
+    App.collections.users_no_self.myFetch();
+
+
+    if (!App.collections.upcoming_tournaments) {
+        App.collections.upcoming_tournaments = new AppClasses.Collections.UpcomingTournaments();
+    }
+    App.collections.upcoming_tournaments.myFetch();
+
+
+    if (!App.collections.ongoing_tournaments) {
+        App.collections.ongoing_tournaments = new AppClasses.Collections.OngoingTournaments();
+    }
+    App.collections.ongoing_tournaments.myFetch();
+
+
+    if (!App.collections.users_not_banned) {
+        App.collections.users_not_banned = new AppClasses.Collections.UsersNotBanned();
+    }
+    App.collections.users_not_banned.myFetch();
+
+    if (!App.collections.users_not_admin) {
+        App.collections.users_not_admin = new AppClasses.Collections.UsersNotAdmin();
+    }
+    App.collections.users_not_admin.myFetch();
+    
+  
+    if (!App.collections.users_admin_only) {
+        App.collections.users_admin_only = new AppClasses.Collections.UsersAdminOnly();
+    }
+    App.collections.users_admin_only.myFetch();
+
+    if (!App.collections.available_for_guild) {
+        App.collections.available_for_guild = new AppClasses.Collections.AvailableForGuild();
+    }
+    App.collections.available_for_guild.myFetch();
+
+    if (!App.collections.available_for_friends) {
+        App.collections.available_for_friends = new AppClasses.Collections.NotFriends();
+    }
+    App.collections.available_for_friends.myFetch();
+
+    if (!App.collections.guilds) {
+        App.collections.guilds = new AppClasses.Collections.Guilds();
+    }
+    App.collections.guilds.fetch();
+
+    if (!App.collections.groupchats)
+      App.collections.groupchats = new AppClasses.Collections.Groupchats();
+    if (!App.collections.notifications)
+      App.collections.notifications = new AppClasses.Collections.Notifications();
+		if (!App.collections.groupchats) {
+			App.collections.groupchats = new AppClasses.Collections.Groupchats();
+		}
+		App.collections.groupchats.myFetch();
+
+		if (!App.collections.notifications) {
+			App.collections.notifications = new AppClasses.Collections.Notifications();
+		}
+		App.collections.notifications.myFetch();
+
+    if (!App.collections.games)
+    	App.collections.games = new AppClasses.Collections.Games();
+    App.collections.games.myFetch();
+
+		if(!Backbone.History.started)  {
+			console.log("Backbone history started");
+			Backbone.history.start(); // using anchor for routing
+		}
+
+		const seconds = 15; // update every N seconds
+    setInterval(() => {
+        App.models.user.fetch();
+        App.collections.available_for_friends.myFetch();
+        App.collections.available_for_guild.myFetch();
+        console.log("every 15 seconds, I fire!");
+    }, 1000 * seconds);
+	}
+
+  initApp();
+</script>
