@@ -6,8 +6,8 @@ AppClasses.Views.NewWar = class extends Backbone.View {
         super(opts);
         this.tagName = "div";
         this.template = App.templates["guilds/NewWar"];
-        this.listenTo(App.collections.guilds, "sync change reset add remove", this.updateRender);
-        this.updateRender(); // render the template only one time, unless model changed
+        this.listenTo(App.collections.guilds, "change reset add remove", this.updateRender);
+        this.updateRender();
     }
 
     submit(e) {
