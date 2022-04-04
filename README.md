@@ -1,4 +1,9 @@
+# Ft_transcendence
+## Project status: [![pde-bakk's 42 ft_transcendence Score](https://badge42.vercel.app/api/v2/cl1kxvlgu002109lfx5bumh9s/project/2073591)](https://github.com/JaeSeoKim/badge42)
+
+
 # 🚀 Guidelines for ft_transcendence
+
 
 ## 🔀 Branch workflow
 Please follow these steps:
